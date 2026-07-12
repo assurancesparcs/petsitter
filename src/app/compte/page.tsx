@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { choisirRole, seDeconnecter } from "./actions";
@@ -34,9 +35,17 @@ export default async function Compte() {
           </p>
         )}
         {role === "SITTER" && (
-          <p className="mt-3 inline-block rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-sm font-semibold text-forest-text">
-            Compte pet sitter
-          </p>
+          <>
+            <p className="mt-3 inline-block rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-sm font-semibold text-forest-text">
+              Compte pet sitter
+            </p>
+            <Link
+              href="/compte/profil"
+              className="mt-4 block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
+            >
+              Compléter mon profil pet sitter →
+            </Link>
+          </>
         )}
         {role === "ADMIN" && (
           <p className="mt-3 inline-block rounded-full border border-line bg-surface-2 px-3 py-1 text-sm font-semibold text-body">

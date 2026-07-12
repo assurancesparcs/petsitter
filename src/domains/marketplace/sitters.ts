@@ -1,0 +1,129 @@
+import "server-only";
+import { getPrisma } from "@/lib/prisma";
+import { distanceKm } from "@/domains/geo/communes";
+import type { ServiceType, Species } from "@prisma/client";
+
+/**
+ * Requêtes marketplace côté serveur. Anonymisation stricte pré-paiement :
+ * on n'expose JAMAIS le nom complet ni l'adresse — prénom + initiale,
+ * commune + distance uniquement (PLAN §5-A).
+ */
+
+export type SitterCard = {
+  id: string;
+  displayName: string; // « Prénom L. »
+  bio: string | null;
+  communeName: string | null;
+  distanceKm: number;
+  priceCents: number;
+  priceUnit: string;
+  isNew: true; // V1 : toujours « Nouveau » (score affiché seulement au-delà d'un seuil)
+};
+
+const UNIT_LABEL: Record<string, string> = {
+  per_night: "/ nuit",
+  per_visit: "/ visite",
+  per_walk: "/ promenade",
+  per_day: "/ jour",
+};
+
+export function priceLabel(cents: number, unit: string): string {
+  const euros = (cents / 100).toLocaleString("fr-FR", {
+    minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
+  });
+  return `${euros} € ${UNIT_LABEL[unit] ?? ""}`.trim();
+}
+
+export function displayName(firstName: string | null, lastName: string | null): string {
+  const prenom = firstName?.trim() || "Pet sitter";
+  const initiale = lastName?.trim()?.[0]?.toUpperCase();
+  return initiale ? `${prenom} ${initiale}.` : prenom;
+}
+
+/** Pet sitters publiés, dans le rayon, proposant service × espèce. */
+export async function searchSitters(params: {
+  lat: number;
+  lng: number;
+  radiusKm: number;
+  service: ServiceType;
+  species: Species;
+}): Promise<SitterCard[]> {
+  const db = getPrisma();
+  if (!db) return [];
+
+  // Pré-filtre bounding-box en SQL, Haversine précis en JS (volumes V1).
+  const dLat = params.radiusKm / 111;
+  const dLng = params.radiusKm / (111 * Math.cos((params.lat * Math.PI) / 180) || 1);
+
+  const rows = await db.sitterProfile.findMany({
+    where: {
+      publishedAt: { not: null },
+      suspendedAt: null,
+      lat: { gte: params.lat - dLat, lte: params.lat + dLat },
+      lng: { gte: params.lng - dLng, lte: params.lng + dLng },
+      services: { some: { service: params.service, species: params.species } },
+      user: { deletedAt: null },
+    },
+    include: {
+      user: { select: { firstName: true, lastName: true } },
+      services: {
+        where: { service: params.service, species: params.species },
+        take: 1,
+      },
+    },
+    take: 100,
+  });
+
+  return rows
+    .map((r) => {
+      const d = distanceKm(params.lat, params.lng, r.lat!, r.lng!);
+      const svc = r.services[0];
+      return d <= params.radiusKm + (r.radiusKm ?? 0) && svc
+        ? {
+            id: r.id,
+            displayName: displayName(r.user.firstName, r.user.lastName),
+            bio: r.bio,
+            communeName: r.communeName ?? null,
+            distanceKm: Math.round(d * 10) / 10,
+            priceCents: svc.priceCents,
+            priceUnit: svc.priceUnit,
+            isNew: true as const,
+          }
+        : null;
+    })
+    .filter((x): x is SitterCard => x !== null)
+    .sort((a, b) => a.distanceKm - b.distanceKm);
+}
+
+/** Fiche publique anonymisée d'un pet sitter publié. */
+export async function getSitterPublic(id: string) {
+  const db = getPrisma();
+  if (!db) return null;
+
+  const p = await db.sitterProfile.findFirst({
+    where: { id, publishedAt: { not: null }, suspendedAt: null, user: { deletedAt: null } },
+    include: {
+      user: { select: { firstName: true, lastName: true, createdAt: true } },
+      services: { orderBy: { priceCents: "asc" } },
+    },
+  });
+  if (!p) return null;
+
+  return {
+    id: p.id,
+    displayName: displayName(p.user.firstName, p.user.lastName),
+    bio: p.bio,
+    communeName: p.communeName ?? null,
+    radiusKm: p.radiusKm,
+    hasGarden: p.hasGarden,
+    housingType: p.housingType,
+    ownAnimals: p.ownAnimals,
+    memberSince: p.user.createdAt,
+    services: p.services.map((s) => ({
+      service: s.service,
+      species: s.species,
+      priceCents: s.priceCents,
+      priceUnit: s.priceUnit,
+    })),
+  };
+}

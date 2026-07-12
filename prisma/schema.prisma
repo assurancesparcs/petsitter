@@ -96,6 +96,7 @@ model SitterProfile {
 
   // Localisation : commune + rayon. L'adresse exacte n'est JAMAIS exposée côté client.
   communeCode String? // code INSEE
+  communeName String? // dénormalisé pour l'affichage (cartes, fiche)
   lat         Float?
   lng         Float?
   radiusKm    Int     @default(10)
@@ -111,6 +112,10 @@ model SitterProfile {
   birthDate   DateTime?
   taxAddress  String?
   dac7Consent DateTime?
+
+  // Profil visible dans la recherche uniquement si publié par le sitter
+  // (et complet : prénom, commune, >= 1 service). Dépublication libre.
+  publishedAt DateTime?
 
   services         SitterService[]
   availability     AvailabilitySlot[]

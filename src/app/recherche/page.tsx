@@ -6,6 +6,11 @@ import {
   communesWithinRadius,
 } from "@/domains/geo/communes";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
+import { searchSitters, priceLabel } from "@/domains/marketplace/sitters";
+import { BRAND } from "@/lib/brand";
+import type { ServiceType, Species } from "@prisma/client";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Rechercher un pet sitter",
@@ -31,6 +36,16 @@ export default async function Recherche({
   const origin = hasQuery ? originFromPostalCode(cp) : null;
   const zone = origin
     ? communesWithinRadius(origin.lat, origin.lng, rayon)
+    : [];
+  // Vrais profils publiés dans la zone (P2) — [] tant qu'aucun sitter.
+  const sitters = origin
+    ? await searchSitters({
+        lat: origin.lat,
+        lng: origin.lng,
+        radiusKm: rayon,
+        service: service as ServiceType,
+        species: species as Species,
+      })
     : [];
 
   return (
@@ -82,10 +97,51 @@ export default async function Recherche({
             {zone.length > 1 ? "s" : ""} dans un rayon de {rayon} km.
           </p>
 
-          {/* Aucun pet sitter inscrit tant que les inscriptions ne sont pas
-              ouvertes (P2) → état « zone en ouverture » : on propose la liste
-              d'attente plutôt qu'un résultat vide (garde-fou anti-liquidité,
-              PLAN §5). Aucun profil, avis ou score inventé. */}
+          {/* Résultats réels (profils publiés) */}
+          {sitters.length > 0 && (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {sitters.map((s) => (
+                <Link
+                  key={s.id}
+                  href={`/petsitter/${s.id}`}
+                  className="group rounded-[20px] border border-line bg-surface p-6 transition-colors hover:border-primary"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-display text-lg font-bold text-ink group-hover:text-primary-dark">
+                        {s.displayName}
+                      </h3>
+                      <p className="mt-0.5 text-sm text-muted">
+                        {s.communeName ?? "À proximité"} ·{" "}
+                        <span className="font-mono">{s.distanceKm} km</span>
+                      </p>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-xs font-bold text-primary-deep">
+                      Nouveau sur {BRAND}
+                    </span>
+                  </div>
+                  {s.bio && (
+                    <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-body">
+                      {s.bio}
+                    </p>
+                  )}
+                  <div className="mt-4 flex items-baseline justify-between border-t border-line-2 pt-3">
+                    <span className="font-mono text-lg font-bold text-ink">
+                      {priceLabel(s.priceCents, s.priceUnit)}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-success">
+                      reçoit 100 %
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Aucun pet sitter publié dans la zone → état « zone en ouverture » :
+              liste d'attente plutôt qu'un résultat vide (garde-fou
+              anti-liquidité, PLAN §5). Aucun profil, avis ou score inventé. */}
+          {sitters.length === 0 && (
           <div className="mt-6 overflow-hidden rounded-[20px] border border-line bg-surface">
             <div className="border-b border-line-2 bg-forest p-6 sm:p-8">
               <p className="kicker text-on-forest">Zone en cours d&apos;ouverture</p>
@@ -137,6 +193,7 @@ export default async function Recherche({
               </p>
             </div>
           </div>
+          )}
 
           {zone.length > 0 && (
             <details className="mt-6 rounded-[16px] border border-line bg-surface p-5 text-sm text-muted">
