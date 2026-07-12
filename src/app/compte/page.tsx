@@ -30,21 +30,45 @@ export default async function Compte() {
         <p className="kicker">Connecté avec l&apos;adresse</p>
         <p className="mt-1 font-semibold break-all text-ink">{email}</p>
         {role === "OWNER" && (
-          <p className="mt-3 inline-block rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-sm font-semibold text-primary-dark">
-            Compte propriétaire
-          </p>
+          <>
+            <p className="mt-3 inline-block rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-sm font-semibold text-primary-dark">
+              Compte propriétaire
+            </p>
+            <div className="mt-4 grid gap-3">
+              <Link
+                href="/demande"
+                className="block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
+              >
+                Déposer une demande de garde →
+              </Link>
+              <Link
+                href="/compte/mes-demandes"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Mes demandes et candidatures reçues
+              </Link>
+            </div>
+          </>
         )}
         {role === "SITTER" && (
           <>
             <p className="mt-3 inline-block rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-sm font-semibold text-forest-text">
               Compte pet sitter
             </p>
-            <Link
-              href="/compte/profil"
-              className="mt-4 block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
-            >
-              Compléter mon profil pet sitter →
-            </Link>
+            <div className="mt-4 grid gap-3">
+              <Link
+                href="/compte/profil"
+                className="block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
+              >
+                Compléter mon profil pet sitter →
+              </Link>
+              <Link
+                href="/compte/demandes"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Demandes près de chez vous
+              </Link>
+            </div>
           </>
         )}
         {role === "ADMIN" && (

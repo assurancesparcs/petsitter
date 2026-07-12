@@ -217,7 +217,11 @@ model CareRequest {
   startDate   DateTime
   endDate     DateTime
   communeCode String
+  communeName String? // dénormalisé pour l'affichage
+  lat         Float? // centroïde de la commune — matching sitters par distance
+  lng         Float?
   radiusKm    Int
+  animalCount Int     @default(1)
   constraints Json? // questions structurées (puces pré-définies)
 
   status           CareRequestStatus @default(OPEN)

@@ -133,20 +133,23 @@ export default async function FicheSitter({
         </ul>
       </section>
 
-      {/* Prochaine étape (P3 : dépôt de demande) */}
+      {/* Dépôt de demande — diffusée aux sitters compatibles de la zone */}
       <section className="mt-6 rounded-[20px] bg-forest p-7">
         <h2 className="text-xl font-bold text-surface">
           Intéressé par ce profil ?
         </h2>
         <p className="mt-2 max-w-xl text-on-forest">
-          Le dépôt de demande ouvre très prochainement : vous décrirez votre
-          besoin, {s.displayName} pourra accepter, et vous ne serez débité
-          qu&apos;à ce moment-là. En attendant, préparez votre garde avec nos{" "}
-          <Link href="/guides" className="font-semibold text-surface underline">
-            guides
-          </Link>
-          .
+          Déposez votre demande de garde : {s.displayName} et les pet sitters
+          compatibles de la zone pourront l&apos;accepter à leur tarif — et
+          vous ne serez débité qu&apos;au moment où vous choisirez. 0 €
+          aujourd&apos;hui.
         </p>
+        <Link
+          href="/demande"
+          className="mt-5 inline-flex rounded-[14px] bg-primary px-6 py-3 font-bold text-surface transition-colors hover:bg-primary-dark"
+        >
+          Déposer ma demande — 0 € aujourd&apos;hui
+        </Link>
       </section>
     </div>
   );

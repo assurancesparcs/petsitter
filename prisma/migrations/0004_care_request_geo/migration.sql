@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "CareRequest" ADD COLUMN     "animalCount" INTEGER NOT NULL DEFAULT 1,
+ADD COLUMN     "communeName" TEXT,
+ADD COLUMN     "lat" DOUBLE PRECISION,
+ADD COLUMN     "lng" DOUBLE PRECISION;
+
