@@ -25,6 +25,11 @@ export function Footer() {
             </Link>
           </p>
           <p>
+            <Link href="/guides" className="hover:text-primary">
+              Guides pratiques
+            </Link>
+          </p>
+          <p>
             <Link href="/resilier" className="hover:text-primary">
               Résilier son abonnement
             </Link>
