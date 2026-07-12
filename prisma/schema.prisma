@@ -236,8 +236,9 @@ model Mission {
 
   confirmedSitterId String
   backupSitterId    String? // Plan B — seul autre profil dont les coordonnées sont révélées
-  // Adresse exacte : chiffrée au repos, révélée au seul sitter confirmé,
-  // purgée des missions expirées/annulées (cron RGPD).
+  // Adresse exacte : chiffrée au repos via src/lib/crypto.ts (AES-256-GCM,
+  // clé hors base) — n'écrire ici QUE la sortie de encrypt(). Révélée au seul
+  // sitter confirmé, purgée des missions expirées/annulées (cron RGPD).
   addressEncrypted  String?
 
   contractGeneratedAt DateTime? // contrat type PDF — modèle librement modifiable par les parties

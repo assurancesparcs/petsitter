@@ -17,14 +17,32 @@ export default function Confidentialite() {
         de cette politique sera datée, archivée et notifiée.
       </p>
 
+      <h2 className="mt-8 text-xl font-bold">Responsable du traitement</h2>
+      <p className="mt-3 text-ink/80">
+        Le responsable du traitement est l&apos;éditeur de {BRAND} (société en
+        cours de constitution ; dans l&apos;intervalle, son fondateur en nom
+        propre). Contact dédié aux données personnelles :{" "}
+        <a href="mailto:rgpd@allopetsitter.fr" className="underline">
+          rgpd@allopetsitter.fr
+        </a>
+        . L&apos;identité sociale complète sera publiée avec les mentions
+        légales dès l&apos;immatriculation de la société.
+      </p>
+
       <h2 className="mt-8 text-xl font-bold">Ce que nous collectons aujourd&apos;hui</h2>
       <ul className="mt-3 list-disc space-y-2 pl-6 text-ink/80">
         <li>
           <strong>Liste d&apos;attente pet sitter</strong> : e-mail et code
           postal. Finalité unique : vous prévenir de l&apos;ouverture des
-          inscriptions dans votre zone. Ces données ne sont ni vendues ni
-          transmises, et sont supprimées si vous ne créez pas de compte dans
-          les mois suivant l&apos;ouverture.
+          inscriptions dans votre zone.{" "}
+          <strong>Base légale : votre consentement</strong> (soumission
+          volontaire du formulaire), retirable à tout moment par simple
+          demande. Ces données ne sont ni vendues ni transmises.{" "}
+          <strong>
+            Durée de conservation : jusqu&apos;à 12 mois après l&apos;ouverture
+            du service dans votre zone, puis suppression si vous n&apos;avez pas
+            créé de compte.
+          </strong>
         </li>
         <li>
           <strong>Mesure d&apos;audience</strong> : statistiques anonymes sans

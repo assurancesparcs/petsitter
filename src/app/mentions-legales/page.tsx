@@ -17,13 +17,26 @@ export default function MentionsLegales() {
     <article className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold">Mentions légales</h1>
       <p className="mt-4 text-ink/80">
-        {BRAND} est en cours de lancement. Les informations légales complètes
-        de l&apos;éditeur (dénomination sociale, forme juridique,
-        immatriculation, siège, hébergeur, contact) seront publiées sur cette
-        page avant l&apos;ouverture du service.
+        <strong>Éditeur</strong> : {BRAND} est un projet en cours de lancement,
+        édité par son fondateur (société en cours de constitution). La
+        dénomination sociale, la forme juridique, le numéro
+        d&apos;immatriculation et l&apos;adresse du siège seront publiés ici dès
+        l&apos;immatriculation de la société.
       </p>
       <p className="mt-3 text-ink/80">
-        Contact : <a href="mailto:contact@allopetsitter.fr" className="underline">contact@allopetsitter.fr</a>
+        <strong>Contact</strong> :{" "}
+        <a href="mailto:contact@allopetsitter.fr" className="underline">
+          contact@allopetsitter.fr
+        </a>{" "}
+        — données personnelles :{" "}
+        <a href="mailto:rgpd@allopetsitter.fr" className="underline">
+          rgpd@allopetsitter.fr
+        </a>
+      </p>
+      <p className="mt-3 text-ink/80">
+        <strong>Hébergement</strong> : Vercel Inc. (déploiement en région
+        Union européenne). Base de données hébergée dans l&apos;Union
+        européenne.
       </p>
     </article>
   );

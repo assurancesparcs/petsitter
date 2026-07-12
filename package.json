@@ -9,10 +9,12 @@
     "lint": "eslint",
     "lint:lexique": "node scripts/lint-lexique.mjs",
     "postinstall": "prisma generate",
-    "vercel-build": "prisma migrate deploy && next build"
+    "vercel-build": "node scripts/migrate-prod.mjs && next build"
   },
   "dependencies": {
     "@prisma/client": "^6",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4"
