@@ -12,6 +12,9 @@ export function Header() {
           <Link href="/notre-modele" className="hover:text-primary">
             Notre modèle
           </Link>
+          <Link href="/compte" className="text-ink/70 hover:text-primary">
+            Mon compte
+          </Link>
           <Link
             href="/devenir-pet-sitter"
             className="rounded-full bg-primary px-4 py-2 font-medium text-white hover:bg-primary-dark"

@@ -21,23 +21,65 @@ enum Role {
 }
 
 model User {
-  id              String    @id @default(cuid())
-  role            Role
-  email           String    @unique
-  emailVerifiedAt DateTime?
+  id            String    @id @default(cuid())
+  // Champs attendus par l'adaptateur Auth.js (créés à la 1re connexion) :
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  // Champs métier, renseignés à l'onboarding (choix du rôle) — donc optionnels
+  // pour que l'adaptateur puisse créer un utilisateur « nu » à la connexion.
+  role            Role?
   phone           String?
   phoneVerifiedAt DateTime? // OTP différé au premier acte engageant (dépôt / candidature)
-  firstName       String
-  lastNameInitial String // Anonymisation pré-paiement : prénom + initiale uniquement
-  lastName        String // Révélé uniquement post-capture, au sitter/owner confirmé
+  firstName       String? // prénom
+  lastNameInitial String? // Anonymisation pré-paiement : prénom + initiale uniquement
+  lastName        String? // Révélé uniquement post-capture, au sitter/owner confirmé
   createdAt       DateTime  @default(now())
   deletedAt       DateTime? // droit à l'effacement : soft-delete puis purge (cron)
 
+  accounts       Account[]
+  sessions       Session[]
   sitterProfile  SitterProfile?
   pets           Pet[]
   careRequests   CareRequest[]
   reviewsWritten Review[]       @relation("reviewAuthor")
   subscriptions  Subscription[]
+}
+
+// ─── Auth.js (adaptateur Prisma) ───
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model SitterProfile {
