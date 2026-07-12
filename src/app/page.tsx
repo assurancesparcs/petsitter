@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { BRAND, BASELINE } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 import { BlocTransparence } from "@/components/BlocTransparence";
@@ -68,37 +69,53 @@ export default function Home() {
         </Link>
       </p>
 
-      {/* ===== Héros ===== */}
-      <section className="pt-10 text-center sm:pt-16">
-        <span className="inline-flex items-center gap-2 rounded-full border border-forest-border bg-forest-tint px-4 py-1.5">
-          <span className="font-mono text-sm font-bold text-forest-text">
-            0 %
+      {/* ===== Héros — texte + photo (slot "home-hero" de la maquette) ===== */}
+      <section className="grid items-center gap-10 pt-10 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="text-center lg:text-left">
+          <span className="inline-flex items-center gap-2 rounded-full border border-forest-border bg-forest-tint px-4 py-1.5">
+            <span className="font-mono text-sm font-bold text-forest-text">
+              0 %
+            </span>
+            <span className="text-sm font-semibold text-forest-text">
+              de commission sur la garde
+            </span>
           </span>
-          <span className="text-sm font-semibold text-forest-text">
-            de commission sur la garde
-          </span>
-        </span>
 
-        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold leading-[1.03] tracking-[-0.03em] sm:text-6xl">
-          Trouvez un pet sitter de confiance pour votre chat ou votre chien
-        </h1>
+          <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold leading-[1.03] tracking-[-0.03em] sm:text-5xl lg:mx-0 xl:text-6xl">
+            Trouvez un pet sitter de confiance pour votre chat ou votre chien
+          </h1>
 
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-body sm:text-xl">
-          {BASELINE}
-        </p>
-        <p className="mx-auto mt-3 max-w-2xl text-lg font-semibold text-ink">
-          Vous ne payez que si un pet sitter accepte votre garde. Aucun débit
-          avant.
-        </p>
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-body sm:text-xl lg:mx-0">
+            {BASELINE}
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-lg font-semibold text-ink lg:mx-0">
+            Vous ne payez que si un pet sitter accepte votre garde. Aucun débit
+            avant.
+          </p>
 
-        <ul className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
-          {PREUVES.map((r) => (
-            <li key={r} className="flex items-center gap-1.5">
-              <span className="font-bold text-success">✓</span>
-              {r}
-            </li>
-          ))}
-        </ul>
+          <ul className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted lg:mx-0 lg:justify-start">
+            {PREUVES.map((r) => (
+              <li key={r} className="flex items-center gap-1.5">
+                <span className="font-bold text-success">✓</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <Image
+            src="/photos/hero.jpg"
+            alt="Un chat au soleil sur le rebord d'une fenêtre fleurie, chez lui"
+            width={1100}
+            height={1650}
+            priority
+            className="h-[320px] w-full rounded-[24px] object-cover shadow-[var(--shadow-card)] sm:h-[420px] lg:h-[520px]"
+          />
+          <p className="absolute bottom-4 left-4 rounded-full bg-ink/70 px-4 py-1.5 text-xs font-semibold text-surface backdrop-blur">
+            Chez lui, avec ses habitudes — c&apos;est toute l&apos;idée.
+          </p>
+        </div>
       </section>
 
       {/* ===== Recherche par code postal → /recherche ===== */}
@@ -169,6 +186,56 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ===== Trio photos — slots "home-sitter-chat/chien/nac" de la maquette ===== */}
+      <section className="mt-16">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            {
+              src: "/photos/chat.jpg",
+              alt: "Portrait d'un chat tigré aux yeux verts",
+              label: "Chats",
+              note: "Visites à domicile, sans stress",
+            },
+            {
+              src: "/photos/chien.jpg",
+              alt: "Chien joueur allongé dans l'herbe, la truffe en l'air",
+              label: "Chiens",
+              note: "Promenades et gardes",
+            },
+            {
+              src: "/photos/nac.jpg",
+              alt: "Lapin bélier au pelage fauve",
+              label: "NAC",
+              note: "Lapins, rongeurs, oiseaux…",
+            },
+          ].map((p) => (
+            <figure
+              key={p.label}
+              className="group relative overflow-hidden rounded-[20px] border border-line bg-surface"
+            >
+              <Image
+                src={p.src}
+                alt={p.alt}
+                width={900}
+                height={1350}
+                className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] sm:h-64"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 flex items-baseline justify-between gap-2 bg-gradient-to-t from-ink/80 to-transparent px-5 pb-4 pt-10">
+                <span className="font-display text-lg font-bold text-surface">
+                  {p.label}
+                </span>
+                <span className="text-xs font-medium text-surface/85">
+                  {p.note}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="mt-3 text-center text-sm text-muted">
+          Chats, chiens et NAC — à stricte égalité, c&apos;est notre parti pris.
+        </p>
       </section>
 
       {/* ===== Services — visite à domicile en avant, chat à égalité ===== */}
