@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Livrable Claude Design archivé pour référence — prototypes HTML/JS,
+    // jamais servis par l'app, à ne pas linter.
+    "design-handoff/**",
   ]),
 ]);
 
