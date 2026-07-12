@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1200px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaisons desktop · dépôt de demande, échec 3DS & déblocage · LOT A</div>
+  </div>
+
+  <!-- ============ DÉPÔT DE DEMANDE DESKTOP ============ -->
+  <div style="max-width:1200px; margin:0 auto 40px; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF; position:relative;">
+    <div style="padding:16px 40px; border-bottom:1px solid #EFE7DA; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <div style="position:relative; width:30px; height:30px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px;">AlloPetsitter</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Space Mono'; font-size:12px; color:#8A8175;">
+        <span style="color:#22201C; font-weight:700;">1 · Demande</span><span>—</span><span>2 · Offre</span><span>—</span><span>3 · Confirmation</span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 400px; gap:0;">
+      <!-- form -->
+      <div style="padding:40px 44px;">
+        <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:38px; letter-spacing:-0.02em; margin:0 0 6px;">Décrivez la garde.</h1>
+        <p style="font-size:16px; color:#6B6459; margin:0 0 30px;">Rien n'est débité aujourd'hui. Vous ne payez que si un pet sitter accepte.</p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px;">
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">ESPÈCE</div>
+            <div style="display:flex; gap:7px;">
+              <div style="flex:1; text-align:center; font-size:13px; font-weight:700; padding:11px 4px; border:1.5px solid #DD5A3F; background:#FBEEE9; color:#C24A31; border-radius:10px;">Chat</div>
+              <div style="flex:1; text-align:center; font-size:13px; font-weight:600; padding:11px 4px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:10px;">Chien</div>
+              <div style="flex:1; text-align:center; font-size:13px; font-weight:600; padding:11px 4px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:10px;">NAC</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">TYPE DE GARDE</div>
+            <input type="text" value="Garde chez le sitter" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">DÉBUT</div>
+            <input type="text" value="14 août 2026" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">FIN</div>
+            <input type="text" value="17 août 2026" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          </div>
+        </div>
+        <div style="margin-bottom:22px;">
+          <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">MESSAGE AU PET SITTER</div>
+          <textarea style="width:100%; height:96px; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff; resize:none; font-family:inherit;" style-focus="border-color:#DD5A3F; outline:none;">Minette, chatte de 4 ans, très calme. Rencontre préalable souhaitée avant d'accepter.</textarea>
+        </div>
+        <div>
+          <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:8px;">EMPREINTE CARTE</div>
+          <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px;">
+            <input type="text" placeholder="Numéro de carte" style="font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+            <input type="text" placeholder="MM/AA" style="font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+            <input type="text" placeholder="CVC" style="font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          </div>
+          <div style="font-size:12.5px; color:#2F7D57; font-weight:600; margin-top:10px;">Empreinte uniquement — aucun débit tant qu'un pet sitter n'a pas accepté.</div>
+        </div>
+      </div>
+
+      <!-- summary -->
+      <div style="background:#F3EDE3; border-left:1px solid #EFE7DA; padding:40px 32px;">
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; margin-bottom:18px;">À régler aujourd'hui</div>
+        <div style="background:#22201C; border-radius:16px; padding:22px 24px; margin-bottom:18px;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:46px; color:#fff; line-height:1;">0 €</div>
+          <div style="font-size:13.5px; color:#C9C1B4; line-height:1.45; margin-top:10px;">Vous ne payez que si un pet sitter accepte votre garde.</div>
+        </div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:16px 20px; margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Si accepté · Pass Séjour</span><span style="font-family:'Space Mono'; font-weight:700;">39 €</span></div>
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px;"><span style="color:#6B6459;">Versé au sitter</span><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">100 %</span></div>
+        </div>
+        <button style="width:100%; font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:16px; border-radius:14px; cursor:pointer;" style-hover="background:#DD5A3F;">Envoyer ma demande</button>
+        <div style="font-size:12px; color:#8A8175; text-align:center; line-height:1.5; margin-top:12px;">En envoyant, vous autorisez une empreinte carte, pas un paiement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ÉCHEC DÉBIT 3DS (modal desktop) ============ -->
+  <div style="max-width:1200px; margin:0 auto 40px;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px;">État · échec du débit (3-D Secure) après acceptation</div>
+    <div style="position:relative; border-radius:20px; overflow:hidden; border:1px solid #E4DCCF; background:#2B2822; min-height:360px; display:flex; align-items:center; justify-content:center;">
+      <!-- dim backdrop hint -->
+      <div style="position:absolute; inset:0; background:repeating-linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 12px, transparent 12px, transparent 24px);"></div>
+      <div style="position:relative; width:440px; background:#FBF8F3; border-radius:22px; padding:32px 34px; box-shadow:0 30px 80px rgba(0,0,0,0.4);">
+        <div style="width:52px; height:52px; border-radius:14px; background:#FBEEE9; display:flex; align-items:center; justify-content:center; margin-bottom:18px;"><span style="font-size:26px; color:#C24A31;">!</span></div>
+        <h2 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; letter-spacing:-0.02em; margin:0 0 10px;">Le débit n'a pas abouti.</h2>
+        <p style="font-size:15px; color:#423E37; line-height:1.55; margin:0 0 8px;">Camille a accepté votre garde, mais votre banque a refusé la validation 3-D Secure. <strong style="color:#22201C;">Aucun montant n'a été prélevé.</strong></p>
+        <p style="font-size:14px; color:#6B6459; line-height:1.5; margin:0 0 22px;">Votre demande est conservée. Réessayez maintenant — la place de Camille vous reste réservée quelques heures.</p>
+        <button style="width:100%; font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:14px; border-radius:12px; cursor:pointer; margin-bottom:10px;" style-hover="background:#DD5A3F;">Réessayer le paiement</button>
+        <button style="width:100%; font-weight:700; font-size:15px; background:transparent; color:#22201C; border:1.5px solid #E4DCCF; padding:12px; border-radius:12px; cursor:pointer;" style-hover="border-color:#22201C;">Changer de moyen de paiement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DÉBLOCAGE DESKTOP ============ -->
+  <div style="max-width:1200px; margin:0 auto;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px;">Déblocage · contact révélé après acceptation & paiement</div>
+    <div style="background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+      <div style="background:#1F4A3D; padding:40px 48px; color:#fff;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); padding:6px 14px; border-radius:999px; margin-bottom:16px;"><span style="font-size:13px; font-weight:700;">✓ Garde confirmée</span></div>
+        <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:40px; letter-spacing:-0.02em; margin:0 0 8px;">C'est confirmé — voici Camille Rousseau.</h1>
+        <p style="font-size:16px; color:#C6DECF; margin:0;">Vous pouvez maintenant échanger directement pour organiser la rencontre préalable.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 380px; gap:0;">
+        <!-- contact -->
+        <div style="padding:36px 48px;">
+          <div style="display:flex; align-items:center; gap:18px; margin-bottom:26px;">
+            <div style="width:74px; height:74px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="dbd-avatar" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+            <div>
+              <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:24px;">Camille Rousseau</div>
+              <div style="font-size:14px; color:#8A8175;">Spécialiste chat · Paris 11e · <span style="color:#2F7D57; font-weight:700;">identité vérifiée</span></div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:26px;">
+            <div style="background:#fff; border:1px solid #E4DCCF; border-radius:14px; padding:16px 18px;"><div style="font-size:12px; color:#8A8175; margin-bottom:4px;">Messagerie</div><div style="font-weight:700; font-size:15px;">Ouvrir la conversation →</div></div>
+            <div style="background:#fff; border:1px solid #E4DCCF; border-radius:14px; padding:16px 18px;"><div style="font-size:12px; color:#8A8175; margin-bottom:4px;">Adresse (garde)</div><div style="font-weight:700; font-size:15px;">Révélée dans le chat</div></div>
+          </div>
+          <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Prochaines étapes</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; color:#fff; background:#DD5A3F; width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</span><div style="font-size:15px; color:#423E37; padding-top:3px;">Convenez d'une <strong>rencontre préalable</strong> avec Camille.</div></div>
+            <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; color:#fff; background:#DD5A3F; width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</span><div style="font-size:15px; color:#423E37; padding-top:3px;">Signez le <strong>contrat de garde type</strong> (fourni).</div></div>
+            <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; color:#fff; background:#DD5A3F; width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</span><div style="font-size:15px; color:#423E37; padding-top:3px;">Un imprévu ? Le <strong>Plan B</strong> et le support restent joignables par écrit.</div></div>
+          </div>
+        </div>
+        <!-- receipt -->
+        <div style="background:#F3EDE3; border-left:1px solid #EFE7DA; padding:36px 32px;">
+          <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; margin-bottom:16px;">Reçu de mise en relation</div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px 20px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; padding:8px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Pass Séjour</span><span style="font-family:'Space Mono'; font-weight:700;">39 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:8px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Garde (versée à Camille)</span><span style="display:inline-flex; align-items:baseline; gap:6px;"><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">75 €</span><span style="font-size:10px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:1px 6px; border-radius:999px;">100 %</span></span></div>
+            <div style="display:flex; justify-content:space-between; padding:8px 0; font-size:14px;"><span style="color:#6B6459;">Débité le</span><span style="font-weight:600;">11 août 2026</span></div>
+          </div>
+          <button style="width:100%; font-weight:700; font-size:15px; background:#fff; color:#22201C; border:1.5px solid #22201C; padding:13px; border-radius:12px; cursor:pointer;" style-hover="background:#22201C; color:#fff;">Télécharger le reçu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1200, &quot;height&quot;: 1080}}"></script>
+</body>
+</html>

@@ -26,6 +26,11 @@ export function Footer() {
             </Link>
           </p>
           <p>
+            <Link href="/charte-qualite" className="text-body hover:text-primary">
+              Notre charte de qualité
+            </Link>
+          </p>
+          <p>
             <Link href="/guides" className="text-body hover:text-primary">
               Guides pratiques
             </Link>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+</helmet>
+
+<div style="min-height:100%; padding: 30px 16px 48px; background:#EDE6DA;">
+  <div style="max-width: 900px; margin: 0 auto 24px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175; margin-bottom:8px;">Tunnel d'offre & résiliation · LOT A</div>
+    <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:28px; letter-spacing:-0.02em; margin:0;">Trois offres, pas une de plus. Et une résiliation qu'on affiche.</h1>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:26px; justify-content:center; align-items:flex-start;">
+
+    <!-- FRAME 1 · TUNNEL OFFRE -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Choix de l'offre</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+        <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid #EFE7DA;">
+          <span style="font-size:20px;">←</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Votre offre</span>
+        </div>
+        <div style="padding:18px 20px 4px;">
+          <p style="margin:0 0 16px; font-size:14px; color:#6B6459; line-height:1.5;">La garde revient toujours à 100 % au sitter. Vous ne réglez que la mise en relation.</p>
+
+          <!-- Pass Séjour (reco) -->
+          <div style="border:2px solid #DD5A3F; border-radius:18px; padding:18px; margin-bottom:12px; background:#fff; position:relative;">
+            <span style="position:absolute; top:-11px; left:18px; font-size:11px; font-weight:700; background:#DD5A3F; color:#fff; padding:3px 10px; border-radius:999px;">Recommandé pour une garde</span>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+              <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Pass Séjour</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:24px;">39 €</span>
+            </div>
+            <div style="font-size:13px; color:#6B6459; margin-bottom:14px;">Une garde complète, du dépôt à la fin du séjour. Paiement unique.</div>
+            <button style="width:100%; font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:13px; border-radius:12px; cursor:pointer;" style-hover="background:#DD5A3F;">Choisir le Pass Séjour</button>
+          </div>
+
+          <!-- Pass Court -->
+          <div style="border:1px solid #E4DCCF; border-radius:18px; padding:18px; margin-bottom:12px; background:#fff;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+              <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Pass Court</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:24px;">14,90 €</span>
+            </div>
+            <div style="font-size:13px; color:#6B6459; margin-bottom:14px;">Une prestation ponctuelle : une visite, une promenade, un dépannage.</div>
+            <button style="width:100%; font-weight:700; font-size:15px; background:#fff; color:#22201C; border:1.5px solid #22201C; padding:12px; border-radius:12px; cursor:pointer;" style-hover="background:#22201C; color:#fff;">Choisir le Pass Court</button>
+          </div>
+
+          <!-- Abonnement -->
+          <div style="border:1px solid #E4DCCF; border-radius:18px; padding:18px; margin-bottom:8px; background:#fff;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+              <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Abonnement</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:22px;">19 €<span style="font-size:12px; color:#8A8175; font-weight:400;">/mois</span></span>
+            </div>
+            <div style="font-size:13px; color:#6B6459; margin-bottom:10px;">Gardes illimitées si vous faites appel souvent aux pet sitters.</div>
+            <div style="display:inline-flex; align-items:center; gap:7px; background:#E7F1E9; border:1px solid #BEDDC8; padding:5px 11px; border-radius:999px; margin-bottom:14px;">
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">3×</span>
+              <span style="font-size:12px; font-weight:700; color:#1E6B45;">Sans engagement · résiliable en 3 clics</span>
+            </div>
+            <button style="width:100%; font-weight:700; font-size:15px; background:#fff; color:#22201C; border:1.5px solid #22201C; padding:12px; border-radius:12px; cursor:pointer;" style-hover="background:#22201C; color:#fff;">Choisir l'abonnement</button>
+          </div>
+        </div>
+        <div style="padding:8px 20px 24px; font-size:12px; color:#8A8175; line-height:1.5; text-align:center;">Pas d'offre annuelle. Aucune case pré-cochée. Aucun Pass converti en abonnement.</div>
+      </div>
+    </div>
+
+    <!-- FRAME 2 · /resilier -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">/resilier — jamais plus long que l'achat</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+        <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid #EFE7DA;">
+          <span style="font-size:20px;">←</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Résilier mon abonnement</span>
+        </div>
+
+        <div style="margin:18px 20px 0; background:#22201C; border-radius:20px; padding:20px; text-align:center;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:40px; color:#fff; line-height:1;">3 clics</div>
+          <div style="font-size:13.5px; color:#C9C1B4; line-height:1.5; margin-top:8px;">C'est tout. On ne vous retient pas, on ne vous culpabilise pas, on ne cache pas le bouton.</div>
+        </div>
+
+        <!-- Steps -->
+        <div style="padding:18px 20px 4px;">
+          <div style="display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid #EFE7DA;">
+            <span style="width:26px; height:26px; border-radius:8px; background:#DD5A3F; color:#fff; font-family:'Space Mono'; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</span>
+            <span style="font-size:14px; color:#22201C; font-weight:600;">Vous cliquez « Résilier »</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid #EFE7DA;">
+            <span style="width:26px; height:26px; border-radius:8px; background:#DD5A3F; color:#fff; font-family:'Space Mono'; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</span>
+            <span style="font-size:14px; color:#22201C; font-weight:600;">Vous confirmez <span style="font-weight:400; color:#8A8175;">(raison facultative)</span></span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center; padding:12px 0;">
+            <span style="width:26px; height:26px; border-radius:8px; background:#2F7D57; color:#fff; font-family:'Space Mono'; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</span>
+            <span style="font-size:14px; color:#22201C; font-weight:600;">C'est résilié. E-mail de confirmation envoyé.</span>
+          </div>
+        </div>
+
+        <!-- Alternative pause (option, pas dark) -->
+        <div style="padding:14px 20px 4px;">
+          <div style="background:#FBF8F3; border:1px dashed #C9C1B4; border-radius:14px; padding:14px 16px;">
+            <div style="font-size:13px; color:#6B6459; line-height:1.5;">Juste une pause ? Vous pouvez aussi <a href="#" style="font-weight:700;">suspendre 1 à 3 mois</a> sans résilier. À vous de voir — les deux sont à un clic.</div>
+          </div>
+        </div>
+
+        <div style="padding:16px 20px 26px;">
+          <button style="width:100%; font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:15px; border-radius:12px; cursor:pointer;" style-hover="background:#DD5A3F;">Résilier maintenant</button>
+          <div style="text-align:center; font-size:12px; color:#8A8175; margin-top:10px;">Effet immédiat en fin de période déjà payée. Aucun prélèvement futur.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 1040}}"></script>
+</body>
+</html>

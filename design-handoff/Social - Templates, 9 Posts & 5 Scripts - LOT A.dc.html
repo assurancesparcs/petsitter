@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+</helmet>
+
+<div style="min-height:100%; padding: 30px 20px 60px; background:#EDE6DA;">
+  <div style="max-width: 1120px; margin: 0 auto 26px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175; margin-bottom:8px;">Contenu social · système + 9 posts + 5 scripts · LOT A</div>
+    <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:28px; letter-spacing:-0.02em; margin:0;">Un système déclinable — pas des one-shots. Frontal, chiffré, jamais mièvre.</h1>
+  </div>
+
+  <!-- ===== SYSTÈME DE TEMPLATES ===== -->
+  <div style="max-width: 1120px; margin: 0 auto 40px;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px;">Le système · anatomie d'un template</div>
+    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+      <!-- feed -->
+      <div style="width:300px; height:300px; background:#FBF8F3; border:1px solid #E4DCCF; border-radius:8px; padding:26px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Space Mono'; font-size:10px; color:#8A8175; border:1px dashed #C9C1B4; padding:3px 7px; border-radius:5px;">kicker · mono</span>
+          <span style="font-family:'Space Mono'; font-size:9px; color:#C9C1B4;">1080×1080</span>
+        </div>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:30px; line-height:1; letter-spacing:-0.02em; color:#C9C1B4;">Le titre vit ici — 1 idée, gros.</div>
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:7px;">
+            <div style="position:relative; width:22px; height:22px; background:#DD5A3F; border-radius:6px 6px 6px 2px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+            <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:12px;">AlloPetsitter</span>
+          </div>
+          <span style="font-family:'Space Mono'; font-size:9px; color:#C9C1B4;">footer fixe</span>
+        </div>
+      </div>
+      <!-- story -->
+      <div style="width:170px; height:300px; background:#22201C; border:1px solid #35322B; border-radius:8px; padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+        <span style="font-family:'Space Mono'; font-size:9px; color:#A79F92; border:1px dashed #4A473F; padding:3px 7px; border-radius:5px; align-self:flex-start;">story 1080×1920</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:22px; line-height:1.02; letter-spacing:-0.02em; color:#6E6A61;">Titre vertical, hook en haut.</div>
+        <div style="width:100%; height:34px; background:rgba(255,255,255,0.08); border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#A79F92;">CTA / swipe up</div>
+      </div>
+      <!-- rules -->
+      <div style="flex:1; min-width:220px; background:#FBF8F3; border:1px solid #E4DCCF; border-radius:12px; padding:22px;">
+        <div style="font-weight:700; font-size:14px; margin-bottom:12px;">Règles du système</div>
+        <ul style="margin:0; padding-left:18px; font-size:13px; color:#423E37; line-height:1.7;">
+          <li>1 post = 1 idée. Titre Bricolage énorme.</li>
+          <li>Chiffres en Space Mono (le réflexe « reçu »).</li>
+          <li>4 fonds max : papier, encre, vermillon, forêt.</li>
+          <li>Footer logo constant. Zéro dark pattern, zéro chiffre inventé.</li>
+          <li>Chat / chien / NAC alternés dans le calendrier.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 9 POSTS ===== -->
+  <div style="max-width: 1120px; margin: 0 auto 40px;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px;">9 concepts de posts fondateurs · le 10e (RC Pro) part au LOT B</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:18px;">
+
+      <!-- 1 comparatif -->
+      <div style="aspect-ratio:1; background:#22201C; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#E39A88; letter-spacing:0.08em;">SUR 10 NUITS À 30 €</span>
+        <div>
+          <div style="display:flex; align-items:baseline; gap:8px; color:#8A8175;"><span style="font-size:13px;">ailleurs</span><span style="font-family:'Space Mono'; font-weight:700; font-size:26px; color:#E39A88;">255 €</span></div>
+          <div style="display:flex; align-items:baseline; gap:8px; color:#fff; margin-top:4px;"><span style="font-size:13px;">chez nous</span><span style="font-family:'Space Mono'; font-weight:700; font-size:40px;">300 €</span></div>
+        </div>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px; color:#fff; line-height:1.1;">Même garde. 45 € de plus dans votre poche.</div>
+      </div>
+
+      <!-- 2 chat oubli -->
+      <div style="aspect-ratio:1; background:#FBF8F3; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #E4DCCF;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#C24A31; letter-spacing:0.08em;">SÉRIE CHAT · 01</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:27px; line-height:1.0; letter-spacing:-0.02em;">16,6 M de chats en France. Les plateformes n'en parlent jamais.</div>
+        <div style="font-size:13px; color:#6B6459;">Nous, si. À égalité avec les chiens.</div>
+      </div>
+
+      <!-- 3 désistement -->
+      <div style="aspect-ratio:1; background:#DD5A3F; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#3A1710; letter-spacing:0.08em;">18H, LA VEILLE DU DÉPART</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; line-height:1.02; color:#fff; letter-spacing:-0.02em;">« Mon sitter vient d'annuler. »</div>
+        <div style="font-size:13.5px; color:#FBE3DB; line-height:1.35;">Le Plan B : une alerte prioritaire part aux pet sitters compatibles près de vous.</div>
+      </div>
+
+      <!-- 4 vous ne payez que si -->
+      <div style="aspect-ratio:1; background:#E7F1E9; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #BEDDC8;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#1E6B45; letter-spacing:0.08em;">EMPREINTE CARTE</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; line-height:1.02; color:#1F4A3D; letter-spacing:-0.02em;">Vous ne payez que si un pet sitter accepte.</div>
+        <div style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#1E6B45;">0 € aujourd'hui</div>
+      </div>
+
+      <!-- 5 0% commission sitters -->
+      <div style="aspect-ratio:1; background:#1F4A3D; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#A8CBB6; letter-spacing:0.08em;">POUR LES PET SITTERS</span>
+        <div style="font-family:'Space Mono'; font-weight:700; font-size:52px; color:#fff; line-height:1;">0 %</div>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px; color:#fff; line-height:1.1;">de commission. Vous gardez 100 % de vos revenus.</div>
+      </div>
+
+      <!-- 6 100% sitter -->
+      <div style="aspect-ratio:1; background:#FBF8F3; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #E4DCCF;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#C24A31; letter-spacing:0.08em;">LA PROMESSE</span>
+        <div><div style="font-family:'Space Mono'; font-weight:700; font-size:52px; color:#2F7D57; line-height:1;">100%</div></div>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; line-height:1.1;">Votre pet sitter touche 100 % de ce que vous versez.</div>
+      </div>
+
+      <!-- 7 NAC -->
+      <div style="aspect-ratio:1; background:#FBF8F3; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #E4DCCF;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#C24A31; letter-spacing:0.08em;">SÉRIE NAC</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; line-height:1.02; letter-spacing:-0.02em;">Lapin, furet, perroquet ? Eux aussi partent en vacances.</div>
+        <div style="font-size:13px; color:#6B6459;">Des pet sitters qui connaissent les NAC.</div>
+      </div>
+
+      <!-- 8 résiliation -->
+      <div style="aspect-ratio:1; background:#22201C; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#A79F92; letter-spacing:0.08em;">CE QU'ON AFFICHE, EUX LE CACHENT</span>
+        <div style="font-family:'Space Mono'; font-weight:700; font-size:44px; color:#fff; line-height:1;">3 clics</div>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; color:#fff; line-height:1.1;">Pour résilier. Jamais plus long que pour s'abonner.</div>
+      </div>
+
+      <!-- 9 nouveau / pas de faux avis -->
+      <div style="aspect-ratio:1; background:#FBEEE9; border-radius:10px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid #F0D3C9;">
+        <span style="font-family:'Space Mono'; font-size:10px; color:#C24A31; letter-spacing:0.08em;">NOTRE RÈGLE</span>
+        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:25px; line-height:1.02; color:#7A2E1C; letter-spacing:-0.02em;">Zéro faux avis. Zéro score gonflé.</div>
+        <div style="font-size:13px; color:#9C4B36; line-height:1.35;">Sous le seuil : badge « Nouveau », assumé. Pas un vide déguisé en chiffre.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 5 SCRIPTS VIDÉO ===== -->
+  <div style="max-width: 1120px; margin: 0 auto;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px;">5 scripts vidéo · 20–40 s · vertical · sous-titré · hook en 2 s</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:16px;">
+
+      <!-- script 1 -->
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:14px; overflow:hidden;">
+        <div style="background:#22201C; padding:16px; min-height:96px; display:flex; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px; color:#fff; line-height:1.05;">« Combien touche VRAIMENT ton pet sitter ? »</span></div>
+        <div style="padding:14px 16px;">
+          <div style="font-family:'Space Mono'; font-size:10px; color:#C24A31; margin-bottom:8px;">HOOK 0–2 s</div>
+          <p style="font-size:12.5px; color:#423E37; line-height:1.5; margin:0 0 10px;">Écran partagé : appli concurrente vs AlloPetsitter, même tarif.</p>
+          <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-bottom:6px;">BEATS</div>
+          <ul style="margin:0; padding-left:16px; font-size:12px; color:#6B6459; line-height:1.6;"><li>« Il affiche 30 €. »</li><li>Ailleurs : −15 % → 25,50 €.</li><li>Ici : 30 €. Point.</li><li>CTA : « 100 %, toujours. »</li></ul>
+        </div>
+      </div>
+
+      <!-- script 2 -->
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:14px; overflow:hidden;">
+        <div style="background:#1F4A3D; padding:16px; min-height:96px; display:flex; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px; color:#fff; line-height:1.05;">Portrait de pet sitter</span></div>
+        <div style="padding:14px 16px;">
+          <div style="font-family:'Space Mono'; font-size:10px; color:#C24A31; margin-bottom:8px;">HOOK 0–2 s</div>
+          <p style="font-size:12.5px; color:#423E37; line-height:1.5; margin:0 0 10px;">« Je garde des chats depuis 6 ans. Voilà pourquoi. »</p>
+          <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-bottom:6px;">BEATS</div>
+          <ul style="margin:0; padding-left:16px; font-size:12px; color:#6B6459; line-height:1.6;"><li>Authentique, pas pub.</li><li>Son quotidien, ses limites.</li><li>« Je touche tout ce que je fixe. »</li><li>CTA : rejoindre la liste.</li></ul>
+        </div>
+      </div>
+
+      <!-- script 3 -->
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:14px; overflow:hidden;">
+        <div style="background:#DD5A3F; padding:16px; min-height:96px; display:flex; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px; color:#fff; line-height:1.05;">« Ton sitter annule la veille. »</span></div>
+        <div style="padding:14px 16px;">
+          <div style="font-family:'Space Mono'; font-size:10px; color:#C24A31; margin-bottom:8px;">HOOK 0–2 s</div>
+          <p style="font-size:12.5px; color:#423E37; line-height:1.5; margin:0 0 10px;">Valise ouverte, téléphone qui sonne. Panique.</p>
+          <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-bottom:6px;">BEATS</div>
+          <ul style="margin:0; padding-left:16px; font-size:12px; color:#6B6459; line-height:1.6;"><li>« Et là ? »</li><li>Le Plan B s'active à l'écran.</li><li>Alerte prioritaire → sitters compatibles.</li><li>CTA : obligation de moyens, honnête.</li></ul>
+        </div>
+      </div>
+
+      <!-- script 4 -->
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:14px; overflow:hidden;">
+        <div style="background:#22201C; padding:16px; min-height:96px; display:flex; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px; color:#fff; line-height:1.05;">« Choisir son sitter en 3 questions »</span></div>
+        <div style="padding:14px 16px;">
+          <div style="font-family:'Space Mono'; font-size:10px; color:#C24A31; margin-bottom:8px;">HOOK 0–2 s</div>
+          <p style="font-size:12.5px; color:#423E37; line-height:1.5; margin:0 0 10px;">« Avant de dire oui, pose ces 3 questions. »</p>
+          <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-bottom:6px;">BEATS</div>
+          <ul style="margin:0; padding-left:16px; font-size:12px; color:#6B6459; line-height:1.6;"><li>Rencontre préalable faite ?</li><li>Habitué à mon animal ?</li><li>Contrat de garde signé ?</li><li>CTA : la fiche sitter.</li></ul>
+        </div>
+      </div>
+
+      <!-- script 5 -->
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:14px; overflow:hidden;">
+        <div style="background:#1F4A3D; padding:16px; min-height:96px; display:flex; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px; color:#fff; line-height:1.05;">« Ton chat déteste la pension. »</span></div>
+        <div style="padding:14px 16px;">
+          <div style="font-family:'Space Mono'; font-size:10px; color:#C24A31; margin-bottom:8px;">HOOK 0–2 s</div>
+          <p style="font-size:12.5px; color:#423E37; line-height:1.5; margin:0 0 10px;">Chat qui se cache dans une cage. « Ça te dit rien ? »</p>
+          <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-bottom:6px;">BEATS</div>
+          <ul style="margin:0; padding-left:16px; font-size:12px; color:#6B6459; line-height:1.6;"><li>Le stress du changement d'environnement.</li><li>L'alternative : un sitter à domicile.</li><li>Il reste chez lui, dans ses repères.</li><li>CTA : trouver près de chez soi.</li></ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1120, &quot;height&quot;: 1200}}"></script>
+</body>
+</html>

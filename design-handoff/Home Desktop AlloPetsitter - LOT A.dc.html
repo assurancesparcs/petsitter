@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FBF8F3; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="width:1440px; max-width:100%; margin:0 auto; background:#FBF8F3;">
+
+  <!-- ===== HEADER ===== -->
+  <div style="position:sticky; top:0; z-index:50; background:rgba(251,248,243,0.9); backdrop-filter:blur(10px); border-bottom:1px solid #EFE7DA; padding:16px 64px; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:11px;">
+      <div style="position:relative; width:32px; height:32px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+      <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:20px; letter-spacing:-0.02em;">AlloPetsitter</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:32px; font-size:15px; font-weight:600; color:#423E37;">
+      <a href="#" style="color:#423E37;">Comment ça marche</a>
+      <a href="#" style="color:#423E37;">Nos tarifs</a>
+      <a href="#" style="color:#423E37;">Nos chiffres</a>
+      <a href="#" style="color:#423E37;">Devenir pet sitter</a>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="#" style="font-size:15px; font-weight:700; color:#22201C;">Se connecter</a>
+      <button style="font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:11px 20px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Trouver un pet sitter</button>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div style="padding:72px 64px 56px; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;">
+    <div>
+      <div style="display:inline-flex; align-items:center; gap:8px; background:#E7F1E9; border:1px solid #BEDDC8; padding:7px 14px; border-radius:999px; margin-bottom:24px;">
+        <span style="font-family:'Space Mono'; font-weight:700; font-size:14px; color:#1E6B45;">0 %</span>
+        <span style="font-size:13px; font-weight:600; color:#1E6B45;">de commission sur la garde</span>
+      </div>
+      <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:66px; line-height:0.99; letter-spacing:-0.03em; margin:0 0 22px;">Trouvez un pet sitter pour votre animal.</h1>
+      <p style="font-size:21px; line-height:1.5; color:#423E37; max-width:44ch; margin:0 0 20px;">Chat, chien ou NAC. À domicile ou chez le sitter. <strong style="color:#22201C;">Vous ne payez que si un pet sitter accepte votre garde.</strong></p>
+      <div style="display:flex; align-items:center; gap:20px; font-size:14px; color:#6B6459;">
+        <span style="display:flex; align-items:center; gap:7px;"><span style="color:#2F7D57; font-weight:700;">✓</span> Identité vérifiée</span>
+        <span style="display:flex; align-items:center; gap:7px;"><span style="color:#2F7D57; font-weight:700;">✓</span> 0 € tant qu'aucun sitter n'accepte</span>
+        <span style="display:flex; align-items:center; gap:7px;"><span style="color:#2F7D57; font-weight:700;">✓</span> Résiliation en 3 clics</span>
+      </div>
+    </div>
+    <!-- image slot -->
+    <div style="height:440px; border-radius:24px; overflow:hidden;">
+      <image-slot id="home-hero" src="https://images.pexels.com/photos/20324851/pexels-photo-20324851.jpeg" shape="rounded" radius="24" placeholder="Déposez une photo — chat &amp; chien (50/50)"></image-slot>
+    </div>
+  </div>
+
+  <!-- ===== SEARCH BAR ===== -->
+  <div style="padding:0 64px 20px; margin-top:-20px;">
+    <div style="background:#fff; border:1px solid #E4DCCF; border-radius:22px; padding:18px; box-shadow:0 16px 44px rgba(60,40,20,0.10); display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr auto; gap:16px; align-items:end;">
+      <div>
+        <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:7px;">OÙ ?</div>
+        <input type="text" placeholder="Code postal ou ville" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#FBF8F3;" style-focus="border-color:#DD5A3F; outline:none;">
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:7px;">DATES</div>
+        <input type="text" placeholder="14 → 17 août" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#FBF8F3;" style-focus="border-color:#DD5A3F; outline:none;">
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:7px;">ESPÈCE</div>
+        <div style="display:flex; gap:6px;">
+          <div style="flex:1; text-align:center; font-size:13px; font-weight:700; padding:11px 4px; border:1.5px solid #DD5A3F; background:#FBEEE9; color:#C24A31; border-radius:10px; cursor:pointer;">Chat</div>
+          <div style="flex:1; text-align:center; font-size:13px; font-weight:600; padding:11px 4px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:10px; cursor:pointer;">Chien</div>
+          <div style="flex:1; text-align:center; font-size:13px; font-weight:600; padding:11px 4px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:10px; cursor:pointer;">NAC</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:700; color:#8A8175; margin-bottom:7px;">SERVICE</div>
+        <input type="text" placeholder="Garde chez le sitter" style="width:100%; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#FBF8F3;" style-focus="border-color:#DD5A3F; outline:none;">
+      </div>
+      <button style="font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:14px 30px; border-radius:14px; cursor:pointer; white-space:nowrap;" style-hover="background:#DD5A3F;">Voir les sitters</button>
+    </div>
+  </div>
+
+  <!-- ===== 0 € STRIP ===== -->
+  <div style="padding:28px 64px;">
+    <div style="background:#22201C; border-radius:20px; padding:26px 34px; display:flex; align-items:center; justify-content:space-between; gap:30px;">
+      <div style="display:flex; align-items:center; gap:20px;">
+        <span style="font-family:'Space Mono'; font-weight:700; font-size:44px; color:#fff; line-height:1;">0 €</span>
+        <span style="font-size:18px; color:#E3DBCE; line-height:1.4;">débité aujourd'hui. Empreinte carte seulement — <strong style="color:#fff;">débit uniquement quand un sitter accepte.</strong></span>
+      </div>
+      <button style="font-weight:700; font-size:15px; background:#FBF8F3; color:#22201C; border:none; padding:13px 24px; border-radius:999px; cursor:pointer; white-space:nowrap;" style-hover="background:#fff;">Déposer ma demande</button>
+    </div>
+  </div>
+
+  <!-- ===== PRICING ===== -->
+  <div style="padding:44px 64px;">
+    <div style="font-family:'Space Mono'; font-size:12px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Tarifs de mise en relation — affichés, sans surprise</div>
+    <h2 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:42px; letter-spacing:-0.02em; margin:0 0 30px;">La garde revient à 100 % au sitter. Vous ne réglez que la mise en relation.</h2>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+      <div style="background:#fff; border:2px solid #DD5A3F; border-radius:20px; padding:28px; position:relative;">
+        <span style="position:absolute; top:-12px; left:28px; font-size:12px; font-weight:700; background:#DD5A3F; color:#fff; padding:4px 12px; border-radius:999px;">Pour une garde</span>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Pass Séjour</span><span style="font-family:'Space Mono'; font-weight:700; font-size:30px;">39 €</span></div>
+        <div style="font-size:15px; color:#6B6459; margin-top:8px;">Une garde complète, du dépôt à la fin du séjour.</div>
+      </div>
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:28px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Pass Court</span><span style="font-family:'Space Mono'; font-weight:700; font-size:30px;">14,90 €</span></div>
+        <div style="font-size:15px; color:#6B6459; margin-top:8px;">Une prestation ponctuelle : visite, promenade.</div>
+      </div>
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:28px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Abonnement</span><span style="font-family:'Space Mono'; font-weight:700; font-size:26px;">19 €<span style="font-size:14px; color:#8A8175; font-weight:400;">/mois</span></span></div>
+        <div style="font-size:15px; color:#2F7D57; font-weight:600; margin-top:8px;">Sans engagement · résiliable en 3 clics.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOW IT WORKS + TRANSPARENCE ===== -->
+  <div style="padding:44px 64px; display:grid; grid-template-columns:1.2fr 0.8fr; gap:44px; align-items:start;">
+    <div>
+      <div style="font-family:'Space Mono'; font-size:12px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:22px;">Comment ça marche</div>
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:17px; color:#fff; background:#DD5A3F; width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><div style="font-weight:700; font-size:19px;">Vous déposez votre demande</div><div style="font-size:15px; color:#6B6459; line-height:1.5;">Empreinte carte, aucun débit. Des mois à l'avance si besoin.</div></div>
+        </div>
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:17px; color:#fff; background:#DD5A3F; width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><div style="font-weight:700; font-size:19px;">Un pet sitter accepte</div><div style="font-size:15px; color:#6B6459; line-height:1.5;">C'est seulement là que vous êtes prélevé. Contrat de garde type fourni.</div></div>
+        </div>
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:17px; color:#fff; background:#DD5A3F; width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+          <div><div style="font-weight:700; font-size:19px;">La garde a lieu</div><div style="font-size:15px; color:#6B6459; line-height:1.5;">Le pet sitter touche 100 %. Un désistement ? Le Plan B s'active.</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- bloc transparence -->
+    <div style="background:#E7F1E9; border:1px solid #BEDDC8; border-radius:20px; padding:26px;">
+      <div style="font-family:'Space Mono'; font-size:11px; color:#1E6B45; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;">Bloc Transparence</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid #BEDDC8;"><span style="font-size:16px; color:#1E6B45;">Vous versez</span><span style="font-family:'Space Mono'; font-weight:700; font-size:19px; color:#22201C;">30 €</span></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid #BEDDC8;"><span style="font-size:16px; color:#1E6B45;">Le sitter reçoit</span><span style="display:inline-flex; align-items:baseline; gap:8px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:19px; color:#1E6B45;">30 €</span><span style="font-size:12px; font-weight:700; background:#fff; color:#1E6B45; padding:2px 8px; border-radius:999px;">100 %</span></span></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0;"><span style="font-size:16px; color:#1E6B45;">Commission</span><span style="font-family:'Space Mono'; font-weight:700; font-size:19px; color:#22201C;">0 €</span></div>
+    </div>
+  </div>
+
+  <!-- ===== FEATURED SITTERS ===== -->
+  <div style="padding:44px 64px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px;">
+      <h2 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:36px; letter-spacing:-0.02em; margin:0;">Des pet sitters près de chez vous</h2>
+      <a href="#" style="font-size:15px; font-weight:700;">Tout voir →</a>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+      <!-- chat -->
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:18px; overflow:hidden;">
+        <div style="height:150px;"><image-slot id="home-sitter-chat" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="rect" placeholder="Photo — chat"></image-slot></div>
+        <div style="padding:18px 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Camille R.</span><span style="position:relative; width:38px; height:38px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center;"><span style="width:28px; height:28px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">94</span></span></div>
+          <div style="font-size:13px; color:#8A8175; margin:4px 0 10px;">Spécialiste chat · Paris 11e · 1,2 km</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-weight:700; font-size:17px;">25 €<span style="font-size:12px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/nuit</span></span><span style="font-size:12px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+        </div>
+      </div>
+      <!-- chien nouveau -->
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:18px; overflow:hidden;">
+        <div style="height:150px;"><image-slot id="home-sitter-chien" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="rect" placeholder="Photo — chien"></image-slot></div>
+        <div style="padding:18px 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Malik T.</span><span style="font-size:11px; font-weight:700; background:#fff; color:#C24A31; padding:5px 10px; border-radius:999px; border:1.5px solid #DD5A3F;">✦ Nouveau</span></div>
+          <div style="font-size:13px; color:#8A8175; margin:4px 0 10px;">Promenades chien · Lyon 3e · 0,8 km</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-weight:700; font-size:17px;">18 €<span style="font-size:12px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/promenade</span></span><span style="font-size:12px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+        </div>
+      </div>
+      <!-- NAC -->
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:18px; overflow:hidden;">
+        <div style="height:150px;"><image-slot id="home-sitter-nac" src="https://images.pexels.com/photos/19943347/pexels-photo-19943347.jpeg" shape="rect" placeholder="Photo — NAC"></image-slot></div>
+        <div style="padding:18px 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:19px;">Inès B.</span><span style="position:relative; width:38px; height:38px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.88turn, #E7F1E9 0.88turn 1turn); display:flex; align-items:center; justify-content:center;"><span style="width:28px; height:28px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">88</span></span></div>
+          <div style="font-size:13px; color:#8A8175; margin:4px 0 10px;">NAC · lapin &amp; rongeurs · Nantes · 2,1 km</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-weight:700; font-size:17px;">16 €<span style="font-size:12px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/jour</span></span><span style="font-size:12px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div style="margin-top:30px; background:#F3EDE3; border-top:1px solid #E9E1D4; padding:44px 64px;">
+    <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <div style="position:relative; width:28px; height:28px; background:#DD5A3F; border-radius:8px 8px 8px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="13" height="13" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:17px;">AlloPetsitter</span>
+        </div>
+        <p style="font-size:13.5px; color:#6B6459; line-height:1.5; margin:0; max-width:36ch;">La mise en relation propriétaires ↔ pet sitters. Nous ne gardons pas les animaux : le service est proposé et exécuté par le pet sitter, en toute indépendance.</p>
+      </div>
+      <div>
+        <div style="font-weight:700; font-size:14px; margin-bottom:12px;">Découvrir</div>
+        <div style="display:flex; flex-direction:column; gap:9px; font-size:14px;"><a href="#" style="color:#6B6459;">Comment ça marche</a><a href="#" style="color:#6B6459;">Notre modèle</a><a href="#" style="color:#6B6459;">Nos chiffres</a></div>
+      </div>
+      <div>
+        <div style="font-weight:700; font-size:14px; margin-bottom:12px;">Pet sitters</div>
+        <div style="display:flex; flex-direction:column; gap:9px; font-size:14px;"><a href="#" style="color:#6B6459;">Devenir pet sitter</a><a href="#" style="color:#6B6459;">0 % de commission</a></div>
+      </div>
+      <div>
+        <div style="font-weight:700; font-size:14px; margin-bottom:12px;">Votre compte</div>
+        <div style="display:flex; flex-direction:column; gap:9px; font-size:14px;"><a href="#" style="color:#6B6459;">Pause d'abonnement</a><a href="#" style="color:#6B6459;">Résilier</a></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 1080}}"></script>
+</body>
+</html>

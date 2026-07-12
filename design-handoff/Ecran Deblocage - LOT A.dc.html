@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; }
+  a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="min-height:100%; padding: 30px 16px 48px; background:#EDE6DA;">
+  <div style="max-width: 560px; margin: 0 auto 24px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175; margin-bottom:8px;">Écran de déblocage · le moment où le client paie · LOT A</div>
+    <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:28px; letter-spacing:-0.02em; margin:0;">On ne vend pas un numéro. On vend une mise en relation complète.</h1>
+  </div>
+
+  <div style="display:flex; justify-content:center;">
+    <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+
+      <!-- HEADER -->
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid #EFE7DA;">
+        <span style="font-size:20px; color:#22201C;">←</span>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Débloquer la mise en relation</span>
+      </div>
+
+      <!-- SITTER QUI A ACCEPTÉ -->
+      <div style="padding: 18px 20px 4px;">
+        <div style="display:inline-flex; align-items:center; gap:7px; background:#E7F1E9; border:1px solid #BEDDC8; padding:5px 11px; border-radius:999px; margin-bottom:12px;">
+          <span style="font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">✓</span>
+          <span style="font-size:12px; font-weight:700; color:#1E6B45;">Ce pet sitter a déjà accepté votre garde</span>
+        </div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:14px; display:flex; gap:13px; align-items:center;">
+          <div style="width:60px; height:60px; border-radius:14px; overflow:hidden; flex-shrink:0;"><image-slot id="debloc-chat" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="rect" placeholder="chat"></image-slot></div>
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Camille R.</span>
+              <span style="position:relative; width:36px; height:36px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center;"><span style="width:27px; height:27px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">94</span></span>
+            </div>
+            <div style="font-size:12.5px; color:#8A8175; margin:3px 0 8px;">Spécialiste chat · Paris 11e · 1,2 km</div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <span style="font-size:11px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:3px 8px; border-radius:999px;">✓ Identité vérifiée</span>
+              <span style="font-size:11px; font-weight:700; background:#F3EDE3; color:#423E37; padding:3px 8px; border-radius:999px; border:1px solid #E4DCCF;">Dates confirmées</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CE QUE VOUS OBTENEZ -->
+      <div style="padding: 18px 20px 4px;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Ce que vous débloquez</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; gap:13px; align-items:flex-start;">
+            <div style="width:30px; height:30px; border-radius:9px; background:#FBEEE9; color:#C24A31; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:13px; flex-shrink:0;">01</div>
+            <div><div style="font-weight:700; font-size:14.5px;">Les coordonnées de Camille</div><div style="font-size:12.5px; color:#6B6459; line-height:1.45;">Identité complète et contact d'un sitter qui a déjà accepté — pas une liste de profils à démarcher.</div></div>
+          </div>
+          <div style="display:flex; gap:13px; align-items:flex-start;">
+            <div style="width:30px; height:30px; border-radius:9px; background:#FBEEE9; color:#C24A31; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:13px; flex-shrink:0;">02</div>
+            <div><div style="font-weight:700; font-size:14.5px;">Le contrat de garde type</div><div style="font-size:12.5px; color:#6B6459; line-height:1.45;">Prêt à remplir et signer, fourni par AlloPetsitter.</div></div>
+          </div>
+          <div style="display:flex; gap:13px; align-items:flex-start;">
+            <div style="width:30px; height:30px; border-radius:9px; background:#FBEEE9; color:#C24A31; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:13px; flex-shrink:0;">03</div>
+            <div><div style="font-weight:700; font-size:14.5px;">Le Plan B</div><div style="font-size:12.5px; color:#6B6459; line-height:1.45;">Un désistement ? Une alerte prioritaire part aux pet sitters compatibles près de vous.</div></div>
+          </div>
+          <div style="display:flex; gap:13px; align-items:flex-start;">
+            <div style="width:30px; height:30px; border-radius:9px; background:#FBEEE9; color:#C24A31; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:13px; flex-shrink:0;">04</div>
+            <div><div style="font-weight:700; font-size:14.5px;">Le support AlloPetsitter</div><div style="font-size:12.5px; color:#6B6459; line-height:1.45;">Une question, un imprévu : on reste joignable jusqu'au bout de la garde.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOC TRANSPARENCE -->
+      <div style="padding: 18px 20px 4px;">
+        <div style="background:#fff; border:1px solid #D8E8DC; border-radius:16px; overflow:hidden; box-shadow:0 6px 18px rgba(60,40,20,0.06);">
+          <div style="background:#1F4A3D; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;">
+            <span style="color:#fff; font-family:'Bricolage Grotesque'; font-weight:700; font-size:14px;">Le détail, sans surprise</span>
+            <span style="font-family:'Space Mono'; font-size:10px; color:#A8CBB6; text-transform:uppercase; letter-spacing:0.06em;">Bloc Transparence</span>
+          </div>
+          <div style="padding: 4px 16px;">
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:13.5px; border-bottom:1px solid #EFE7DA;"><span style="color:#423E37;">La garde (3 nuits × 25 €)</span><span style="font-family:'Space Mono'; font-weight:700;">75 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:13.5px; border-bottom:1px solid #EFE7DA;"><span style="color:#423E37;">Camille reçoit <span style="font-size:10.5px; font-weight:700; color:#1E6B45;">(100 %)</span></span><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">75 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:13.5px; border-bottom:1px solid #EFE7DA;"><span style="color:#423E37;">Commission sur la garde</span><span style="font-family:'Space Mono'; font-weight:700;">0 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:13.5px;"><span style="color:#423E37;">Mise en relation · Pass Séjour</span><span style="font-family:'Space Mono'; font-weight:700;">39 €</span></div>
+          </div>
+          <div style="background:#E7F1E9; padding:10px 16px; font-size:12px; color:#1E6B45; font-weight:600;">Vous ne débloquez que la mise en relation. Camille encaisse 100 % de la garde.</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div style="padding: 18px 20px 26px;">
+        <button style="width:100%; font-family:'Hanken Grotesk'; font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:16px; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;" style-hover="background:#DD5A3F;">Débloquer la mise en relation <span style="font-family:'Space Mono'; font-weight:700;">· 39 €</span></button>
+        <div style="text-align:center; font-size:12.5px; color:#8A8175; margin-top:10px; line-height:1.5;">Prix affiché, aucun frais caché. Dès le paiement : coordonnées de Camille + contrat de garde type.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 560, &quot;height&quot;: 1040}}"></script>
+</body>
+</html>

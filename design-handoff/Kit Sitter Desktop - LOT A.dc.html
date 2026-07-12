@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1200px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaison desktop · kit de bienvenue pet sitter · LOT A (sans section RC Pro)</div>
+  </div>
+
+  <div style="max-width:1200px; margin:0 auto; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+
+    <!-- HERO -->
+    <div style="background:#1F4A3D; color:#fff; padding:56px 64px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:26px;">
+          <div style="position:relative; width:30px; height:30px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:17px;">AlloPetsitter</span>
+        </div>
+        <div style="font-family:'Space Mono'; font-size:12px; color:#A8CBB6; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px;">Kit de bienvenue</div>
+        <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:56px; line-height:0.99; letter-spacing:-0.02em; margin:0 0 16px;">Bienvenue, pet sitter.</h1>
+        <p style="font-size:19px; color:#C6DECF; line-height:1.5; max-width:40ch; margin:0;">Tout pour bien démarrer et garder <strong style="color:#fff;">100 % de vos revenus</strong>. Quatre étapes, sans jargon.</p>
+      </div>
+      <div style="height:300px; border-radius:22px; overflow:hidden;"><image-slot id="kit-portrait" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="rounded" radius="22" placeholder="Photo — un pet sitter avec un chat"></image-slot></div>
+    </div>
+
+    <!-- MODULES -->
+    <div style="padding:48px 64px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <!-- 01 profil -->
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:32px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:14px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#C24A31;">01</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Réussir son profil</span></div>
+          <ul style="margin:0; padding-left:20px; font-size:16px; color:#423E37; line-height:1.7;">
+            <li>Une photo réelle, nette, chaleureuse — vous, pas un stock.</li>
+            <li>Dites quels animaux vous accueillez : chat, chien, NAC.</li>
+            <li>Une bio honnête : votre expérience, votre cadre de vie.</li>
+          </ul>
+        </div>
+        <!-- 02 tarifs -->
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:32px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:14px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#C24A31;">02</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Fixer ses tarifs</span></div>
+          <p style="margin:0 0 14px; font-size:16px; color:#423E37; line-height:1.55;">Vous êtes libre. Le tarif que vous affichez, c'est le tarif que vous touchez — intégralement.</p>
+          <div style="background:#E7F1E9; border:1px solid #BEDDC8; border-radius:12px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:15px; color:#1E6B45;">Vous affichez 25 €/nuit</span>
+            <span style="font-family:'Space Mono'; font-weight:700; color:#1E6B45;">→ vous touchez 25 €</span>
+          </div>
+        </div>
+        <!-- 03 ACACED -->
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:32px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:14px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#C24A31;">03</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">ACACED &amp; statut</span></div>
+          <ul style="margin:0; padding-left:20px; font-size:16px; color:#423E37; line-height:1.7;">
+            <li>L'ACACED est requise dès que la garde devient une activité régulière.</li>
+            <li>Le statut auto-entrepreneur suffit pour démarrer et déclarer vos revenus.</li>
+            <li>On vous guide pas à pas — sans jargon.</li>
+          </ul>
+        </div>
+        <!-- 04 bonnes pratiques -->
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; padding:32px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:14px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#C24A31;">04</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:24px;">Bonnes pratiques</span></div>
+          <ul style="margin:0; padding-left:20px; font-size:16px; color:#423E37; line-height:1.7;">
+            <li>Rencontre préalable systématique avant d'accepter.</li>
+            <li>Photos quotidiennes au propriétaire — ça rassure et fidélise.</li>
+            <li>Le contrat de garde type vous protège : utilisez-le.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:24px; display:flex; align-items:center; justify-content:space-between; gap:30px; background:#22201C; border-radius:20px; padding:32px 36px;">
+        <div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; color:#fff;">Prêt à créer votre profil ?</div>
+          <div style="font-size:15px; color:#C9C1B4; margin-top:6px;">Gratuit, à vie. Un encart complémentaire vous sera fourni séparément une fois disponible.</div>
+        </div>
+        <button style="font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:15px 28px; border-radius:14px; cursor:pointer; white-space:nowrap;" style-hover="background:#DD5A3F;">Créer mon profil</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1200, &quot;height&quot;: 1080}}"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="min-height:100%; padding: 30px 16px 48px; background:#EDE6DA;">
+  <div style="max-width: 900px; margin: 0 auto 24px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175; margin-bottom:8px;">Résultats de recherche & fiche pet sitter · LOT A</div>
+    <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:28px; letter-spacing:-0.02em; margin:0;">Trouver, comparer, choisir — sans faux avis ni score gonflé.</h1>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:26px; justify-content:center; align-items:flex-start;">
+
+    <!-- FRAME 1 · RÉSULTATS -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Résultats de recherche</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+        <!-- search summary -->
+        <div style="position:sticky; top:0; z-index:10; background:rgba(251,248,243,0.94); backdrop-filter:blur(8px); padding:14px 20px; border-bottom:1px solid #EFE7DA;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:19px;">←</span>
+            <div style="flex:1; background:#fff; border:1px solid #E4DCCF; border-radius:12px; padding:9px 13px; font-size:13px; color:#423E37;"><strong>Paris 11e</strong> · Chat · 14–17 août</div>
+          </div>
+          <div style="display:flex; gap:7px; margin-top:10px; overflow:auto;">
+            <span style="font-size:12px; font-weight:700; padding:6px 12px; border:1.5px solid #22201C; border-radius:999px; white-space:nowrap;">Trier : distance</span>
+            <span style="font-size:12px; font-weight:600; padding:6px 12px; border:1.5px solid #E4DCCF; border-radius:999px; color:#6B6459; white-space:nowrap;">Garde chez le sitter</span>
+            <span style="font-size:12px; font-weight:600; padding:6px 12px; border:1.5px solid #E4DCCF; border-radius:999px; color:#6B6459; white-space:nowrap;">Vérifiés</span>
+          </div>
+        </div>
+        <div style="padding:16px 20px 8px; font-size:12.5px; color:#8A8175;">Des pet sitters disponibles près de vous. <span style="color:#2F7D57; font-weight:700;">Chacun touche 100 %.</span></div>
+
+        <!-- cards -->
+        <div style="padding: 0 20px 20px; display:flex; flex-direction:column; gap:12px;">
+          <!-- score sitter -->
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:12px; display:flex; gap:13px;">
+            <div style="width:70px; height:70px; border-radius:13px; overflow:hidden; flex-shrink:0;"><image-slot id="res-chat" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="rect" placeholder="chat"></image-slot></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:16px;">Camille R.</span><span style="position:relative; width:34px; height:34px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center;"><span style="width:25px; height:25px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:11px; color:#1E6B45;">94</span></span></div>
+              <div style="font-size:12px; color:#8A8175; margin:2px 0 6px;">Spécialiste chat · 1,2 km · 12 avis</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px;">25 €<span style="font-size:11px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/nuit</span></span><span style="font-size:11px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+            </div>
+          </div>
+          <!-- nouveau sitter -->
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:12px; display:flex; gap:13px;">
+            <div style="width:70px; height:70px; border-radius:13px; overflow:hidden; flex-shrink:0;"><image-slot id="res-sophie" src="https://images.pexels.com/photos/14721008/pexels-photo-14721008.jpeg" shape="rect" placeholder="chat"></image-slot></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:16px;">Sophie M.</span><span style="font-size:10.5px; font-weight:700; background:#fff; color:#C24A31; padding:4px 9px; border-radius:999px; border:1.5px solid #DD5A3F;">✦ Nouveau</span></div>
+              <div style="font-size:12px; color:#8A8175; margin:2px 0 6px;">Chat & NAC · 0,9 km · identité vérifiée</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px;">22 €<span style="font-size:11px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/nuit</span></span><span style="font-size:11px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+            </div>
+          </div>
+          <!-- another -->
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:12px; display:flex; gap:13px;">
+            <div style="width:70px; height:70px; border-radius:13px; overflow:hidden; flex-shrink:0;"><image-slot id="res-theo" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="rect" placeholder="chien"></image-slot></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:16px;">Théo L.</span><span style="position:relative; width:34px; height:34px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.9turn, #E7F1E9 0.9turn 1turn); display:flex; align-items:center; justify-content:center;"><span style="width:25px; height:25px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:11px; color:#1E6B45;">90</span></span></div>
+              <div style="font-size:12px; color:#8A8175; margin:2px 0 6px;">Garde à domicile · 1,8 km · 7 avis</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px;">28 €<span style="font-size:11px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;">/nuit</span></span><span style="font-size:11px; color:#2F7D57; font-weight:700;">reçoit 100 %</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRAME 2 · FICHE SITTER -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Fiche pet sitter · Bloc Transparence en évidence</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+        <!-- cover photo -->
+        <div style="height:170px; position:relative; overflow:hidden;">
+          <image-slot id="fiche-cover" src="https://images.pexels.com/photos/20324851/pexels-photo-20324851.jpeg" shape="rect" placeholder="photo — chat"></image-slot>
+          <span style="position:absolute; top:14px; left:14px; font-size:20px; background:rgba(251,248,243,0.85); width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; z-index:2;">←</span>
+        </div>
+        <div style="padding:18px 20px 0;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:22px; letter-spacing:-0.02em;">Camille R.</div>
+              <div style="font-size:13px; color:#8A8175; margin-top:2px;">Spécialiste chat · Paris 11e</div>
+            </div>
+            <div style="text-align:center;"><span style="position:relative; width:48px; height:48px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center; margin:0 auto;"><span style="width:36px; height:36px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:14px; color:#1E6B45;">94</span></span><div style="font-size:10px; color:#8A8175; margin-top:3px;">Fiabilité</div></div>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:12px;">
+            <span style="font-size:11.5px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:4px 9px; border-radius:999px;">✓ Identité vérifiée</span>
+            <span style="font-size:11.5px; font-weight:700; background:#F3EDE3; color:#423E37; padding:4px 9px; border-radius:999px; border:1px solid #E4DCCF;">Répond vite</span>
+          </div>
+        </div>
+
+        <!-- BLOC TRANSPARENCE en évidence -->
+        <div style="padding:16px 20px 4px;">
+          <div style="background:#E7F1E9; border:1px solid #BEDDC8; border-radius:16px; padding:16px;">
+            <div style="font-family:'Space Mono'; font-size:10.5px; color:#1E6B45; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Bloc Transparence</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:14px; color:#1E6B45;">Vous versez</span><span style="font-family:'Space Mono'; font-weight:700; font-size:16px; color:#22201C;">25 €<span style="font-size:11px; color:#1E6B45; font-family:'Hanken Grotesk'; font-weight:500;">/nuit</span></span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:14px; color:#1E6B45;">Camille reçoit</span><span style="display:inline-flex; align-items:baseline; gap:7px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:16px; color:#1E6B45;">25 €</span><span style="font-size:11px; font-weight:700; background:#fff; color:#1E6B45; padding:1px 7px; border-radius:999px;">100 %</span></span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:14px; color:#1E6B45;">Commission AlloPetsitter</span><span style="font-family:'Space Mono'; font-weight:700; font-size:16px; color:#22201C;">0 €</span></div>
+          </div>
+        </div>
+
+        <!-- calendrier -->
+        <div style="padding:16px 20px 4px;">
+          <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Disponibilités · août</div>
+          <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:5px;">
+            <div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">L</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">M</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">M</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">J</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">V</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">S</div><div style="text-align:center; font-size:11px; color:#8A8175; padding:4px 0;">D</div>
+            <div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#F3EDE3; color:#C9C1B4;">11</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#E7F1E9; color:#1E6B45; font-weight:700;">12</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#E7F1E9; color:#1E6B45; font-weight:700;">13</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#DD5A3F; color:#fff; font-weight:700;">14</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#DD5A3F; color:#fff; font-weight:700;">15</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#DD5A3F; color:#fff; font-weight:700;">16</div><div style="text-align:center; font-size:12px; padding:7px 0; border-radius:8px; background:#E7F1E9; color:#1E6B45; font-weight:700;">17</div>
+          </div>
+        </div>
+
+        <!-- avis réels -->
+        <div style="padding:16px 20px 4px;">
+          <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Avis réels · 12</div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:14px; padding:14px 16px;">
+            <div style="font-size:13.5px; color:#423E37; line-height:1.55;">« Minette était détendue au retour, photos tous les jours. Camille connaît vraiment les chats. »</div>
+            <div style="font-size:12px; color:#8A8175; margin-top:8px;">— Julie D. · juillet 2026</div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="padding:16px 20px 24px;">
+          <button style="width:100%; font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:15px; border-radius:14px; cursor:pointer;" style-hover="background:#DD5A3F;">Demander cette garde</button>
+          <div style="text-align:center; font-size:12px; color:#8A8175; margin-top:9px;">Prénom + initiale affichés. L'identité complète apparaît après déblocage. 0 € tant que Camille n'a pas accepté.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 1080}}"></script>
+</body>
+</html>

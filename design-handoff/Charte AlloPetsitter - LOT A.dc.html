@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FBF8F3; color: #22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; }
+  a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+  @keyframes ap-ring { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.9); opacity: 0; } }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="max-width: 1180px; margin: 0 auto; padding: 0 24px;">
+
+  <!-- ============ STICKY NAV ============ -->
+  <div style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; margin-bottom: 8px; background: rgba(251,248,243,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid #E9E1D4;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="position: relative; width: 30px; height: 30px; background: #DD5A3F; border-radius: 9px 9px 9px 3px; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      </div>
+      <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">AlloPetsitter</span>
+      <span style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175; border: 1px solid #E4DCCF; padding: 2px 7px; border-radius: 999px;">Charte v3 · LOT A</span>
+    </div>
+    <div style="display: none; gap: 20px; font-size: 13.5px; font-weight: 600; color: #6B6459;" data-nav>
+      <a href="#logo" style="color: #6B6459;">Logo</a>
+      <a href="#couleurs" style="color: #6B6459;">Couleurs</a>
+      <a href="#typo" style="color: #6B6459;">Typo</a>
+      <a href="#composants" style="color: #6B6459;">Composants</a>
+      <a href="#transparence" style="color: #C24A31;">Bloc Transparence</a>
+      <a href="#tokens" style="color: #6B6459;">Tokens</a>
+    </div>
+    <a href="Home AlloPetsitter — LOT A.dc.html" style="font-size: 13px; font-weight: 700; background: #22201C; color: #FBF8F3; padding: 8px 14px; border-radius: 999px;">Voir la Home →</a>
+  </div>
+
+  <!-- ============ COVER ============ -->
+  <section style="padding: 72px 0 40px;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 22px;">Identité de marque · Mission 1 · Juillet 2026</div>
+    <h1 style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: clamp(44px, 7vw, 92px); line-height: 0.98; letter-spacing: -0.03em; margin: 0 0 26px; max-width: 15ch;">Vous demandez.<br>Un pet sitter répond.</h1>
+    <p style="font-size: clamp(18px, 2.2vw, 23px); line-height: 1.5; max-width: 46ch; color: #423E37; margin: 0 0 30px;">La plateforme française qui met en relation les propriétaires d'animaux et les pet sitters. <strong style="color: #22201C;">Nous ne gardons pas les animaux — nous vous aidons à trouver la bonne personne.</strong></p>
+    <div style="display: inline-flex; align-items: center; gap: 12px; background: #E7F1E9; border: 1px solid #BEDDC8; padding: 14px 20px; border-radius: 14px;">
+      <span style="font-family: 'Space Mono'; font-weight: 700; font-size: 22px; color: #1E6B45;">0 %</span>
+      <span style="font-size: 15px; font-weight: 600; color: #1E6B45; line-height: 1.3;">de commission sur la garde.<br><span style="font-weight: 500; color: #2F7D57;">Votre pet sitter touche 100 % de ce que vous versez.</span></span>
+    </div>
+  </section>
+
+  <!-- ============ SOMMAIRE / PROMESSE STRIP ============ -->
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: #E9E1D4; border: 1px solid #E9E1D4; border-radius: 18px; overflow: hidden; margin-bottom: 30px;">
+    <div style="background: #FBF8F3; padding: 26px 24px;">
+      <div style="font-family: 'Space Mono'; font-size: 30px; font-weight: 700; color: #DD5A3F; margin-bottom: 8px;">1</div>
+      <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">Transparence radicale</div>
+      <div style="font-size: 14px; color: #6B6459; line-height: 1.5;">Pas un slogan : un produit fait d'objets vérifiables.</div>
+    </div>
+    <div style="background: #FBF8F3; padding: 26px 24px;">
+      <div style="font-family: 'Space Mono'; font-size: 30px; font-weight: 700; color: #DD5A3F; margin-bottom: 8px;">2</div>
+      <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">Fiabilité</div>
+      <div style="font-size: 14px; color: #6B6459; line-height: 1.5;">On tue le désistement de dernière minute, la plaie du secteur.</div>
+    </div>
+    <div style="background: #FBF8F3; padding: 26px 24px;">
+      <div style="font-family: 'Space Mono'; font-size: 30px; font-weight: 700; color: #DD5A3F; margin-bottom: 8px;">=</div>
+      <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">Chat = Chien</div>
+      <div style="font-size: 14px; color: #6B6459; line-height: 1.5;">16,6 M de chats en France. Traitement strictement égal.</div>
+    </div>
+  </section>
+
+  <!-- ============ POSITIONNEMENT ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">01 — Territoire</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 18px; max-width: 20ch;">Chaleureux, mais adulte. On parle d'argent sans gêne.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 30px;">
+      <div style="background: #F3EDE3; border-radius: 14px; padding: 22px;">
+        <div style="font-weight: 700; color: #2F7D57; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Ce qu'on est</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.7; color: #423E37;">
+          <li>Honnête, direct, français</li>
+          <li>Rassurant sans être sirupeux</li>
+          <li>Fier de son modèle 0 %</li>
+          <li>À égalité chat / chien</li>
+        </ul>
+      </div>
+      <div style="background: #F3EDE3; border-radius: 14px; padding: 22px;">
+        <div style="font-weight: 700; color: #C24A31; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Ce qu'on n'est pas</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.7; color: #423E37;">
+          <li>Corporate et froid <span style="color: #8A8175;">(Rover)</span></li>
+          <li>Daté et clinique <span style="color: #8A8175;">(Animaute)</span></li>
+          <li>Coloré et infantilisant <span style="color: #8A8175;">(Holidog)</span></li>
+          <li>Le golden retriever au coucher du soleil</li>
+        </ul>
+      </div>
+      <div style="background: #22201C; color: #F3EDE3; border-radius: 14px; padding: 22px;">
+        <div style="font-weight: 700; color: #E39A88; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Règle de langage</div>
+        <p style="margin: 0 0 10px; font-size: 15px; line-height: 1.55;">On <strong style="color:#fff;">met en relation</strong>. On ne garde pas.</p>
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #C9C1B4;">« Trouvez un pet sitter » — jamais « nous gardons votre animal ». Question juridique, pas de style.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BASELINE ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">02 — Baseline</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 30px;">La signature qui porte le 0 %.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <div style="border: 2px solid #DD5A3F; background: #fff; border-radius: 16px; padding: 26px;">
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #C24A31; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Principale</div>
+        <div style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em;">Trouvez un pet sitter.<br>Zéro commission.</div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; background: #fff; border-radius: 16px; padding: 26px;">
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Conversion</div>
+        <div style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em;">Vous ne payez que si un pet sitter accepte votre garde.</div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; background: #fff; border-radius: 16px; padding: 26px;">
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Promesse gravée</div>
+        <div style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em;">Votre pet sitter touche 100 % de ce que vous lui versez.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOGO ============ -->
+  <section id="logo" style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">03 — Logo · 3 pistes</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 12px;">L'idée « Allo » : la mise en relation.</h2>
+    <p style="font-size: 16px; color: #6B6459; max-width: 56ch; line-height: 1.55; margin: 0 0 34px;">Trois exécutions wordmark + symbole simple. Toutes lisibles en enseigne comme en favicon 16 px. <strong style="color:#22201C;">Logo arrêté : Piste A — La Bulle</strong> (bulle de conversation + combiné). Pistes B et C conservées pour archive.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 18px;">
+
+      <!-- PISTE A — LA BULLE -->
+      <div style="border: 2px solid #DD5A3F; border-radius: 20px; overflow: hidden; background: #fff;">
+        <div style="padding: 44px 28px; display: flex; align-items: center; justify-content: center; background: #FBF8F3; min-height: 150px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="position: relative; width: 46px; height: 46px; background: #DD5A3F; border-radius: 14px 14px 14px 4px; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" width="23" height="23" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </div>
+            <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 26px; letter-spacing: -0.03em; color: #22201C;">Allo<span style="color:#DD5A3F;">Petsitter</span></span>
+          </div>
+        </div>
+        <div style="padding: 20px 22px; border-top: 1px solid #EFE7DA;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <strong style="font-size: 15px;">Piste A — La Bulle</strong>
+            <span style="font-family: 'Space Mono'; font-size: 10px; background: #2F7D57; color: #fff; padding: 2px 7px; border-radius: 999px;">RETENU</span>
+          </div>
+          <p style="margin: 0; font-size: 13.5px; color: #6B6459; line-height: 1.5;">Une bulle de conversation, un combiné dedans : le « Allo » de la marque — le réflexe de la mise en relation, version 100 % en ligne. Sans tech-froideur.</p>
+        </div>
+      </div>
+
+      <!-- PISTE B — LE LIEN -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 20px; overflow: hidden; background: #fff;">
+        <div style="padding: 44px 28px; display: flex; align-items: center; justify-content: center; background: #FBF8F3; min-height: 150px;">
+          <div style="display: flex; align-items: center; gap: 13px;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 30px; height: 30px; border-radius: 999px; background: #DD5A3F;"></div>
+              <div style="width: 30px; height: 30px; border-radius: 999px; background: #22201C; margin-left: -12px;"></div>
+            </div>
+            <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 25px; letter-spacing: -0.03em; color: #22201C;">AlloPetsitter</span>
+          </div>
+        </div>
+        <div style="padding: 20px 22px; border-top: 1px solid #EFE7DA;">
+          <strong style="font-size: 15px;">Piste B — Le Lien</strong> <span style="font-family:'Space Mono'; font-size:10px; color:#8A8175; border:1px solid #E4DCCF; padding:2px 7px; border-radius:999px;">non retenue</span>
+          <p style="margin: 6px 0 0; font-size: 13.5px; color: #6B6459; line-height: 1.5;">Deux ronds qui se rejoignent : propriétaire ↔ pet sitter. La mise en relation littérale. Neutre chat/chien.</p>
+        </div>
+      </div>
+
+      <!-- PISTE C — LE MONOGRAMME -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 20px; overflow: hidden; background: #fff;">
+        <div style="padding: 44px 28px; display: flex; align-items: center; justify-content: center; background: #FBF8F3; min-height: 150px;">
+          <div style="display: flex; align-items: center; gap: 13px;">
+            <div style="width: 48px; height: 48px; background: #22201C; border-radius: 16px 16px 16px 5px; display: flex; align-items: center; justify-content: center;">
+              <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 22px; color: #DD5A3F; letter-spacing: -0.04em;">aP</span>
+            </div>
+            <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 25px; letter-spacing: -0.03em; color: #22201C;">AlloPetsitter</span>
+          </div>
+        </div>
+        <div style="padding: 20px 22px; border-top: 1px solid #EFE7DA;">
+          <strong style="font-size: 15px;">Piste C — Le Monogramme</strong> <span style="font-family:'Space Mono'; font-size:10px; color:#8A8175; border:1px solid #E4DCCF; padding:2px 7px; border-radius:999px;">non retenue</span>
+          <p style="margin: 6px 0 0; font-size: 13.5px; color: #6B6459; line-height: 1.5;">Badge « aP » dans une bulle. Le plus solide en très petite taille et en app icon.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÉCLINAISONS -->
+    <div style="margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px;">
+      <!-- favicon 16px -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 22px; background: #fff; text-align: center;">
+        <div style="display: flex; align-items: flex-end; justify-content: center; gap: 14px; margin-bottom: 16px; min-height: 44px;">
+          <div style="position: relative; width: 40px; height: 40px; background: #DD5A3F; border-radius: 12px 12px 12px 3px; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="19" height="19" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div style="position: relative; width: 16px; height: 16px; background: #DD5A3F; border-radius: 5px 5px 5px 1.5px; display: flex; align-items: center; justify-content: center;"><div style="width:5px;height:5px;background:#FBF8F3;border-radius:999px;"></div></div>
+        </div>
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175;">Favicon · combiné dès 40 px · point à 16 px</div>
+      </div>
+      <!-- monochrome noir -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 22px; background: #fff; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; margin-bottom: 16px;">
+          <div style="position: relative; width: 34px; height: 34px; background: #22201C; border-radius: 10px 10px 10px 3px; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        </div>
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175;">Monochrome</div>
+      </div>
+      <!-- fond sombre -->
+      <div style="border: 1px solid #2A2822; border-radius: 16px; padding: 22px; background: #22201C; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; margin-bottom: 16px;">
+          <div style="position: relative; width: 34px; height: 34px; background: #DD5A3F; border-radius: 10px 10px 10px 3px; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="#22201C" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        </div>
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #A79F92;">Fond sombre</div>
+      </div>
+      <!-- vertical -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 22px 12px; background: #fff; text-align: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 12px;">
+          <div style="position: relative; width: 30px; height: 30px; background: #DD5A3F; border-radius: 9px 9px 9px 3px; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <span style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 12px; letter-spacing: -0.02em;">AlloPetsitter</span>
+        </div>
+        <div style="font-family: 'Space Mono'; font-size: 11px; color: #8A8175;">Vertical</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COULEURS ============ -->
+  <section id="couleurs" style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">04 — Couleurs</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 12px;">Neutres chauds, un rouge « Allo », un vert transparence.</h2>
+    <p style="font-size: 16px; color: #6B6459; max-width: 60ch; line-height: 1.55; margin: 0 0 30px;">Le vert est réservé au signal argent / 100 % — jamais décoratif. Contrastes vérifiés WCAG AA.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 12px;">
+      <!-- primary -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #DD5A3F;"></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Vermillon</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#DD5A3F</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Primary · marque</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #C24A31; display:flex; align-items:flex-end; padding:8px;"><span style="color:#fff; font-size:11px; font-family:'Space Mono';">Aa 4.8:1 ✓</span></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Vermillon foncé</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#C24A31</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Boutons · liens</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #22201C; display:flex; align-items:flex-end; padding:8px;"><span style="color:#fff; font-size:11px; font-family:'Space Mono';">Aa 15:1 ✓</span></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Encre</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#22201C</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Texte · surfaces sombres</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #6B6459;"></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Encre douce</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#6B6459</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Texte secondaire</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #2F7D57; display:flex; align-items:flex-end; padding:8px;"><span style="color:#fff; font-size:11px; font-family:'Space Mono';">Aa 4.6:1 ✓</span></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Vert transparence</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#2F7D57</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Signal 100 % / argent</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #E7F1E9;"></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Vert tint</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#E7F1E9</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Fond bloc transparence</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #FBF8F3;"></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Papier</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#FBF8F3</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Fond global</div></div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 14px; overflow: hidden; background:#fff;">
+        <div style="height: 92px; background: #F3EDE3;"></div>
+        <div style="padding: 12px 14px;"><div style="font-weight: 700; font-size: 14px;">Papier 2</div><div style="font-family:'Space Mono'; font-size: 12px; color:#8A8175;">#F3EDE3</div><div style="font-size:11px; color:#8A8175; margin-top:4px;">Cartes · surfaces</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHIE ============ -->
+  <section id="typo" style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">05 — Typographie</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 30px;">Trois familles, libres de droits.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 28px;">
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 52px; line-height: 1; margin-bottom: 12px;">Ag</div>
+        <div style="font-weight: 700; font-size: 15px;">Bricolage Grotesque</div>
+        <div style="font-size: 13px; color: #6B6459; margin-top: 4px;">Titres · 600 / 700 / 800</div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-family: 'Hanken Grotesk'; font-weight: 600; font-size: 52px; line-height: 1; margin-bottom: 12px;">Ag</div>
+        <div style="font-weight: 700; font-size: 15px;">Hanken Grotesk</div>
+        <div style="font-size: 13px; color: #6B6459; margin-top: 4px;">Texte courant · 400 / 500 / 600 / 700</div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-family: 'Space Mono'; font-weight: 700; font-size: 46px; line-height: 1; margin-bottom: 16px;">0€</div>
+        <div style="font-weight: 700; font-size: 15px;">Space Mono</div>
+        <div style="font-size: 13px; color: #6B6459; margin-top: 4px;">Chiffres · reçus · tokens · 400 / 700</div>
+      </div>
+    </div>
+    <!-- échelle -->
+    <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 8px 24px; background:#fff;">
+      <div style="display:flex; align-items:baseline; gap:16px; padding: 14px 0; border-bottom: 1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; width:70px;">Display</span><span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:44px; letter-spacing:-0.03em;">Un sitter répond.</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding: 14px 0; border-bottom: 1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; width:70px;">H2 · 32</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:32px; letter-spacing:-0.02em;">Trouvez un pet sitter</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding: 14px 0; border-bottom: 1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; width:70px;">H3 · 22</span><span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:22px;">Le Bloc Transparence</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding: 14px 0; border-bottom: 1px solid #EFE7DA;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; width:70px;">Corps · 16</span><span style="font-size:16px; color:#423E37;">Vous ne payez que si un pet sitter accepte votre garde.</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding: 14px 0;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; width:70px;">Légende · 13</span><span style="font-size:13px; color:#6B6459;">Prénom + initiale — identité complète après déblocage.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ RADIUS + OMBRES ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">06 — Rayons, ombres, espacement</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-weight:700; margin-bottom:16px;">Rayons</div>
+        <div style="display:flex; align-items:flex-end; gap:12px;">
+          <div style="text-align:center;"><div style="width:46px; height:46px; background:#F3EDE3; border:1px solid #E4DCCF; border-radius:6px;"></div><div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-top:6px;">6</div></div>
+          <div style="text-align:center;"><div style="width:46px; height:46px; background:#F3EDE3; border:1px solid #E4DCCF; border-radius:12px;"></div><div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-top:6px;">12</div></div>
+          <div style="text-align:center;"><div style="width:46px; height:46px; background:#F3EDE3; border:1px solid #E4DCCF; border-radius:18px;"></div><div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-top:6px;">18</div></div>
+          <div style="text-align:center;"><div style="width:46px; height:46px; background:#F3EDE3; border:1px solid #E4DCCF; border-radius:999px;"></div><div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-top:6px;">pill</div></div>
+        </div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-weight:700; margin-bottom:16px;">Ombres (chaudes, basses)</div>
+        <div style="display:flex; align-items:center; gap:18px;">
+          <div style="width:56px; height:56px; background:#fff; border-radius:14px; box-shadow: 0 1px 2px rgba(60,40,20,0.06), 0 2px 6px rgba(60,40,20,0.05);"></div>
+          <div style="width:56px; height:56px; background:#fff; border-radius:14px; box-shadow: 0 4px 10px rgba(60,40,20,0.08), 0 10px 24px rgba(60,40,20,0.06);"></div>
+          <div style="width:56px; height:56px; background:#fff; border-radius:14px; box-shadow: 0 10px 30px rgba(60,40,20,0.12), 0 20px 50px rgba(60,40,20,0.08);"></div>
+        </div>
+      </div>
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 24px; background:#fff;">
+        <div style="font-weight:700; margin-bottom:16px;">Espacement · base 4</div>
+        <div style="display:flex; align-items:flex-end; gap:8px;">
+          <div style="width:4px; height:16px; background:#DD5A3F;"></div>
+          <div style="width:8px; height:24px; background:#DD5A3F;"></div>
+          <div style="width:12px; height:32px; background:#DD5A3F;"></div>
+          <div style="width:16px; height:44px; background:#DD5A3F;"></div>
+          <div style="width:24px; height:56px; background:#DD5A3F;"></div>
+        </div>
+        <div style="font-family:'Space Mono'; font-size:10px; color:#8A8175; margin-top:10px;">4 · 8 · 12 · 16 · 24 · 32 · 48 · 72</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPOSANTS ============ -->
+  <section id="composants" style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">07 — Composants</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 30px;">Boutons, formulaires, badges.</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <!-- BOUTONS -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 26px; background:#fff;">
+        <div style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:#8A8175; margin-bottom:18px;">Boutons</div>
+        <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+          <button style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:13px 22px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Trouver un pet sitter</button>
+          <button style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; background:#22201C; color:#FBF8F3; border:none; padding:13px 22px; border-radius:999px; cursor:pointer;" style-hover="background:#000;">Déposer ma demande</button>
+          <button style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; background:transparent; color:#22201C; border:1.5px solid #22201C; padding:12px 22px; border-radius:999px; cursor:pointer;" style-hover="background:#22201C; color:#fff;">En savoir plus</button>
+          <button style="font-family:'Hanken Grotesk'; font-weight:700; font-size:14px; background:transparent; color:#C24A31; border:none; padding:6px 2px; cursor:pointer;" style-hover="color:#DD5A3F;">Comment ça marche →</button>
+        </div>
+      </div>
+
+      <!-- FORMULAIRES -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 26px; background:#fff;">
+        <div style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:#8A8175; margin-bottom:18px;">Formulaires</div>
+        <label style="display:block; font-size:13px; font-weight:600; color:#423E37; margin-bottom:6px;">Code postal</label>
+        <input type="text" value="75011" style="width:100%; font-family:'Hanken Grotesk'; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#FBF8F3; color:#22201C; margin-bottom:16px;" style-focus="border-color:#DD5A3F; outline:none;">
+        <div style="font-size:13px; font-weight:600; color:#423E37; margin-bottom:8px;">Espèce</div>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <div style="flex:1; text-align:center; font-size:14px; font-weight:600; padding:11px; border:1.5px solid #DD5A3F; background:#FBEEE9; color:#C24A31; border-radius:12px; cursor:pointer;">Chat</div>
+          <div style="flex:1; text-align:center; font-size:14px; font-weight:600; padding:11px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:12px; cursor:pointer;">Chien</div>
+          <div style="flex:1; text-align:center; font-size:14px; font-weight:600; padding:11px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:12px; cursor:pointer;">NAC</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:9px; margin-top:14px;">
+          <div style="width:20px; height:20px; border:1.5px solid #C9C1B4; border-radius:6px; background:#fff;"></div>
+          <span style="font-size:13px; color:#6B6459;">Case à cocher — <strong style="color:#C24A31;">jamais pré-cochée</strong></span>
+        </div>
+      </div>
+
+      <!-- BADGES -->
+      <div style="border: 1px solid #E4DCCF; border-radius: 16px; padding: 26px; background:#fff;">
+        <div style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:#8A8175; margin-bottom:18px;">Badges</div>
+        <div style="display:flex; flex-wrap:wrap; gap:9px;">
+          <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:6px 12px; border-radius:999px;">✓ Identité vérifiée</span>
+          <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; background:#22201C; color:#FBF8F3; padding:6px 12px; border-radius:999px;">0 € débité aujourd'hui</span>
+          <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:6px 12px; border-radius:999px;">Plan B activé</span>
+          <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; background:#F3EDE3; color:#423E37; padding:6px 12px; border-radius:999px; border:1px solid #E4DCCF;">Résiliation en 3 clics</span>
+          <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; background:#fff; color:#8A8175; padding:6px 12px; border-radius:999px; border:1px dashed #C9C1B4;">Contrat de garde type</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HÉRO — BLOC TRANSPARENCE ============ -->
+  <section id="transparence" style="padding: 64px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #C24A31; margin-bottom: 14px;">08 — Le composant signature</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: clamp(32px, 4.6vw, 54px); letter-spacing: -0.03em; margin: 0 0 12px;">Le Bloc Transparence.</h2>
+    <p style="font-size: 17px; color: #6B6459; max-width: 58ch; line-height: 1.55; margin: 0 0 38px;">Présent sur chaque fiche sitter et chaque devis. Beau, clair, irréfutable — le héros de la marque. Les chiffres sont toujours générés depuis la base, jamais rédigés à la main.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start;">
+
+      <!-- VARIANTE FICHE (héro) -->
+      <div>
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Variante · Fiche</div>
+        <div style="background:#fff; border:1px solid #D8E8DC; border-radius:20px; overflow:hidden; box-shadow: 0 10px 30px rgba(60,40,20,0.10), 0 20px 50px rgba(60,40,20,0.06);">
+          <div style="background:#1F4A3D; padding:18px 24px; display:flex; align-items:center; justify-content:space-between;">
+            <span style="color:#fff; font-family:'Bricolage Grotesque'; font-weight:700; font-size:16px;">Ce que vous versez</span>
+            <span style="font-family:'Space Mono'; font-size:11px; color:#A8CBB6; text-transform:uppercase; letter-spacing:0.08em;">Bloc Transparence</span>
+          </div>
+          <div style="padding: 8px 24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0; border-bottom:1px solid #EFE7DA;">
+              <span style="font-size:15px; color:#423E37;">Vous versez</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:22px; color:#22201C;">30 €</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0; border-bottom:1px solid #EFE7DA;">
+              <span style="font-size:15px; color:#423E37;">Le pet sitter reçoit</span>
+              <span style="display:inline-flex; align-items:baseline; gap:8px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:22px; color:#2F7D57;">30 €</span><span style="font-size:12px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:2px 8px; border-radius:999px;">100 %</span></span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0;">
+              <span style="font-size:15px; color:#423E37;">Commission AlloPetsitter</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:22px; color:#22201C;">0 €</span>
+            </div>
+          </div>
+          <div style="background:#E7F1E9; padding:14px 24px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:13.5px; font-weight:600; color:#1E6B45;">✓ Nous ne prenons aucune commission sur la garde.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANTE DEVIS -->
+      <div>
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Variante · Devis</div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:20px; overflow:hidden; box-shadow: 0 4px 10px rgba(60,40,20,0.06);">
+          <div style="padding:22px 24px 8px;">
+            <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px; margin-bottom:2px;">Devis · Garde de Minette</div>
+            <div style="font-size:13px; color:#8A8175;">3 nuits · du 14 au 17 août · chez le sitter</div>
+          </div>
+          <div style="padding: 4px 24px;">
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:14px; color:#423E37;"><span>Tarif du pet sitter · 3 × 25 €</span><span style="font-family:'Space Mono';">75 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:14px; color:#423E37; border-top:1px dashed #E4DCCF;"><span>Le pet sitter reçoit <span style="font-size:11px; font-weight:700; color:#1E6B45;">(100 %)</span></span><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">75 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:14px; color:#423E37;"><span>Commission sur la garde</span><span style="font-family:'Space Mono'; font-weight:700;">0 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:11px 0; font-size:14px; color:#423E37; border-top:1px solid #EFE7DA;"><span>Mise en relation · Pass Séjour</span><span style="font-family:'Space Mono';">39 €</span></div>
+          </div>
+          <div style="background:#22201C; color:#fff; padding:16px 24px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:15px;">Total aujourd'hui</span>
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:12px; background:#2F7D57; color:#fff; padding:5px 11px; border-radius:999px;">0 € — débit à l'acceptation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANTE COMPACT -->
+      <div>
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Variante · Compact (inline)</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:#E7F1E9; border:1px solid #BEDDC8; border-radius:14px; padding:16px 18px; display:flex; align-items:center; gap:14px;">
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:26px; color:#1E6B45; line-height:1;">100%</span>
+            <span style="font-size:13.5px; color:#1E6B45; line-height:1.4;">Votre pet sitter touche <strong>30 €</strong> sur les <strong>30 €</strong> versés. Commission&nbsp;: <strong>0&nbsp;€</strong>.</span>
+          </div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:14px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; font-size:14px;">
+            <span style="color:#423E37;">Vous versez <strong style="font-family:'Space Mono';">30&nbsp;€</strong></span>
+            <span style="color:#8A8175;">→</span>
+            <span style="color:#1E6B45; font-weight:600;">Sitter <strong style="font-family:'Space Mono';">30&nbsp;€</strong></span>
+            <span style="color:#8A8175;">→</span>
+            <span style="color:#423E37;">Nous <strong style="font-family:'Space Mono';">0&nbsp;€</strong></span>
+          </div>
+          <div style="border:1px dashed #C9C1B4; border-radius:14px; padding:14px 18px; background:#FBF8F3;">
+            <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; margin-bottom:6px;">GABARIT — valeurs depuis la base</div>
+            <div style="font-family:'Space Mono'; font-size:13px; color:#423E37;">Vous versez <span style="color:#C24A31;">{montant}</span> · Sitter reçoit <span style="color:#C24A31;">{montant}</span> (100 %) · Commission <span style="color:#C24A31;">0 €</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCORE DE FIABILITÉ ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">09 — Score de Fiabilité</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 12px;">Un score, ou rien. Jamais un vide déguisé en chiffre.</h2>
+    <p style="font-size: 16px; color: #6B6459; max-width: 60ch; line-height: 1.55; margin: 0 0 30px;">Sous le seuil de gardes déclarées, le score ne s'affiche pas : le badge « Nouveau sur AlloPetsitter » prend sa place — assumé et valorisant.</p>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px;">
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:24px; background:#fff;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; margin-bottom:16px;">≥ seuil · score affiché</div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="position:relative; width:60px; height:60px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center;">
+            <div style="width:44px; height:44px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:15px; color:#1E6B45;">94</div>
+          </div>
+          <div>
+            <div style="font-weight:700; font-size:15px;">Score de Fiabilité</div>
+            <div style="font-size:13px; color:#6B6459;">Ponctualité · réponse · zéro désistement</div>
+          </div>
+        </div>
+      </div>
+      <div style="border:1px solid #DD5A3F; border-radius:16px; padding:24px; background:#FBEEE9;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#C24A31; margin-bottom:16px;">&lt; seuil · badge de seuil obligatoire</div>
+        <span style="display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:15px; background:#fff; color:#C24A31; padding:12px 18px; border-radius:999px; border:1.5px solid #DD5A3F;">✦ Nouveau sur AlloPetsitter</span>
+        <p style="margin:14px 0 0; font-size:13px; color:#7A4232; line-height:1.5;">Pas un état honteux : identité vérifiée, prêt à recevoir sa première garde.</p>
+      </div>
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:24px; background:#22201C;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#A79F92; margin-bottom:12px;">Interdit</div>
+        <ul style="margin:0; padding-left:18px; font-size:14px; line-height:1.7; color:#E3DBCE;">
+          <li>Score gonflé</li>
+          <li>Faux avis</li>
+          <li>Compteur « N regardent ce profil »</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RÉASSURANCE STRUCTURELLE ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">10 — Réassurance structurelle</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 12px;">Zéro chiffre inventé. Des faits vérifiables.</h2>
+    <p style="font-size: 16px; color: #6B6459; max-width: 58ch; line-height: 1.55; margin: 0 0 30px;">Au lancement, pas de compteurs ni de témoignages. La confiance repose sur des faits.</p>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap:14px;">
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:22px; background:#fff;">
+        <div style="width:38px; height:38px; border-radius:11px; background:#E7F1E9; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:14px;">✓</div>
+        <div style="font-weight:700; font-size:15px; margin-bottom:5px;">Identité vérifiée</div>
+        <div style="font-size:13px; color:#6B6459; line-height:1.5;">Chaque pet sitter passe un contrôle d'identité.</div>
+      </div>
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:22px; background:#fff;">
+        <div style="width:38px; height:38px; border-radius:11px; background:#FBEEE9; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; color:#C24A31; margin-bottom:14px;">0€</div>
+        <div style="font-weight:700; font-size:15px; margin-bottom:5px;">Rien débité d'avance</div>
+        <div style="font-size:13px; color:#6B6459; line-height:1.5;">Aucun débit tant qu'un pet sitter n'a pas accepté.</div>
+      </div>
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:22px; background:#fff;">
+        <div style="width:38px; height:38px; border-radius:11px; background:#F3EDE3; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:13px; color:#423E37; margin-bottom:14px;">§</div>
+        <div style="font-weight:700; font-size:15px; margin-bottom:5px;">Contrat de garde type</div>
+        <div style="font-size:13px; color:#6B6459; line-height:1.5;">Fourni à chaque mise en relation.</div>
+      </div>
+      <div style="border:1px solid #E4DCCF; border-radius:16px; padding:22px; background:#fff;">
+        <div style="width:38px; height:38px; border-radius:11px; background:#F3EDE3; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; color:#22201C; margin-bottom:14px;">3×</div>
+        <div style="font-weight:700; font-size:15px; margin-bottom:5px;">Résiliation en 3 clics</div>
+        <div style="font-size:13px; color:#6B6459; line-height:1.5;">Jamais plus long que l'achat. Affiché, pas caché.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARTES SITTER — CHAT = CHIEN ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">11 — Carte pet sitter · imagerie 50/50</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 30px;">Le chat au même rang que le chien.</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:18px;">
+
+      <!-- Sitter avec score, chat -->
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:18px; overflow:hidden; box-shadow:0 4px 10px rgba(60,40,20,0.05);">
+        <div style="height:150px; overflow:hidden;"><image-slot id="charte-chat" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="rect" placeholder="Photo — chat"></image-slot></div>
+        <div style="padding:18px 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+            <div>
+              <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px;">Camille R.</div>
+              <div style="font-size:13px; color:#8A8175;">Garde à domicile · Paris 11e · 1,2 km</div>
+            </div>
+            <div style="position:relative; width:40px; height:40px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><div style="width:29px; height:29px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">94</div></div>
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap;">
+            <span style="font-size:11.5px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:4px 9px; border-radius:999px;">✓ Vérifiée</span>
+            <span style="font-size:11.5px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:4px 9px; border-radius:999px;">Spécialiste chat</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:14px; border-top:1px solid #EFE7DA;">
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:18px;">25 €<span style="font-size:12px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;"> /nuit</span></span>
+            <span style="font-size:12px; color:#2F7D57; font-weight:700;">reçoit 100 %</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sitter nouveau, chien -->
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:18px; overflow:hidden; box-shadow:0 4px 10px rgba(60,40,20,0.05);">
+        <div style="height:150px; overflow:hidden;"><image-slot id="charte-chien" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="rect" placeholder="Photo — chien"></image-slot></div>
+        <div style="padding:18px 20px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+            <div>
+              <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px;">Malik T.</div>
+              <div style="font-size:13px; color:#8A8175;">Promenades · Lyon 3e · 0,8 km</div>
+            </div>
+            <span style="font-size:11px; font-weight:700; background:#fff; color:#C24A31; padding:6px 10px; border-radius:999px; border:1.5px solid #DD5A3F; flex-shrink:0;">✦ Nouveau</span>
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap;">
+            <span style="font-size:11.5px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:4px 9px; border-radius:999px;">✓ Vérifié</span>
+            <span style="font-size:11.5px; font-weight:700; background:#F3EDE3; color:#423E37; padding:4px 9px; border-radius:999px; border:1px solid #E4DCCF;">Chien</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:14px; border-top:1px solid #EFE7DA;">
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:18px;">18 €<span style="font-size:12px; color:#8A8175; font-family:'Hanken Grotesk'; font-weight:500;"> /promenade</span></span>
+            <span style="font-size:12px; color:#2F7D57; font-weight:700;">reçoit 100 %</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOKENS ============ -->
+  <section id="tokens" style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8175; margin-bottom: 14px;">12 — Tokens exportables</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 30px;">Prêts pour Tailwind.</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap:16px;">
+      <div style="background:#22201C; border-radius:16px; overflow:hidden;">
+        <div style="padding:12px 18px; border-bottom:1px solid #35322B; font-family:'Space Mono'; font-size:11px; color:#A79F92; display:flex; justify-content:space-between;"><span>variables.css</span><span>CSS custom properties</span></div>
+        <pre style="margin:0; padding:20px 18px; font-family:'Space Mono'; font-size:12px; line-height:1.75; color:#E3DBCE; overflow-x:auto;"><span style="color:#8A8175;">:root {</span>
+  --ap-paper:      #FBF8F3;
+  --ap-paper-2:    #F3EDE3;
+  --ap-ink:        #22201C;
+  --ap-ink-soft:   #6B6459;
+  --ap-line:       #E4DCCF;
+  --ap-primary:    <span style="color:#E39A88;">#DD5A3F</span>;
+  --ap-primary-700:<span style="color:#E39A88;">#C24A31</span>;
+  --ap-forest:     #1F4A3D;
+  --ap-green:      <span style="color:#8FCBA6;">#2F7D57</span>;
+  --ap-green-tint: <span style="color:#8FCBA6;">#E7F1E9</span>;
+  --ap-radius:     12px;
+  --ap-radius-lg:  18px;
+<span style="color:#8A8175;">}</span></pre>
+      </div>
+      <div style="background:#22201C; border-radius:16px; overflow:hidden;">
+        <div style="padding:12px 18px; border-bottom:1px solid #35322B; font-family:'Space Mono'; font-size:11px; color:#A79F92; display:flex; justify-content:space-between;"><span>tailwind.config.js</span><span>theme.extend</span></div>
+        <pre style="margin:0; padding:20px 18px; font-family:'Space Mono'; font-size:12px; line-height:1.75; color:#E3DBCE; overflow-x:auto;"><span style="color:#8A8175;">colors: {</span>
+  paper:  { DEFAULT: '#FBF8F3', 2: '#F3EDE3' },
+  ink:    { DEFAULT: '#22201C', soft: '#6B6459' },
+  primary:{ DEFAULT: <span style="color:#E39A88;">'#DD5A3F'</span>, 700: <span style="color:#E39A88;">'#C24A31'</span> },
+  green:  { DEFAULT: <span style="color:#8FCBA6;">'#2F7D57'</span>, tint: <span style="color:#8FCBA6;">'#E7F1E9'</span> },
+  forest: '#1F4A3D',
+  line:   '#E4DCCF',
+<span style="color:#8A8175;">},</span>
+fontFamily: {
+  display: ['Bricolage Grotesque'],
+  sans:    ['Hanken Grotesk'],
+  mono:    ['Space Mono'],
+<span style="color:#8A8175;">},</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHARTE ANTI-DARK-PATTERNS ============ -->
+  <section style="padding: 56px 0; border-top: 1px solid #E9E1D4;">
+    <div style="font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #C24A31; margin-bottom: 14px;">13 — Charte anti-dark-patterns · opposable au design</div>
+    <h2 style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; margin: 0 0 12px;">Si une maquette « convertit mieux » en violant ça, elle est fausse.</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;">
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Compte à rebours artificiel</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Fausse urgence / rareté simulée</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Prix barré fictif</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Case pré-cochée — aucune, jamais</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Résiliation plus longue que l'achat</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Frais découverts au checkout</span>
+      <span style="font-size:14px; font-weight:600; color:#7A4232; background:#FBEEE9; border:1px solid #F0D3C9; padding:10px 16px; border-radius:12px;">✕ Pass converti en abonnement en douce</span>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER LOT A ============ -->
+  <section style="padding: 44px 0 72px; border-top: 1px solid #E9E1D4;">
+    <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="position:relative; width:28px; height:28px; background:#DD5A3F; border-radius:8px 8px 8px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="13" height="13" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:16px;">AlloPetsitter</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-family:'Space Mono'; font-size:11px; color:#1E6B45; background:#E7F1E9; border:1px solid #BEDDC8; padding:6px 12px; border-radius:999px;">LOT A — PUBLIABLE IMMÉDIATEMENT</span>
+        <span style="font-family:'Space Mono'; font-size:11px; color:#8A8175;">Zéro mention assurance · Règle 2 respectée</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1180, &quot;height&quot;: 860}}"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; }
+  a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+</helmet>
+
+<div style="min-height:100%; padding: 30px 16px 48px; background:#EDE6DA;">
+  <div style="max-width: 900px; margin: 0 auto 26px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175; margin-bottom:8px;">Écran de dépôt · le moment de l'empreinte carte · LOT A</div>
+    <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:30px; letter-spacing:-0.02em; margin:0;">« Aucun débit aujourd'hui » — martelé, pas en petites lignes.</h1>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:26px; justify-content:center; align-items:flex-start;">
+
+    <!-- ======= FRAME 1 · DÉPÔT ======= -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">État — dépôt de la demande</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+
+        <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid #EFE7DA;">
+          <span style="font-size:20px; color:#22201C;">←</span>
+          <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Déposer ma demande</span>
+        </div>
+
+        <!-- HERO 0 € -->
+        <div style="margin:18px 20px 0; background:#1F4A3D; border-radius:20px; padding:22px; text-align:center;">
+          <div style="font-family:'Space Mono'; font-weight:700; font-size:56px; line-height:1; color:#fff;">0 €</div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:20px; color:#fff; margin:8px 0 6px;">débité aujourd'hui.</div>
+          <div style="font-size:13.5px; color:#C6DECF; line-height:1.5;">Empreinte carte seulement. Vous serez prélevé <strong style="color:#fff;">uniquement quand un pet sitter accepte</strong> — même si vous déposez des mois à l'avance.</div>
+        </div>
+
+        <!-- RÉCAP -->
+        <div style="padding: 18px 20px 4px;">
+          <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Votre demande</div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:14px; padding:14px 16px;">
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span style="color:#8A8175;">Animal</span><span style="font-weight:600;">Chat · Minette</span></div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span style="color:#8A8175;">Dates</span><span style="font-weight:600;">14 → 17 août · 3 nuits</span></div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span style="color:#8A8175;">Service</span><span style="font-weight:600;">Garde chez le sitter</span></div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span style="color:#8A8175;">Secteur</span><span style="font-weight:600;">Paris 11e</span></div>
+          </div>
+        </div>
+
+        <!-- ESTIMATION / TRANSPARENCE -->
+        <div style="padding: 14px 20px 4px;">
+          <div style="background:#E7F1E9; border:1px solid #BEDDC8; border-radius:14px; padding:14px 16px;">
+            <div style="font-family:'Space Mono'; font-size:10.5px; color:#1E6B45; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Estimation — payée seulement si un sitter accepte</div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:13.5px; color:#1E6B45;"><span>Le pet sitter reçoit <strong>(100 %)</strong></span><span style="font-family:'Space Mono'; font-weight:700;">75 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:13.5px; color:#1E6B45;"><span>Commission sur la garde</span><span style="font-family:'Space Mono'; font-weight:700;">0 €</span></div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:13.5px; color:#1E6B45; border-top:1px dashed #BEDDC8; margin-top:4px;"><span>Mise en relation · Pass Séjour</span><span style="font-family:'Space Mono'; font-weight:700;">39 €</span></div>
+          </div>
+        </div>
+
+        <!-- EMPREINTE CARTE -->
+        <div style="padding: 16px 20px 4px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em;">Empreinte carte</span>
+            <span style="font-size:11px; font-weight:700; color:#1E6B45; background:#E7F1E9; padding:3px 9px; border-radius:999px;">pas de débit</span>
+          </div>
+          <input type="text" placeholder="Numéro de carte" style="width:100%; font-family:'Hanken Grotesk'; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff; margin-bottom:10px;" style-focus="border-color:#DD5A3F; outline:none;">
+          <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <input type="text" placeholder="MM / AA" style="flex:1; font-family:'Hanken Grotesk'; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+            <input type="text" placeholder="CVC" style="flex:1; font-family:'Hanken Grotesk'; font-size:15px; padding:12px 14px; border:1.5px solid #E4DCCF; border-radius:12px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          </div>
+        </div>
+
+        <!-- CONSENT (jamais pré-cochée) -->
+        <div style="padding: 6px 20px 0; display:flex; gap:11px; align-items:flex-start;">
+          <div style="width:22px; height:22px; border:1.5px solid #C9C1B4; border-radius:6px; background:#fff; flex-shrink:0; margin-top:1px;"></div>
+          <span style="font-size:12.5px; color:#6B6459; line-height:1.45;">J'autorise l'empreinte de ma carte. <strong style="color:#22201C;">Le débit n'aura lieu qu'à l'acceptation</strong> d'un pet sitter.</span>
+        </div>
+
+        <!-- CTA -->
+        <div style="padding: 16px 20px 24px;">
+          <button style="width:100%; font-family:'Hanken Grotesk'; font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:16px; border-radius:14px; cursor:pointer;" style-hover="background:#DD5A3F;">Déposer ma demande</button>
+          <div style="text-align:center; font-size:12.5px; color:#8A8175; margin-top:10px;">0 € débité aujourd'hui · aucun frais caché · résiliable à tout moment</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= FRAME 2 · ÉCHEC DÉBIT À L'ACCEPTATION ======= -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">État — débit refusé à l'acceptation (3DS / carte expirée)</div>
+      <div style="width: 402px; max-width:100%; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF;">
+
+        <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid #EFE7DA;">
+          <span style="font-size:20px; color:#22201C;">←</span>
+          <span style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px;">Finaliser votre garde</span>
+        </div>
+
+        <!-- BONNE NOUVELLE -->
+        <div style="margin:18px 20px 0; background:#E7F1E9; border:1px solid #BEDDC8; border-radius:20px; padding:20px;">
+          <div style="display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #BEDDC8; padding:5px 11px; border-radius:999px; margin-bottom:12px;">
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:12px; color:#1E6B45;">✓</span>
+            <span style="font-size:12px; font-weight:700; color:#1E6B45;">Un pet sitter a accepté</span>
+          </div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:20px; color:#1F4A3D; line-height:1.2;">Camille R. peut garder Minette du 14 au 17 août.</div>
+        </div>
+
+        <!-- ACTION REQUISE (pas un échec honteux) -->
+        <div style="padding: 18px 20px 4px;">
+          <div style="background:#fff; border:1.5px solid #DD5A3F; border-radius:16px; padding:18px;">
+            <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:17px; color:#C24A31; margin-bottom:8px;">Une confirmation de votre carte est nécessaire</div>
+            <p style="margin:0 0 14px; font-size:13.5px; color:#423E37; line-height:1.5;">Votre banque demande une validation (3-D Secure), ou votre carte a expiré. <strong style="color:#22201C;">Rien n'est perdu :</strong> la garde de Camille est réservée pendant 24 h, le temps de finaliser.</p>
+            <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:12px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <span style="font-size:13.5px; color:#8A8175;">À prélever maintenant</span>
+              <span style="font-family:'Space Mono'; font-weight:700; font-size:18px;">75 € <span style="font-size:11px; color:#2F7D57; font-weight:700; font-family:'Hanken Grotesk';">au sitter (100 %)</span></span>
+            </div>
+            <button style="width:100%; font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:14px; border-radius:12px; cursor:pointer; margin-bottom:9px;" style-hover="background:#DD5A3F;">Confirmer avec ma banque (3-D Secure)</button>
+            <button style="width:100%; font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; background:#fff; color:#22201C; border:1.5px solid #22201C; padding:13px; border-radius:12px; cursor:pointer;" style-hover="background:#22201C; color:#fff;">Mettre à jour ma carte</button>
+          </div>
+        </div>
+
+        <!-- HOLD / RÉASSURANCE -->
+        <div style="padding: 14px 20px 4px;">
+          <div style="display:flex; gap:11px; align-items:center; background:#22201C; border-radius:14px; padding:14px 16px;">
+            <span style="font-family:'Space Mono'; font-weight:700; font-size:20px; color:#fff;">24h</span>
+            <span style="font-size:12.5px; color:#E3DBCE; line-height:1.4;">Camille reste réservée pour vous. On vous envoie un rappel avant l'expiration — sans pénalité.</span>
+          </div>
+        </div>
+
+        <div style="padding: 14px 20px 26px;">
+          <div style="text-align:center; font-size:12.5px; color:#8A8175; line-height:1.5;">Vous ne voulez plus ? <a href="#" style="font-weight:700;">Annuler sans frais</a> — aucun débit n'a eu lieu.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 1000}}"></script>
+</body>
+</html>

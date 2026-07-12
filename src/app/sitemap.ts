@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/recherche",
     "/notre-modele",
     "/nos-limites",
+    "/charte-qualite",
     "/devenir-pet-sitter",
     "/guides",
   ];
