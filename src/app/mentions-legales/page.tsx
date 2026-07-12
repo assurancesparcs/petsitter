@@ -14,30 +14,41 @@ export const metadata: Metadata = {
 // serait une infraction (PLAN.md, revue juridique A2).
 export default function MentionsLegales() {
   return (
-    <article className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold">Mentions légales</h1>
-      <p className="mt-4 text-ink/80">
-        <strong>Éditeur</strong> : {BRAND} est un projet en cours de lancement,
-        édité par son fondateur (société en cours de constitution). La
-        dénomination sociale, la forme juridique, le numéro
-        d&apos;immatriculation et l&apos;adresse du siège seront publiés ici dès
-        l&apos;immatriculation de la société.
-      </p>
-      <p className="mt-3 text-ink/80">
-        <strong>Contact</strong> :{" "}
-        <a href="mailto:contact@allopetsitter.fr" className="underline">
-          contact@allopetsitter.fr
-        </a>{" "}
-        — données personnelles :{" "}
-        <a href="mailto:rgpd@allopetsitter.fr" className="underline">
-          rgpd@allopetsitter.fr
-        </a>
-      </p>
-      <p className="mt-3 text-ink/80">
-        <strong>Hébergement</strong> : Vercel Inc. (déploiement en région
-        Union européenne). Base de données hébergée dans l&apos;Union
-        européenne.
-      </p>
+    <article className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+      <p className="kicker">Informations légales</p>
+      <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em]">
+        Mentions légales
+      </h1>
+      <div className="mt-8 space-y-4 rounded-[20px] border border-line bg-surface p-6 shadow-panel sm:p-8">
+        <p className="text-body">
+          <strong className="text-ink">Éditeur</strong> : {BRAND} est un projet
+          en cours de lancement, édité par son fondateur (société en cours de
+          constitution). La dénomination sociale, la forme juridique, le numéro
+          d&apos;immatriculation et l&apos;adresse du siège seront publiés ici
+          dès l&apos;immatriculation de la société.
+        </p>
+        <p className="text-body">
+          <strong className="text-ink">Contact</strong> :{" "}
+          <a
+            href="mailto:contact@allopetsitter.fr"
+            className="underline hover:text-primary"
+          >
+            contact@allopetsitter.fr
+          </a>{" "}
+          — données personnelles :{" "}
+          <a
+            href="mailto:rgpd@allopetsitter.fr"
+            className="underline hover:text-primary"
+          >
+            rgpd@allopetsitter.fr
+          </a>
+        </p>
+        <p className="text-body">
+          <strong className="text-ink">Hébergement</strong> : Vercel Inc.
+          (déploiement en région Union européenne). Base de données hébergée
+          dans l&apos;Union européenne.
+        </p>
+      </div>
     </article>
   );
 }

@@ -1,54 +1,55 @@
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-line bg-white">
-      <div className="mx-auto grid max-w-5xl gap-8 px-4 py-10 text-sm sm:grid-cols-3">
+    <footer className="mt-20 border-t border-line bg-surface-2">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-3 sm:px-8">
         <div>
-          <p className="font-bold text-primary">{BRAND}</p>
-          <p className="mt-2 text-ink/70">
-            Plateforme de mise en relation entre propriétaires d&apos;animaux et
-            pet sitters indépendants, partout en France.
+          <Logo size={28} />
+          <p className="mt-3 max-w-xs text-sm text-muted">
+            Mise en relation entre propriétaires d&apos;animaux et pet sitters
+            indépendants, partout en France. Nous vous aidons à trouver la bonne
+            personne.
           </p>
         </div>
-        <div className="space-y-2">
-          <p className="font-semibold">Transparence</p>
+        <div className="space-y-2 text-sm">
+          <p className="kicker">Transparence</p>
           <p>
-            <Link href="/notre-modele" className="hover:text-primary">
+            <Link href="/notre-modele" className="text-body hover:text-primary">
               Comment nous gagnons notre argent
             </Link>
           </p>
           <p>
-            <Link href="/nos-limites" className="hover:text-primary">
+            <Link href="/nos-limites" className="text-body hover:text-primary">
               Ce que nous ne faisons pas
             </Link>
           </p>
           <p>
-            <Link href="/guides" className="hover:text-primary">
+            <Link href="/guides" className="text-body hover:text-primary">
               Guides pratiques
             </Link>
           </p>
           <p>
-            <Link href="/resilier" className="hover:text-primary">
+            <Link href="/resilier" className="text-body hover:text-primary">
               Résilier son abonnement
             </Link>
           </p>
         </div>
-        <div className="space-y-2">
-          <p className="font-semibold">Informations légales</p>
+        <div className="space-y-2 text-sm">
+          <p className="kicker">Informations légales</p>
           <p>
-            <Link href="/mentions-legales" className="hover:text-primary">
+            <Link href="/mentions-legales" className="text-body hover:text-primary">
               Mentions légales
             </Link>
           </p>
           <p>
-            <Link href="/confidentialite" className="hover:text-primary">
+            <Link href="/confidentialite" className="text-body hover:text-primary">
               Confidentialité
             </Link>
           </p>
           <p>
-            <Link href="/cgu" className="hover:text-primary">
+            <Link href="/cgu" className="text-body hover:text-primary">
               CGU
             </Link>
           </p>

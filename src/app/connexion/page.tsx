@@ -43,45 +43,53 @@ export default async function Connexion({
     : null;
 
   return (
-    <div className="mx-auto max-w-md px-4 py-16">
-      <h1 className="text-3xl font-bold">Connexion</h1>
-      <p className="mt-4 text-ink/80">
+    <div className="mx-auto max-w-md px-4 py-16 sm:py-20">
+      <p className="kicker">Connexion</p>
+      <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em]">
+        Accédez à votre espace
+      </h1>
+      <p className="mt-4 text-body">
         Recevez un lien de connexion par e-mail — pas de mot de passe à
         retenir. Première visite ? Le même lien crée votre compte {BRAND}.
       </p>
 
-      {messageErreur && (
-        <p
-          role="alert"
-          className="mt-6 rounded-2xl border border-line bg-accent-soft p-4 text-sm text-ink"
-        >
-          {messageErreur}
-        </p>
-      )}
+      <div className="mt-8 rounded-[20px] border border-line bg-surface p-6 shadow-panel sm:p-8">
+        {messageErreur && (
+          <p
+            role="alert"
+            className="mb-6 rounded-[12px] border border-primary-border bg-primary-tint p-4 text-sm text-body"
+          >
+            {messageErreur}
+          </p>
+        )}
 
-      <form action={demanderLienConnexion} className="mt-8">
-        <label htmlFor="email" className="block text-sm font-medium">
-          Votre adresse e-mail
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          maxLength={254}
-          placeholder="vous@exemple.fr"
-          className="mt-2 w-full rounded-full border border-line bg-white px-4 py-3 text-sm outline-none focus:border-primary"
-        />
-        <button
-          type="submit"
-          className="mt-4 w-full rounded-full bg-primary px-4 py-3 font-medium text-white hover:bg-primary-dark"
-        >
-          Recevoir mon lien de connexion
-        </button>
-      </form>
+        <form action={demanderLienConnexion}>
+          <label
+            htmlFor="email"
+            className="block text-sm font-semibold text-ink"
+          >
+            Votre adresse e-mail
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            maxLength={254}
+            placeholder="vous@exemple.fr"
+            className="mt-2 w-full rounded-[12px] border border-line bg-cream px-4 py-3 text-sm text-body outline-none transition-colors focus:border-primary"
+          />
+          <button
+            type="submit"
+            className="mt-4 w-full rounded-[14px] bg-primary px-4 py-3 font-semibold text-surface transition-colors hover:bg-primary-dark"
+          >
+            Recevoir mon lien de connexion
+          </button>
+        </form>
+      </div>
 
-      <p className="mt-6 text-xs text-ink/60">
+      <p className="mt-6 text-xs text-muted">
         Le lien est valable 24&nbsp;h et ne sert qu&apos;une fois. Votre adresse
         e-mail sert uniquement à vous connecter —{" "}
         <a href="/confidentialite" className="underline hover:text-primary">

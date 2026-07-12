@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 
@@ -10,72 +11,177 @@ export const metadata: Metadata = {
 
 export default function NotreModele() {
   return (
-    <article className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold">
-        Comment {BRAND} gagne son argent
-      </h1>
-      <p className="mt-4 text-lg text-ink/80">
-        La transparence n&apos;est pas un slogan ici, c&apos;est une page
-        publique. Voici toutes nos sources de revenus — il n&apos;y en a pas
-        d&apos;autres.
-      </p>
+    <article className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
+      {/* En-tête — page de marque, pas page légale */}
+      <header className="max-w-2xl">
+        <p className="kicker">Notre modèle · ligne par ligne</p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-[-0.02em] text-ink sm:text-5xl">
+          Comment {BRAND} gagne son argent
+        </h1>
+        <p className="mt-4 text-lg text-body">
+          La transparence n&apos;est pas un slogan ici, c&apos;est une page
+          publique. Si vous ne comprenez pas comment nous gagnons notre vie,
+          vous avez raison de vous méfier — alors voici toutes nos sources de
+          revenus, sans détour. Il n&apos;y en a pas d&apos;autres.
+        </p>
+      </header>
 
-      <h2 className="mt-10 text-xl font-bold">
-        1. Ce que nous ne prenons jamais : une commission sur la garde
-      </h2>
-      <p className="mt-3 text-ink/80">
-        Le pet sitter fixe librement son tarif et il est payé directement par
-        vous. {BRAND} ne touche pas un centime sur ce montant, ne le majore
-        pas, n&apos;y ajoute aucun « frais de service ». Sur chaque fiche de
-        pet sitter, un bloc l&apos;affichera noir sur blanc : vous versez X €,
-        le pet sitter reçoit X € (100 %), commission {BRAND} : 0 €.
-      </p>
+      {/* Résumé chiffré — les trois lignes qui disent tout */}
+      <section className="mt-10 grid gap-4 sm:grid-cols-3">
+        <div className="rounded-[20px] border border-forest-border bg-forest-tint p-6">
+          <p className="font-mono text-4xl font-bold text-success">100 %</p>
+          <p className="mt-4 font-semibold text-ink">
+            La garde revient au pet sitter
+          </p>
+          <p className="mt-2 text-sm text-forest-text">
+            Nous ne prélevons aucune commission dessus. Jamais.
+          </p>
+        </div>
+        <div className="rounded-[20px] border border-primary bg-surface p-6">
+          <p className="font-mono text-4xl font-bold text-primary-dark">39 €</p>
+          <p className="mt-4 font-semibold text-ink">La mise en relation</p>
+          <p className="mt-2 text-sm text-body">
+            Notre seul revenu : un Pass ou l&apos;abonnement, prélevé au client,
+            uniquement si un pet sitter accepte.
+          </p>
+        </div>
+        <div className="rounded-[20px] border border-line bg-surface p-6">
+          <p className="font-mono text-4xl font-bold text-faint">0 €</p>
+          <p className="mt-4 font-semibold text-ink">Côté pet sitter</p>
+          <p className="mt-2 text-sm text-body">
+            Inscription et présence sur la plateforme gratuites, à vie.
+          </p>
+        </div>
+      </section>
 
-      <h2 className="mt-10 text-xl font-bold">
-        2. Ce que vous nous payez : la mise en relation
-      </h2>
-      <p className="mt-3 text-ink/80">
-        Vous ne payez que lorsqu&apos;un pet sitter a accepté votre garde —
-        jamais avant. Ce que ce paiement couvre : la mise en relation avec un
-        pet sitter qui a déjà dit oui, les avis vérifiés, un contrat de garde
-        type entre vous et lui, une recherche prioritaire de remplaçant en cas
-        d&apos;annulation, et le support.
-      </p>
-      <ul className="mt-4 space-y-2 rounded-2xl border border-line bg-white p-6 text-sm">
-        {Object.values(PRICING).map((p) => (
-          <li key={p.label}>
-            <span className="font-semibold">{p.label}</span> — {p.price} (
-            {p.unit}) : {p.detail}
-          </li>
-        ))}
-      </ul>
-      <p className="mt-3 text-sm text-ink/70">
-        Sans engagement. Pas de reconduction piégeuse : rappel avant chaque
-        prélèvement, pause possible, résiliation en 3 clics depuis la page{" "}
-        <a href="/resilier" className="underline">
-          Résilier
-        </a>
+      {/* 1. Aucune commission sur la garde */}
+      <section className="mt-14">
+        <p className="kicker">01 · Ce que nous ne prenons jamais</p>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.02em] text-ink">
+          Une commission sur la garde
+        </h2>
+        <div className="mt-4 rounded-[20px] border border-line bg-surface p-6">
+          <p className="text-body">
+            Le pet sitter fixe librement son tarif et il est payé directement
+            par vous. {BRAND} ne touche pas un centime sur ce montant, ne le
+            majore pas, n&apos;y ajoute aucun « frais de service ». Sur chaque
+            fiche de pet sitter, un bloc l&apos;affichera noir sur blanc :
+          </p>
+          {/* Bloc de transparence — l'objet le plus important de l'identité */}
+          <div className="mt-5 grid gap-px overflow-hidden rounded-[14px] border border-forest-border bg-forest-border sm:grid-cols-3">
+            <div className="bg-surface p-4 text-center">
+              <p className="kicker">Vous versez</p>
+              <p className="mt-1 font-mono text-2xl font-bold text-forest-text">
+                X €
+              </p>
+            </div>
+            <div className="bg-surface p-4 text-center">
+              <p className="kicker">Le pet sitter reçoit</p>
+              <p className="mt-1 font-mono text-2xl font-bold text-success">
+                X €
+              </p>
+              <p className="font-mono text-xs font-bold text-success">100 %</p>
+            </div>
+            <div className="bg-surface p-4 text-center">
+              <p className="kicker">Commission {BRAND}</p>
+              <p className="mt-1 font-mono text-2xl font-bold text-forest-text">
+                0 €
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Ce que couvre la mise en relation + grille PRICING */}
+      <section className="mt-14">
+        <p className="kicker">02 · Ce que vous nous payez</p>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.02em] text-ink">
+          La mise en relation
+        </h2>
+        <p className="mt-4 max-w-2xl text-body">
+          Vous ne payez que lorsqu&apos;un pet sitter a accepté votre garde —
+          jamais avant. Ce que ce paiement couvre : la mise en relation avec un
+          pet sitter qui a déjà dit oui, les avis vérifiés, un contrat de garde
+          type entre vous et lui, une recherche prioritaire de remplaçant en cas
+          d&apos;annulation, et le support.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          {Object.values(PRICING).map((p) => (
+            <div
+              key={p.label}
+              className="rounded-[20px] border border-line bg-surface p-6"
+            >
+              <h3 className="font-semibold text-ink">{p.label}</h3>
+              <p className="mt-2 font-mono text-3xl font-bold text-primary-dark">
+                {p.price}
+              </p>
+              <p className="text-sm text-faint">{p.unit}</p>
+              <p className="mt-3 text-sm text-body">{p.detail}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-muted">
+          Sans engagement. Pas de reconduction piégeuse : rappel avant chaque
+          prélèvement, pause possible, résiliation en 3 clics depuis la page{" "}
+          <Link href="/resilier" className="font-semibold text-primary underline">
+            Résilier
+          </Link>
+          .
+        </p>
+      </section>
+
+      {/* 3. Et c'est tout — pour l'instant */}
+      <section className="mt-14">
+        <p className="kicker">03 · Et c&apos;est tout</p>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.02em] text-ink">
+          Pour l&apos;instant
+        </h2>
+        <div className="mt-4 rounded-[14px] border border-dashed border-line-faint bg-surface-2 p-6">
+          <p className="text-body">
+            D&apos;autres services optionnels pourront exister demain. Le jour où
+            ils existeront, ils seront expliqués ici, sur cette page, avec leur
+            prix et ce que {BRAND} y gagne — avant leur lancement, pas après.
+            Cette page est datée et son historique de modifications sera public.
+          </p>
+        </div>
+      </section>
+
+      {/* Ce que nous nous interdisons — section sombre = bg-forest */}
+      <section className="mt-14 rounded-[20px] bg-forest p-8 sm:p-10">
+        <p className="font-mono text-xs uppercase tracking-[0.1em] text-on-forest">
+          Nos engagements, aussi visibles que nos prix
+        </p>
+        <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.02em] text-surface">
+          Ce que nous nous interdisons
+        </h2>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+          {[
+            "Débiter quoi que ce soit avant l'acceptation d'un pet sitter",
+            "Un engagement minimum ou une reconduction tacite cachée",
+            "Des frais découverts au moment de payer",
+            "De faux avis, de faux compteurs, une fausse urgence",
+            "Vendre ou transmettre vos coordonnées sans votre consentement explicite",
+          ].map((item) => (
+            <li
+              key={item}
+              className="flex gap-3 rounded-[14px] bg-surface/5 p-4 text-on-forest"
+            >
+              <span aria-hidden className="font-bold text-surface">
+                ✕
+              </span>
+              <span className="text-sm leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <p className="mt-10 text-sm text-muted">
+        Une promesse n&apos;est honnête que si ses limites sont écrites à côté.{" "}
+        <Link href="/nos-limites" className="font-semibold text-primary underline">
+          Voir ce que {BRAND} ne fait pas
+        </Link>
         .
       </p>
-
-      <h2 className="mt-10 text-xl font-bold">3. Et c&apos;est tout — pour l&apos;instant</h2>
-      <p className="mt-3 text-ink/80">
-        D&apos;autres services optionnels pourront exister demain. Le jour où
-        ils existeront, ils seront expliqués ici, sur cette page, avec leur
-        prix et ce que {BRAND} y gagne — avant leur lancement, pas après.
-        Cette page est datée et son historique de modifications sera public.
-      </p>
-
-      <h2 className="mt-10 text-xl font-bold">
-        Ce que nous nous interdisons
-      </h2>
-      <ul className="mt-3 list-disc space-y-1 pl-6 text-ink/80">
-        <li>Débiter quoi que ce soit avant l&apos;acceptation d&apos;un pet sitter</li>
-        <li>Un engagement minimum ou une reconduction tacite cachée</li>
-        <li>Des frais découverts au moment de payer</li>
-        <li>De faux avis, de faux compteurs, une fausse urgence</li>
-        <li>Vendre ou transmettre vos coordonnées sans votre consentement explicite</li>
-      </ul>
     </article>
   );
 }

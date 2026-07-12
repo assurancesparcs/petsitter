@@ -34,37 +34,47 @@ export function WaitlistForm() {
   }
 
   if (state === "ok") {
-    return <p className="mt-4 font-semibold">{message}</p>;
+    return (
+      <div className="mt-5 rounded-[12px] border border-forest-border bg-forest-tint p-4">
+        <p className="font-semibold text-forest-text">{message}</p>
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-3 sm:flex-row">
+    <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-3">
       <input
         type="email"
         name="email"
         required
         placeholder="Votre e-mail"
-        className="flex-1 rounded-full px-4 py-2 text-ink"
+        className="w-full rounded-[12px] border-[1.5px] border-line bg-cream px-4 py-3 text-ink placeholder:text-faint focus:border-primary focus:outline-none"
         aria-label="Votre e-mail"
       />
       <input
         type="text"
         name="postalCode"
         required
+        inputMode="numeric"
         pattern="[0-9]{5}"
         placeholder="Code postal"
-        className="w-full rounded-full px-4 py-2 text-ink sm:w-36"
+        className="w-full rounded-[12px] border-[1.5px] border-line bg-cream px-4 py-3 text-ink placeholder:text-faint focus:border-primary focus:outline-none"
         aria-label="Votre code postal"
       />
       <button
         type="submit"
         disabled={state === "loading"}
-        className="rounded-full bg-accent px-6 py-2 font-semibold text-ink disabled:opacity-60"
+        className="w-full rounded-[14px] bg-primary px-6 py-3.5 text-[17px] font-bold text-surface transition-colors hover:bg-primary-dark disabled:opacity-60"
       >
-        {state === "loading" ? "Envoi…" : "Être prévenu"}
+        {state === "loading" ? "Envoi…" : "Rejoindre la liste"}
       </button>
+      <p className="text-center text-xs text-faint">
+        Gratuit · sans engagement · aucune case pré-cochée
+      </p>
       {state === "error" && (
-        <p className="text-sm text-red-200 sm:w-full">{message}</p>
+        <p className="text-center text-sm font-semibold text-primary-dark">
+          {message}
+        </p>
       )}
     </form>
   );

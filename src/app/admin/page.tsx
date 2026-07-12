@@ -48,7 +48,7 @@ export default async function Admin() {
       </div>
 
       {tests > 0 && (
-        <p className="mt-4 rounded-lg bg-accent-soft px-4 py-2 text-sm">
+        <p className="mt-4 rounded-lg bg-primary-tint px-4 py-2 text-sm">
           {tests} enregistrement(s) de test présent(s) (audits de sécurité) —
           exclus du compte ci-dessus, à purger.
         </p>

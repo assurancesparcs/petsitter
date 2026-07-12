@@ -42,53 +42,83 @@ export default async function GuidePage({
   };
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-12">
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <p className="text-sm text-ink/50">
-        <Link href="/guides" className="hover:text-primary">
-          Guides
-        </Link>{" "}
-        ·{" "}
-        {new Date(g.updated).toLocaleDateString("fr-FR", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })}
-      </p>
-      <h1 className="mt-2 text-3xl font-bold">{g.title}</h1>
 
-      <div className="mt-6 space-y-5">
-        {g.body.map((block, i) => (
-          <div key={i}>
-            {block.h && (
-              <h2 className="text-xl font-bold text-primary">{block.h}</h2>
-            )}
-            {block.p && <p className="mt-2 text-ink/85">{block.p}</p>}
-            {block.ul && (
-              <ul className="mt-2 list-disc space-y-1 pl-6 text-ink/85">
-                {block.ul.map((li, j) => (
-                  <li key={j}>{li}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
+      {/* Bandeau de couverture ----------------------------------------- */}
+      <header className="bg-forest">
+        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+          <p className="font-mono text-xs uppercase tracking-[0.1em] text-on-forest">
+            <Link href="/guides" className="text-on-forest hover:text-surface">
+              Guides
+            </Link>{" "}
+            ·{" "}
+            {new Date(g.updated).toLocaleDateString("fr-FR", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+          <h1 className="mt-3 text-3xl font-extrabold leading-[1.08] tracking-[-0.02em] text-surface sm:text-4xl">
+            {g.title}
+          </h1>
+          <p className="mt-3 max-w-[56ch] text-[15px] leading-relaxed text-on-forest">
+            {g.description}
+          </p>
+        </div>
+      </header>
 
-      <div className="mt-10 rounded-2xl bg-primary p-6 text-white">
-        <p className="font-semibold">
-          Prêt à trouver un pet sitter près de chez vous ?
-        </p>
-        <Link
-          href="/recherche"
-          className="mt-3 inline-block rounded-full bg-white px-5 py-2 font-semibold text-primary"
-        >
-          Lancer une recherche
-        </Link>
-      </div>
-    </article>
+      {/* Corps de l'article -------------------------------------------- */}
+      <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        <div className="space-y-6">
+          {g.body.map((block, i) => (
+            <div key={i}>
+              {block.h && (
+                <h2 className="font-display text-xl font-bold text-ink">
+                  {block.h}
+                </h2>
+              )}
+              {block.p && (
+                <p className="mt-2 text-[17px] leading-relaxed text-body">
+                  {block.p}
+                </p>
+              )}
+              {block.ul && (
+                <ul className="mt-3 space-y-2">
+                  {block.ul.map((li, j) => (
+                    <li key={j} className="flex gap-3 text-[17px] leading-relaxed text-body">
+                      <span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{li}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Rappel transparence */}
+        <div className="mt-10 rounded-[16px] border border-forest-border bg-forest-tint p-5 text-[15px] leading-relaxed text-forest-text">
+          Rappel : vous ne payez que si un pet sitter accepte votre garde. 0 €
+          tant que personne n&apos;a dit oui.
+        </div>
+
+        {/* CTA recherche */}
+        <div className="mt-6 flex flex-col gap-5 rounded-[20px] bg-primary p-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-display text-xl font-bold text-surface">
+            Prêt à trouver un pet sitter près de chez vous ?
+          </p>
+          <Link
+            href="/recherche"
+            className="inline-flex shrink-0 items-center justify-center rounded-[14px] bg-surface px-6 py-3 font-bold text-primary-dark transition-colors hover:bg-cream"
+          >
+            Lancer une recherche
+          </Link>
+        </div>
+      </article>
+    </div>
   );
 }

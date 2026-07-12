@@ -1,28 +1,81 @@
 @import "tailwindcss";
 
 /*
- * Design tokens provisoires (P1) — seront remplacés par les tokens officiels
- * livrés par Claude Design (brief v3, Mission 1). Registre : chaleureux mais
- * adulte, contrastes AA minimum.
+ * Design system AlloPetsitter — tokens issus de la charte Claude Design.
+ * Source unique de la palette : ne jamais écrire une couleur en dur ailleurs.
+ * Familles : neutres chauds · rouge « Allo » (vermillon) · vert transparence.
  */
 @theme {
-  --color-cream: #faf7f2;
-  --color-ink: #1f2a2e;
-  --color-primary: #16575a; /* vert profond — confiance */
-  --color-primary-dark: #0e3f42;
-  --color-accent: #e8a13d; /* ambre — chaleur, à dose mesurée */
-  --color-accent-soft: #fdf3e3;
-  --color-line: #e5ded2;
+  /* Fonds & surfaces */
+  --color-cream: #ede6da; /* page / canvas */
+  --color-surface: #fbf8f3; /* carte */
+  --color-surface-2: #f3ede3; /* surface secondaire / footer */
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  /* Encre & texte */
+  --color-ink: #22201c; /* titres, fonds sombres */
+  --color-body: #423e37;
+  --color-muted: #6b6459;
+  --color-faint: #8a8175;
 
-  --radius-card: 1rem;
+  /* Primaire — Vermillon « Allo » (CTA, accents) */
+  --color-primary: #dd5a3f;
+  --color-primary-dark: #c24a31;
+  --color-primary-deep: #7a2e1c;
+  --color-primary-tint: #fbeee9;
+  --color-primary-tint-warm: #fbf3ee;
+  --color-primary-border: #f0d3c9;
+
+  /* Vert forêt — confiance, transparence, succès */
+  --color-forest: #1f4a3d;
+  --color-success: #2f7d57;
+  --color-forest-text: #1e6b45;
+  --color-forest-tint: #e7f1e9;
+  --color-forest-border: #beddc8;
+  --color-on-forest: #c6decf;
+
+  /* Neutres / bordures */
+  --color-line: #e4dccf;
+  --color-line-2: #efe7da;
+  --color-line-faint: #c9c1b4;
+
+  /* Alerte (LOT B « NE PAS PUBLIER ») */
+  --color-danger: #7a1e10;
+
+  /* Typographies (chargées via next/font dans layout.tsx) */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
+
+  /* Rayons */
+  --radius-field: 12px;
+  --radius-btn: 14px;
+  --radius-card: 20px;
+  --radius-sheet: 30px;
+
+  /* Ombres */
+  --shadow-card: 0 20px 60px rgba(60, 40, 20, 0.16);
+  --shadow-panel: 0 12px 36px rgba(60, 40, 20, 0.08);
+  --shadow-search: 0 16px 44px rgba(60, 40, 20, 0.1);
 }
 
 body {
   background: var(--color-cream);
-  color: var(--color-ink);
+  color: var(--color-body);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+}
+
+/* Kicker mono (prix, scores, mentions) */
+.kicker {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--color-muted);
 }

@@ -34,73 +34,127 @@ export default async function Recherche({
     : [];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-bold">Trouver un pet sitter</h1>
-      <p className="mt-2 text-ink/70">
-        Indiquez votre code postal : nous cherchons les pet sitters disponibles
-        autour de vous. Vous ne payez que si l&apos;un d&apos;eux accepte votre
-        garde.
-      </p>
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
+      {/* En-tête — vocabulaire de mise en relation, aucun coût caché */}
+      <div className="max-w-2xl">
+        <p className="kicker">Recherche</p>
+        <h1 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">
+          Trouvez la bonne personne pour garder votre animal
+        </h1>
+        <p className="mt-3 text-lg text-muted">
+          Indiquez votre code postal : nous vous aidons à trouver un pet sitter
+          disponible autour de vous. Vous ne réglez la mise en relation que si
+          l&apos;un d&apos;eux accepte votre garde — aucun débit avant.
+        </p>
+        <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-forest-border bg-forest-tint px-4 py-1.5 text-sm font-semibold text-forest-text">
+          <span aria-hidden>✓</span>
+          Chaque pet sitter reçoit 100 % de ce que vous lui versez
+        </p>
+      </div>
 
-      <div className="mt-6">
+      <div className="mt-7">
         <SearchForm
           defaults={{ cp, service, species, rayon: String(rayon) }}
         />
       </div>
 
       {hasQuery && !origin && (
-        <p className="mt-8 rounded-2xl border border-line bg-white p-6 text-ink/80">
-          Code postal <strong>{cp}</strong> introuvable. Vérifiez la saisie.
-        </p>
+        <div className="mt-8 rounded-[20px] border border-primary-border bg-primary-tint p-6">
+          <p className="text-body">
+            Code postal <strong className="font-mono">{cp}</strong> introuvable.
+            Vérifiez la saisie et réessayez.
+          </p>
+        </div>
       )}
 
       {origin && (
-        <section className="mt-8">
-          <h2 className="text-xl font-bold">
-            {serviceLabel(service)} · {speciesLabel(species)} — autour de{" "}
-            {origin.commune.nom} ({cp})
-          </h2>
-          <p className="mt-1 text-sm text-ink/60">
-            Zone de recherche : {zone.length} commune
+        <section className="mt-10">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-xl font-bold sm:text-2xl">
+              {serviceLabel(service)} · {speciesLabel(species)}
+            </h2>
+            <span className="kicker">
+              Autour de {origin.commune.nom} ({cp})
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-muted">
+            Zone explorée : {zone.length} commune
             {zone.length > 1 ? "s" : ""} dans un rayon de {rayon} km.
           </p>
 
           {/* Aucun pet sitter inscrit tant que les inscriptions ne sont pas
-              ouvertes (P2) → état « zone en ouverture » : on propose l'alerte
-              plutôt qu'un résultat vide (garde-fou anti-liquidité, PLAN §5). */}
-          <div className="mt-6 rounded-2xl border border-line bg-accent-soft p-6">
-            <h3 className="font-semibold">
-              Les inscriptions de pet sitters ouvrent bientôt près de chez vous
-            </h3>
-            <p className="mt-2 text-sm text-ink/80">
-              Aucun pet sitter n&apos;est encore inscrit dans cette zone. Laissez
-              votre e-mail : vous serez prévenu dès qu&apos;un pet sitter est
-              disponible autour de {origin.commune.nom}.
-            </p>
-            <Link
-              href="/devenir-pet-sitter"
-              className="mt-4 inline-block text-sm font-semibold text-primary underline"
-            >
-              Vous êtes pet sitter ? Rejoignez la liste d&apos;attente →
-            </Link>
+              ouvertes (P2) → état « zone en ouverture » : on propose la liste
+              d'attente plutôt qu'un résultat vide (garde-fou anti-liquidité,
+              PLAN §5). Aucun profil, avis ou score inventé. */}
+          <div className="mt-6 overflow-hidden rounded-[20px] border border-line bg-surface">
+            <div className="border-b border-line-2 bg-forest p-6 sm:p-8">
+              <p className="kicker text-on-forest">Zone en cours d&apos;ouverture</p>
+              <h3 className="mt-2 text-xl font-bold text-surface sm:text-2xl">
+                Les inscriptions de pet sitters ouvrent bientôt près de chez vous
+              </h3>
+              <p className="mt-3 max-w-xl text-on-forest">
+                Aucun pet sitter n&apos;est encore inscrit autour de{" "}
+                {origin.commune.nom}. Dès qu&apos;un profil est disponible dans
+                votre zone, vous pourrez lancer une demande — sans débit tant
+                qu&apos;elle n&apos;est pas acceptée.
+              </p>
+              <Link
+                href="/devenir-pet-sitter"
+                className="mt-5 inline-flex rounded-[14px] bg-primary px-6 py-3 font-bold text-surface transition-colors hover:bg-primary-dark"
+              >
+                Vous gardez des animaux ? Rejoindre la liste d&apos;attente
+              </Link>
+            </div>
+
+            {/* Aperçu de l'expérience à venir — emplacements neutres, sans
+                identité ni note fictive (interdiction stricte des faux profils). */}
+            <div className="p-6 sm:p-8">
+              <p className="kicker mb-4">À quoi ressembleront les résultats</p>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    aria-hidden
+                    className="overflow-hidden rounded-[16px] border border-dashed border-line bg-cream/60"
+                  >
+                    <div className="h-28 bg-surface-2" />
+                    <div className="space-y-2 p-4">
+                      <div className="h-4 w-2/3 rounded-full bg-surface-2" />
+                      <div className="h-3 w-1/2 rounded-full bg-surface-2" />
+                      <div className="mt-3 flex items-center justify-between border-t border-line-2 pt-3">
+                        <div className="h-4 w-14 rounded-full bg-surface-2" />
+                        <span className="font-mono text-xs font-bold text-forest-text">
+                          reçoit 100 %
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-sm text-faint">
+                Profil vérifié, tarif fixé librement par le pet sitter, et une
+                rencontre préalable avant toute garde.
+              </p>
+            </div>
           </div>
 
           {zone.length > 0 && (
-            <details className="mt-6 text-sm text-ink/70">
-              <summary className="cursor-pointer font-medium">
+            <details className="mt-6 rounded-[16px] border border-line bg-surface p-5 text-sm text-muted">
+              <summary className="cursor-pointer font-semibold text-body">
                 Communes couvertes par cette recherche
               </summary>
-              <ul className="mt-3 grid gap-1 sm:grid-cols-2">
+              <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
                 {zone.slice(0, 60).map((c) => (
-                  <li key={c.code}>
-                    {c.nom} — {c.distanceKm} km
+                  <li key={c.code} className="flex justify-between gap-2">
+                    <span>{c.nom}</span>
+                    <span className="font-mono text-xs text-faint">
+                      {c.distanceKm} km
+                    </span>
                   </li>
                 ))}
               </ul>
               {zone.length > 60 && (
-                <p className="mt-2 text-ink/50">
-                  … et {zone.length - 60} autres.
-                </p>
+                <p className="mt-3 text-faint">… et {zone.length - 60} autres.</p>
               )}
             </details>
           )}
