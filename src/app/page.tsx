@@ -23,6 +23,28 @@ export default function Home() {
           Vous ne payez que si un pet sitter accepte votre garde. Aucun débit
           avant.
         </p>
+
+        {/* Recherche par code postal → /recherche */}
+        <form
+          method="GET"
+          action="/recherche"
+          className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+        >
+          <input
+            name="cp"
+            required
+            pattern="[0-9]{5}"
+            placeholder="Votre code postal"
+            aria-label="Votre code postal"
+            className="flex-1 rounded-full border border-line bg-white px-5 py-3"
+          />
+          <button
+            type="submit"
+            className="rounded-full bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark"
+          >
+            Chercher un pet sitter
+          </button>
+        </form>
       </section>
 
       {/* Comment ça marche */}
