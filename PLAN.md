@@ -1,8 +1,9 @@
 # PLAN.md — PROJET_PATTE (nom de code, marque non arbitrée : `[MARQUE]`)
-### Phase P0 — Plan avant code. Version 1.1 — Juillet 2026.
+### Phase P0 — Plan avant code. Version 1.2 — Juillet 2026.
 **Statut : EN ATTENTE DE VALIDATION. Aucune ligne de code ne sera écrite avant votre accord explicite.**
 
 > **v1.1** : ce plan a été soumis à une revue croisée par 4 agents experts indépendants (CEO marketplace · juriste assurance/consommation/plateformes · CTO · CMO growth/SEO). Leurs amendements sont intégrés ci-dessous ; les 3 corrections les plus importantes sont résumées au §8.
+> **v1.2** : ajout du §9 « La transparence comme produit » (validé par le fondateur) — les preuves de transparence anti-arnaque et la 3ᵉ ligne de revenus « Boîte à outils Sitter Pro ». Écartés à ce stade, sur décision du fondateur : l'assistant crédit d'impôt et l'affiliation étiquetée.
 
 ---
 
@@ -149,7 +150,7 @@ projet-patte/
 | **P0 — Plan** | Ce document. | **Votre validation écrite** + réponses aux questions 1-5 et 14 a minima | — |
 | **P1 — Fondations & rampe SEO** | Dépôt neuf, stack, `schema.prisma` complet (**marketplace + assurance + états v1.1**), Auth.js, design system, layout, constante `[MARQUE]`, flag `insurance_live`, lint lexical CI étendu ; **domaine posé + Search Console + Plausible + funnel events** ; **home, `/notre-modele`, landing sitter avec waitlist (e-mail + CP + services) indexables** — sans mention RC Pro tant que Q3 non signée ; pages légales (médiateur en cours d'adhésion, zéro mention ORIAS) ; **AIPD + registre art. 30** | Squelette **indexable** déployé ; CI verte avec lint bloquant ; waitlist sitter ouverte ; AIPD rédigée | ~2-3 sem |
 | **P2 — Cœur marketplace & contenu** | Profils sitter (filtre bios/photos), tarifs libres, calendrier + règle 14 j, recherche géo, demandes (+ **`recurring_requests`** au schéma), candidatures cadrées, échange structuré hold-and-release, anonymisation stricte, avis conformes D111-16+, collecte DAC7 au premier seuil ; **conversion de la waitlist en inscriptions réelles** ; **8-12 articles piliers du hub de contenu** (chiffres sourcés uniquement ; passerelle assurance activée plus tard par le flag) | Parcours de bout en bout sans paiement réel, zéro fuite de coordonnées ; premiers contenus indexés | ~4-5 sem |
-| **P3 — Monétisation & confiance** | **Stripe 2 modes** (manual capture borné ≤ 6 j + SetupIntent/off-session selon Q14), machine à états paiements + `request_events`, **checkout avec recueil rétractation L221-18** (case non pré-cochée d'exécution immédiate + renonciation), Pass ×2 + abonnement mensuel **livré avec le parcours récurrent**, page `/resilier` native (décret 2023-182, testée Playwright), Score de Fiabilité avec seuil d'affichage, rappels, Plan B outillé (obligation de moyens), `fraud_signals`, back-office, **adhésion effective à un médiateur de la consommation** (https://www.economie.gouv.fr/mediation-conso) — prérequis au premier client payant ; **Vercel Pro + ordonnanceur** | Les 4 interdits anti-Holidog testés ; zéro débit sans acceptation constatée ; remboursement impossible hors événement en base ; rétractation conforme testée | ~4-5 sem |
+| **P3 — Monétisation & confiance** | **Stripe 2 modes** (manual capture borné ≤ 6 j + SetupIntent/off-session selon Q14), machine à états paiements + `request_events`, **checkout avec recueil rétractation L221-18** (case non pré-cochée d'exécution immédiate + renonciation), Pass ×2 + abonnement mensuel **livré avec le parcours récurrent**, page `/resilier` native (décret 2023-182, testée Playwright), Score de Fiabilité avec seuil d'affichage, rappels, Plan B outillé (obligation de moyens), `fraud_signals`, back-office, **adhésion effective à un médiateur de la consommation** (https://www.economie.gouv.fr/mediation-conso) — prérequis au premier client payant ; **Vercel Pro + ordonnanceur** ; **produits de transparence T1-T3 + charte T8 publiée (§9)** | Les 4 interdits anti-Holidog testés ; zéro débit sans acceptation constatée ; remboursement impossible hors événement en base ; rétractation conforme testée | ~4-5 sem |
 | **P4 — Assurance** *(conditionnée aux Q1-Q3, Q6, Q12)* | Activation du flag `insurance_live` : mentions ORIAS complètes (n°, catégorie MIA, mandant, https://www.orias.fr, réclamations, ACPR), parcours DDA tracé (recueil + remise document — le conseil formalisé reste porté par le cabinet tant que la souscription est assistée), Pack Sérénité si produit signé (jamais pré-coché — testé ; renonciation 30 j), RC Pro groupe (notice L141-4 acceptée, affiliation à la 1ʳᵉ garde déclarée, encart périmètre), `complaints` à SLA, tracking de commission ; **landing sitter enrichie « RC Pro incluse » seulement maintenant** | Piste d'audit DDA rejouable ; aucune chaîne assurance visible flag éteint ; attestation visible côté sitter | ~3-4 sem |
 | **P5 — Amplification growth** | **Ouverture progressive** des pages programmatiques `/[service]/[espece]/[ville]-[cp]` : `generateStaticParams` sur ~200-500 communes prioritaires + ISR à la demande pour la longue traîne, **page indexable seulement si ≥ 1 sitter réel dans le rayon ou module éditorial unique** (sinon `noindex` + hors sitemap ; en zone vide : alerte « Soyez prévenu dès qu'un pet sitter est disponible » qui alimente le ciblage du seeding), sitemaps segmentés générés depuis la BDD, schema.org (**`AggregateRating` uniquement quand des avis réels existent**), dashboard KPIs complet | Indexation pilotée par la densité ; zéro page « 0 sitter » indexée | ~2 sem |
 | **P6 — Lancement** | Seeding concentré sur les zones cibles (Q9) — onboarding concierge/CSV manuel aux volumes initiaux —, monitoring/alerting + plan de scalabilité documenté, runbook support & Plan B | Objectif de sitters J-1 atteint sur zones cibles ; astreinte Plan B définie | ~2 sem |
@@ -217,6 +218,44 @@ Les corrections structurantes intégrées en v1.1 :
 | 8 | **Vercel Pro + ordonnanceur idempotent dès P3** (Hobby : usage commercial interdit, crons 1/jour) | CTO |
 | 9 | **AIPD en P1**, filtre anti-fuite en hold-and-release étendu aux bios/photos, adresse chiffrée au repos, art. 22/P2B (recours humain, critères publiés) | Juridique + CTO |
 | 10 | **Périmètre V1 allégé** : sans abonnement annuel, parrainage, import en masse, e-signature, tests de charge, moteur de conseil auto | CEO + Juridique |
+
+---
+
+## 9. La transparence comme produit (v1.2 — validé par le fondateur)
+
+**Principe** : chez les concurrents, la transparence est un argument marketing ; chez nous, c'est un **produit** — des objets concrets que l'utilisateur peut toucher et vérifier. Objectif : gagner de l'argent sans jamais « sentir l'arnaque ».
+
+### 9.1 Les preuves de transparence (et leur place dans le phasage)
+
+| # | Produit de transparence | Contenu | Phase |
+|---|---|---|---|
+| T1 | **Reçu de transparence** | Après chaque capture : e-mail + page « Vous avez versé X € au pet sitter (100 %) · Vous avez payé Y € à [MARQUE] pour la mise en relation · Voici ce que ça finance ». Généré depuis `payments`, jamais rédigé à la main. | P3 |
+| T2 | **Rappel avant prélèvement + pause d'abonnement** | E-mail J-3 avant chaque prélèvement (« vous serez prélevé de X € le … — résilier en 1 clic ») — au-delà de l'obligation légale ; **pause de 1 à 3 mois sans résilier** (usage saisonnier). Tue le grief n°1 du secteur (Holidog). | P3 |
+| T3 | **Remboursement proactif automatique** | Annulation du sitter confirmé sans remplaçant trouvé → remboursement déclenché **sans demande du client**, notification immédiate (+ geste commercial à votre arbitrage). Le seul cas de remboursement du modèle devient un moment de confiance. Déclencheur : événement constaté dans `request_events` — cohérent avec « jamais sur déclaration ». | P3 |
+| T4 | **Page « Ce qui n'est PAS couvert / ce que nous ne faisons pas »** | Les limites (RC Pro, Plan B en obligation de moyens, Pack Sérénité) aussi visibles que les promesses. Protège aussi juridiquement (L121-2). | P1 (squelette) → enrichie P3/P4 |
+| T5 | **Page publique `/nos-chiffres`** | Gardes réalisées, cumul reversé aux sitters, délai médian de réponse, taux d'annulation, litiges et résolution — **calculés depuis la base**, affichés seulement au-delà de seuils de crédibilité (jamais de chiffres rédigés). Rapport d'incidents trimestriel assumé. | P5 (les seuils imposent du volume) |
+| T6 | **Changelog public des CGU et des prix** | Chaque modification datée, archivée, notifiée par e-mail. Table `terms_versions` + page publique. | P1 (dès les premières CGU) |
+| T7 | **Commission d'assurance affichée en euros** | À la souscription : le montant exact de notre rémunération, en clair — au-delà du minimum DDA. Cohérent avec `/notre-modele`, inattaquable. | P4 |
+| T8 | **Charte anti-dark-patterns exécutable** | Interdits codés dans le lint CI existant : compte à rebours artificiel, « N personnes regardent ce profil », prix barrés fictifs, case pré-cochée, parcours de résiliation plus long que l'achat. Charte publiée publiquement. | P1 (lint) → page P3 |
+| T9 | **RGPD en libre-service** | « Télécharger toutes mes données » et « supprimer mon compte » en 1 clic dans le compte. La conformité (déjà due) transformée en argument visible. | P2 |
+| T10 | **Politique d'avis publiée et dure avec nous-mêmes** | Aucun avis négatif supprimé (modération motivée et tracée uniquement), collecte automatique après chaque garde déclarée, jamais de tri favorable. Complète la conformité D111-16+ déjà prévue. | P2 |
+
+### 9.2 3ᵉ ligne de revenus : la « Boîte à outils Sitter Pro »
+
+Abonnement **optionnel** côté sitter : facturation auto-entrepreneur, synchronisation de calendrier, mini-page web personnelle, statistiques d'activité.
+
+- **Principe gravé dans le marbre : on monétise le sitter par des OUTILS, jamais par la visibilité.** Le pay-to-rank détruirait la crédibilité du Score de Fiabilité — il est interdit (cf. 9.3). Le classement reste 100 % méritocratique.
+- Ligne récurrente et propre, non réplicable par Rover (qui se paie déjà à 20 % sur les sitters) sans se renier.
+- **Timing : architecturée en V1 (un produit d'abonnement de plus dans `subscription_plans`), construite en V1.1 après le lancement** — monétiser les sitters avant d'avoir prouvé le flux d'affaires serait prématuré (et contre-productif pour le seeding). Prix : placeholder, décision fondateur.
+
+### 9.3 Les interdits anti-arnaque (complètent les 4 interdits anti-Holidog)
+
+Jamais, même si ça rapporte à court terme : mise en avant payante dans les résultats de recherche · fausse rareté ou urgence · frais de service découverts au checkout · conversion silencieuse d'un Pass en abonnement · prix dynamiques opaques · revente ou transmission de coordonnées à des partenaires sans consentement explicite. Chacun détruirait précisément le positionnement qu'on construit. Ajoutés à la charte T8 et, quand c'est détectable, au lint CI.
+
+### 9.4 Écartés à ce stade (décision fondateur, v1.2)
+- **Assistant crédit d'impôt services à la personne** — non retenu pour le moment.
+- **Affiliation étiquetée** (ACACED, comptabilité, services véto en ligne) — non retenue pour le moment.
+Aucun des deux n'est architecturé ni mentionné dans le produit ; réouvrable plus tard sur votre demande.
 
 ---
 
