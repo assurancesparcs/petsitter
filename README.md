@@ -1,10 +1,12 @@
-# PROJET_PATTE — `[MARQUE]` (nom de code, marque à arbitrer)
+# AlloPetsitter (nom de code : PROJET_PATTE)
+
+**Marque : AlloPetsitter** (graphie officielle unique — un mot, A et P majuscules) · Domaine : **allopetsitter.fr** (allopetsitter.com en redirection 301).
 
 Plateforme française de **mise en relation** entre propriétaires d'animaux et pet sitters indépendants — le pet sitter fixe son tarif, est payé en direct et touche 100 % ; l'argent de la garde ne transite jamais par la plateforme. Seconde ligne de revenus : la distribution d'assurance (entité MIA sous mandat du cabinet de courtage du fondateur).
 
 ## État du projet
 
-**Phase P0 — Plan avant code.** Voir [`PLAN.md`](./PLAN.md) (v1.1, revu par 4 agents experts).
+**Phase P0 — Plan avant code.** Voir [`PLAN.md`](./PLAN.md) (v1.3, revu par 4 agents experts ; marque tranchée).
 Aucun code ne sera écrit avant validation du plan par le fondateur (Règle 1 du brief).
 
 ## Règles du dépôt
