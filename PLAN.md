@@ -10,9 +10,9 @@
 
 Conformément à la Règle 0 (« si un contexte d'un autre projet apparaît, tu l'ignores et tu me le signales ») :
 
-- **Cette session s'exécute dans le monorepo `assurances-parcs`** (branche dédiée `claude/site-pet-sitter-m1vgyg`), alors que le brief exige un **dépôt Git neuf**. Ce `PLAN.md` est déposé ici uniquement comme **véhicule de validation** — aucun code du projet n'y sera écrit.
-- **Recommandation** : avant la phase P1, créer un dépôt GitHub neuf et dédié → https://github.com/new (ex. `assurancesparcs/projet-patte`), puis me le rattacher à la session. Base de données neuve, projet Vercel neuf, compte Stripe propre à la nouvelle entité.
-- J'ignore intégralement le contenu, les chartes et les conventions des autres projets du monorepo. Seules les exigences transverses de vos consignes générales (RGPD/CNIL strict, pas de secrets dans le code, pas de faux avis ni de statistiques inventées) sont conservées car elles convergent avec le brief.
+- ✅ **Résolu** : le projet vit désormais dans son **dépôt Git neuf et dédié** → https://github.com/assurancesparcs/petsitter (la version initiale du plan avait transité par le monorepo `assurances-parcs` comme simple véhicule de validation ; cette copie temporaire a été supprimée).
+- Restent à créer, propres à la nouvelle entité : **base de données neuve, projet Vercel neuf, compte Stripe dédié** (phase P1, après validation).
+- J'ignore intégralement le contenu, les chartes et les conventions des autres projets. Seules les exigences transverses de vos consignes générales (RGPD/CNIL strict, pas de secrets dans le code, pas de faux avis ni de statistiques inventées) sont conservées car elles convergent avec le brief.
 
 ---
 
@@ -224,5 +224,5 @@ Les corrections structurantes intégrées en v1.1 :
 
 **Je m'arrête ici (Règle 1).** Pour lancer P1, il me faut :
 1. Votre **validation de ce plan** (ou vos corrections) ;
-2. Le **dépôt Git neuf** créé et rattaché à la session → https://github.com/new ;
+2. ~~Le dépôt Git neuf~~ ✅ fait : https://github.com/assurancesparcs/petsitter ;
 3. Des réponses aux **questions 1 à 5 et 14** du §2 (les autres peuvent être tranchées pendant P1-P2) — les questions 2, 3, 11 et 12 sont à porter à votre **association professionnelle agréée ACPR / juriste**, je les signale sans les trancher.
