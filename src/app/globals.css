@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens provisoires (P1) — seront remplacés par les tokens officiels
+ * livrés par Claude Design (brief v3, Mission 1). Registre : chaleureux mais
+ * adulte, contrastes AA minimum.
+ */
+@theme {
+  --color-cream: #faf7f2;
+  --color-ink: #1f2a2e;
+  --color-primary: #16575a; /* vert profond — confiance */
+  --color-primary-dark: #0e3f42;
+  --color-accent: #e8a13d; /* ambre — chaleur, à dose mesurée */
+  --color-accent-soft: #fdf3e3;
+  --color-line: #e5ded2;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --radius-card: 1rem;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

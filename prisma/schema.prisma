@@ -1,0 +1,525 @@
+// AlloPetsitter — schéma de données v1 (PLAN.md §3.3)
+// Marketplace + assurance modélisés dès P1 (l'assurance n'est EXPOSÉE que si insurance_live).
+// Conventions : durée de conservation indiquée en commentaire par modèle (cron de purge en P2) ;
+// toute transition d'état transactionnelle passe par RequestEvent (append-only, source de vérité).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Neon (UE — Francfort), extensions cube + earthdistance pour la géo
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────── Identité & profils ───────────────────────────
+
+enum Role {
+  OWNER
+  SITTER
+  ADMIN
+}
+
+model User {
+  id              String    @id @default(cuid())
+  role            Role
+  email           String    @unique
+  emailVerifiedAt DateTime?
+  phone           String?
+  phoneVerifiedAt DateTime? // OTP différé au premier acte engageant (dépôt / candidature)
+  firstName       String
+  lastNameInitial String // Anonymisation pré-paiement : prénom + initiale uniquement
+  lastName        String // Révélé uniquement post-capture, au sitter/owner confirmé
+  createdAt       DateTime  @default(now())
+  deletedAt       DateTime? // droit à l'effacement : soft-delete puis purge (cron)
+
+  sitterProfile  SitterProfile?
+  pets           Pet[]
+  careRequests   CareRequest[]
+  reviewsWritten Review[]       @relation("reviewAuthor")
+  subscriptions  Subscription[]
+}
+
+model SitterProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  bio            String? // passé au filtre anti-fuite (hold-and-release)
+  experience     String?
+  housingType    String?
+  hasGarden      Boolean @default(false)
+  ownAnimals     String?
+  photosFiltered Boolean @default(false) // photos passées au filtre anti-fuite
+
+  // Localisation : commune + rayon. L'adresse exacte n'est JAMAIS exposée côté client.
+  communeCode String? // code INSEE
+  lat         Float?
+  lng         Float?
+  radiusKm    Int     @default(10)
+
+  identityVerification IdentityVerification?
+  // ACACED / déclaration L214-6-1 : par service (bloquant uniquement pour la
+  // garde chez le sitter si la Q11 le confirme — juriste)
+  acacedNumber         String?
+  ddppDeclaredAt       DateTime?
+
+  // DAC7 : données vendeur collectées au premier seuil d'activité (Q10)
+  siret       String?
+  birthDate   DateTime?
+  taxAddress  String?
+  dac7Consent DateTime?
+
+  services         SitterService[]
+  availability     AvailabilitySlot[]
+  applications     Application[]
+  reliability      ReliabilityScore?
+  rcpAffiliation   RcpGroupAffiliation?
+  calendarUpdated  DateTime? // règle des 14 jours → déclassement (notifié, recours humain)
+  suspendedAt      DateTime?
+  suspensionReason String? // P2B : décision motivée obligatoire
+}
+
+model IdentityVerification {
+  id              String        @id @default(cuid())
+  sitterProfileId String        @unique
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+  provider        String // prestataire UE — aucune pièce stockée chez nous
+  status          String // pending / verified / rejected
+  verifiedAt      DateTime?
+  createdAt       DateTime      @default(now())
+}
+
+enum Species {
+  DOG
+  CAT
+  // NAC : prévus au schéma, non exposés dans l'UI en V1 (PLAN §6)
+  OTHER
+}
+
+model Pet {
+  id          String   @id @default(cuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  species     Species
+  name        String
+  breed       String?
+  birthYear   Int?
+  constraints String? // structuré côté UI (puces), champ libre filtré
+  createdAt   DateTime @default(now())
+  // Déclencheur instrumenté de proposition assurance (si insurance_live)
+}
+
+// ─────────────────────────── Offre & disponibilité ───────────────────────────
+
+enum ServiceType {
+  BOARDING // garde chez le sitter (ACACED potentiellement requis — Q11)
+  HOUSE_SITTING // garde au domicile du propriétaire
+  HOME_VISIT // visite à domicile — le service signature chat
+  WALK // promenade
+}
+
+model SitterService {
+  id              String        @id @default(cuid())
+  sitterProfileId String
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+  service         ServiceType
+  species         Species
+  // Tarif LIBRE fixé par le sitter, payé en direct — jamais de commission.
+  priceCents      Int
+  priceUnit       String // per_night / per_visit / per_walk / per_day
+
+  @@unique([sitterProfileId, service, species])
+}
+
+model AvailabilitySlot {
+  id              String        @id @default(cuid())
+  sitterProfileId String
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+  date            DateTime
+  available       Boolean
+
+  @@unique([sitterProfileId, date])
+  @@index([date])
+}
+
+// ─────────────────────────── Cœur transactionnel ───────────────────────────
+// Deux machines à états séparées (demande / paiement), jointes, événements append-only.
+
+enum CareRequestStatus {
+  OPEN
+  ACCEPTED
+  UNLOCKED
+  CONFIRMED
+  COMPLETED
+  EXPIRED // aucune candidature dans la fenêtre → zéro débit
+  CANCELLED_BY_OWNER
+  CANCELLED_BY_SITTER_PRE_CONFIRMATION
+  CANCELLED_BY_SITTER_POST_CONFIRMATION // seul cas de remboursement + déclencheur Plan B
+  REPLACEMENT_IN_PROGRESS
+  PAYMENT_REQUIRED // échec du débit off-session (3DS, carte expirée) — parcours de 1er plan
+}
+
+model CareRequest {
+  id      String @id @default(cuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  service     ServiceType
+  species     Species
+  startDate   DateTime
+  endDate     DateTime
+  communeCode String
+  radiusKm    Int
+  constraints Json? // questions structurées (puces pré-définies)
+
+  status           CareRequestStatus @default(OPEN)
+  responseDeadline DateTime // fenêtre paramétrable (défaut 72 h) — vérification paresseuse
+  createdAt        DateTime          @default(now())
+
+  applications Application[]
+  mission      Mission?
+  payment      Payment?
+  events       RequestEvent[]
+  recurring    RecurringRequest?
+
+  @@index([status, responseDeadline])
+}
+
+// Le produit réel de l'abonnement : récurrence (promenade quotidienne, visites…)
+model RecurringRequest {
+  id            String      @id @default(cuid())
+  careRequestId String      @unique
+  careRequest   CareRequest @relation(fields: [careRequestId], references: [id])
+  weekdays      Int[] // 0-6
+  timeSlot      String?
+  renewSitter   Boolean     @default(true) // reconduction du sitter accepté
+  active        Boolean     @default(true)
+}
+
+model Application {
+  id              String        @id @default(cuid())
+  careRequestId   String
+  careRequest     CareRequest   @relation(fields: [careRequestId], references: [id])
+  sitterProfileId String
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+
+  // Candidature cadrée : acceptation ferme + tarif + réponses à choix.
+  accepted       Boolean
+  priceCents     Int // tarif proposé — DAC7 : la contrepartie est connue en base
+  answers        Json?
+  shortPitch     String? // UN champ court — hold-and-release (filtre avant remise)
+  filterStatus   String  @default("pending") // pending / delivered / masked
+  createdAt      DateTime @default(now())
+
+  @@unique([careRequestId, sitterProfileId])
+}
+
+model StructuredMessage {
+  id            String   @id @default(cuid())
+  careRequestId String
+  senderId      String
+  // Avant capture : puces pré-définies uniquement (predefinedKey). Après : texte libre filtré.
+  predefinedKey String?
+  body          String?
+  filterStatus  String   @default("pending") // hold-and-release
+  createdAt     DateTime @default(now())
+
+  @@index([careRequestId])
+}
+
+// 1 déblocage = 1 mission (sitter confirmé + remplaçant Plan B éventuel)
+model Mission {
+  id            String      @id @default(cuid())
+  careRequestId String      @unique
+  careRequest   CareRequest @relation(fields: [careRequestId], references: [id])
+
+  confirmedSitterId String
+  backupSitterId    String? // Plan B — seul autre profil dont les coordonnées sont révélées
+  // Adresse exacte : chiffrée au repos, révélée au seul sitter confirmé,
+  // purgée des missions expirées/annulées (cron RGPD).
+  addressEncrypted  String?
+
+  contractGeneratedAt DateTime? // contrat type PDF — modèle librement modifiable par les parties
+  preMeetingAt        DateTime? // rencontre préalable gratuite (standard proposé)
+  doubleConfirmedAt   DateTime?
+  remindersSent       Json? // J-7 / J-2 / J-1
+  declaredDone        Boolean   @default(false) // garde déclarée → avis + (si live) couverture RC Pro
+
+  review Review?
+}
+
+model Review {
+  id        String  @id @default(cuid())
+  missionId String  @unique
+  mission   Mission @relation(fields: [missionId], references: [id])
+  authorId  String
+  author    User    @relation("reviewAuthor", fields: [authorId], references: [id])
+
+  rating         Int
+  body           String?
+  experienceDate DateTime // conformité D111-16+ : date de l'expérience ET de l'avis
+  createdAt      DateTime @default(now())
+  // Jamais supprimé s'il est négatif : modération motivée uniquement.
+  moderatedAt    DateTime?
+  moderationNote String?
+  reportedAt     DateTime? // signalement (sitter) → revue motivée
+}
+
+model ReliabilityScore {
+  id              String        @id @default(cuid())
+  sitterProfileId String        @unique
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+
+  responseRate     Float?
+  medianResponseH  Float?
+  cancellationRate Float?
+  completedCount   Int    @default(0)
+  memberSince      DateTime @default(now())
+  // Affiché publiquement UNIQUEMENT au-delà du seuil (paramètre) — sinon badge
+  // « Nouveau sur AlloPetsitter ». Critères publiés (P2B / art. 22 RGPD).
+  displayEligible  Boolean @default(false)
+  updatedAt        DateTime @updatedAt
+}
+
+// Source de vérité append-only de toutes les transitions — rend opposable la règle
+// « remboursement uniquement sur événement constaté en base ».
+model RequestEvent {
+  id            String      @id @default(cuid())
+  careRequestId String
+  careRequest   CareRequest @relation(fields: [careRequestId], references: [id])
+  type          String
+  payload       Json?
+  createdAt     DateTime    @default(now())
+
+  @@index([careRequestId, createdAt])
+}
+
+// ─────────────────────────── Paiements & souscriptions ───────────────────────────
+
+enum PaymentStatus {
+  SETUP_PENDING // SetupIntent créé (empreinte carte, AUCUN débit)
+  SETUP_COMPLETED
+  CHARGE_PENDING // PaymentIntent off-session lancé à l'acceptation
+  CAPTURED
+  CHARGE_FAILED // 3DS requis / carte expirée → CareRequest.PAYMENT_REQUIRED
+  CANCELED
+  REFUNDED // uniquement sur événement constaté (annulation sitter post-confirmation)
+}
+
+model Payment {
+  id            String      @id @default(cuid())
+  careRequestId String      @unique
+  careRequest   CareRequest @relation(fields: [careRequestId], references: [id])
+
+  stripeCustomerId      String
+  stripeSetupIntentId   String?
+  stripePaymentIntentId String?
+  amountCents           Int
+  packLabel             String // pass_sejour / pass_court (grille en base dès P3)
+  status                PaymentStatus @default(SETUP_PENDING)
+
+  // Rétractation L221-18 / L221-28 : recueillies au checkout, sinon tout client
+  // peut exiger remboursement 14 jours après déblocage.
+  immediateExecutionRequestedAt DateTime?
+  withdrawalWaiverAt            DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SubscriptionPlan {
+  id         String  @id @default(cuid())
+  key        String  @unique // monthly / sitter_pro (V1.1) — PAS d'annuel en V1
+  label      String
+  priceCents Int // grille paramétrable en base, jamais en dur
+  active     Boolean @default(true)
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id     String           @id @default(cuid())
+  userId String
+  user   User             @relation(fields: [userId], references: [id])
+  planId String
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  stripeSubscriptionId String    @unique
+  status               String
+  // Transparence §9 : rappel J-3 avant CHAQUE prélèvement + pause sans résilier.
+  nextChargeReminderAt DateTime?
+  pausedUntil          DateTime?
+  cancelledAt          DateTime? // résiliation 3 clics — page /resilier native (décret 2023-182)
+  createdAt            DateTime  @default(now())
+}
+
+// ─────────────────────────── Assurance (exposée si insurance_live) ───────────────────────────
+
+model InsuranceProduct {
+  id       String  @id @default(cuid())
+  key      String  @unique // sante_animale / pack_serenite / rcp_groupe
+  label    String
+  insurer  String?
+  active   Boolean @default(false) // rien d'actif tant que Q2/Q3 non soldées
+
+  ddaJourneys   DdaJourney[]
+  subscriptions InsuranceSubscription[]
+}
+
+// Moments d'exposition instrumentés (post-confirmation, ajout d'animal, SEO)
+model InsuranceInterest {
+  id        String   @id @default(cuid())
+  userId    String
+  context   String
+  createdAt DateTime @default(now())
+}
+
+// Le parcours DDA comme code — piste d'audit opposable ACPR.
+model DdaJourney {
+  id        String           @id @default(cuid())
+  userId    String
+  productId String
+  product   InsuranceProduct @relation(fields: [productId], references: [id])
+
+  needsAssessment    Json // recueil des exigences et besoins — horodaté
+  needsAssessedAt    DateTime?
+  adviceRecord       String? // recommandation + justification (portée par le cabinet mandant tant que souscription assistée)
+  ipidDeliveredAt    DateTime? // remise du document d'information normalisé
+  ipidVersion        String?
+  statusDisclosedAt  DateTime? // transparence statut MIA + rémunération (20 %)
+  createdAt          DateTime  @default(now())
+
+  subscription InsuranceSubscription?
+}
+
+model InsuranceSubscription {
+  id           String           @id @default(cuid())
+  ddaJourneyId String           @unique
+  ddaJourney   DdaJourney       @relation(fields: [ddaJourneyId], references: [id])
+  productId    String
+  product      InsuranceProduct @relation(fields: [productId], references: [id])
+
+  subscribedAt         DateTime  @default(now())
+  // Affinitaire (Pack Sérénité) : renonciation 30 j — L112-10 C. assur.
+  renunciationDeadline DateTime?
+  renouncedAt          DateTime?
+  premiumRefundedAt    DateTime?
+
+  commissions CommissionEntry[]
+}
+
+// La marge réelle : commission récurrente (taux arbitré : 20 %)
+model CommissionEntry {
+  id             String                @id @default(cuid())
+  subscriptionId String
+  subscription   InsuranceSubscription @relation(fields: [subscriptionId], references: [id])
+  periodStart    DateTime
+  periodEnd      DateTime
+  premiumCents   Int
+  commissionCents Int // = 20 % de la prime (paramètre en base à terme)
+  createdAt      DateTime              @default(now())
+}
+
+model RcpGroupAffiliation {
+  id              String        @id @default(cuid())
+  sitterProfileId String        @unique
+  sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
+
+  // Affiliation effective à la PREMIÈRE GARDE DÉCLARÉE (pas à l'inscription).
+  // La couverture ne joue QUE sur les gardes déclarées — encart permanent côté sitter.
+  affiliatedAt      DateTime?
+  attestationNumber String?
+  // Notice L141-4 : remise + acceptation horodatées, versionnées.
+  noticeVersion     String?
+  noticeAcceptedAt  DateTime?
+}
+
+// Réclamations à deux niveaux (plateforme / cabinet mandant → ACPR) — SLA : AR 10 j, réponse 2 mois.
+model Complaint {
+  id             String    @id @default(cuid())
+  userId         String
+  channel        String // platform / insurance
+  body           String
+  createdAt      DateTime  @default(now())
+  acknowledgedAt DateTime?
+  resolvedAt     DateTime?
+}
+
+// ─────────────────────────── Anti-fraude, conformité, audit ───────────────────────────
+
+model FraudSignal {
+  id         String    @id @default(cuid())
+  type       String // unlock_no_review / calendar_blocked_no_booking / pair_vanished / review_rate_drop / contact_leak
+  userId     String?
+  payload    Json?
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime? // V1 : détection + revue HUMAINE motivée uniquement (pas de sanction auto)
+  reviewNote String?
+}
+
+model ContentFilterHit {
+  id        String   @id @default(cuid())
+  userId    String
+  field     String // message / bio / pitch / photo
+  pattern   String // regex / llm
+  createdAt DateTime @default(now())
+  // Récidive → malus de score, décision notifiée avec recours humain (art. 22)
+}
+
+// Append-only : consentements, rétractations, résiliations, DDA, notices, remboursements.
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([action, createdAt])
+}
+
+// Changelog public des CGU (§9 T6) : chaque version datée, archivée, notifiée.
+model TermsVersion {
+  id          String   @id @default(cuid())
+  document    String // cgu / cgv / confidentialite / charte
+  version     String
+  summary     String // résumé public du changement
+  body        String
+  publishedAt DateTime @default(now())
+  notifiedAt  DateTime?
+}
+
+// ─────────────────────────── Growth ───────────────────────────
+
+// Waitlist sitter — landing P1 (seeding en flux continu dès P1)
+model SitterWaitlist {
+  id          String      @id @default(cuid())
+  email       String      @unique
+  postalCode  String
+  services    ServiceType[]
+  species     Species[]
+  createdAt   DateTime    @default(now())
+  convertedAt DateTime? // converti en inscription réelle (P2)
+  // RGPD : finalité unique (être prévenu de l'ouverture), purge si non converti à N mois.
+}
+
+// KPIs §11 — événements produit dès la V1
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  name      String // funnel: search/profile/deposit/card/application/capture · liquidité · désistement · rebooking…
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([name, createdAt])
+}
+
+// Base officielle des communes (geo.api.gouv.fr) — recherche par rayon (earthdistance)
+model Commune {
+  code       String @id // code INSEE
+  name       String
+  postalCode String
+  lat        Float
+  lng        Float
+
+  @@index([postalCode])
+}
