@@ -1,6 +1,6 @@
 # AlloPetsitter (nom de code : PROJET_PATTE)
 
-**Marque : AlloPetsitter** (graphie officielle unique — un mot, A et P majuscules) · Domaine : **allopetsitter.fr** (allopetsitter.com en redirection 301).
+**Marque : AlloPetsitter** (graphie officielle unique — un mot, A et P majuscules) · Domaine réservé : **allo-pet-sitter.fr** (avec tirets). La marque (nom) reste « AlloPetsitter » ; seule l'URL/les e-mails portent les tirets. Source unique : `src/lib/brand.ts` (`DOMAIN`/`BASE_URL`).
 
 Plateforme française de **mise en relation** entre propriétaires d'animaux et pet sitters indépendants — le pet sitter fixe son tarif, est payé en direct et touche 100 % ; l'argent de la garde ne transite jamais par la plateforme. Seconde ligne de revenus : la distribution d'assurance (entité MIA sous mandat du cabinet de courtage du fondateur).
 

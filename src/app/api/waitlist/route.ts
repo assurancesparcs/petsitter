@@ -7,8 +7,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CP_RE = /^\d{5}$/;
 const MAX_EMAIL = 254; // RFC 5321
 const ALLOWED_ORIGINS = [
-  "https://www.allopetsitter.fr",
-  "https://allopetsitter.fr",
+  "https://www.allo-pet-sitter.fr",
+  "https://allo-pet-sitter.fr",
   "https://petsitter-iota.vercel.app",
 ];
 

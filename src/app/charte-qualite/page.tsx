@@ -103,10 +103,10 @@ export default function CharteQualite() {
           Ces interdits s&apos;appliquent à notre propre design. Un doute sur
           une de nos interfaces ? Écrivez à{" "}
           <a
-            href="mailto:contact@allopetsitter.fr"
+            href="mailto:contact@allo-pet-sitter.fr"
             className="font-semibold text-surface underline"
           >
-            contact@allopetsitter.fr
+            contact@allo-pet-sitter.fr
           </a>{" "}
           : on corrige, ou on s&apos;explique.
         </p>

@@ -4,7 +4,7 @@
 > active (waitlist). À compléter à chaque nouveau traitement (comptes, missions,
 > assurance…). Responsable du traitement : éditeur d'AlloPetsitter (fondateur en
 > nom propre tant que la société n'est pas immatriculée) — contact
-> rgpd@allopetsitter.fr.
+> rgpd@allo-pet-sitter.fr.
 
 ---
 
@@ -22,7 +22,7 @@
 | **Durée de conservation** | Jusqu'à 12 mois après l'ouverture du service dans la zone, puis suppression si absence de création de compte. Purge automatisée (cron) — à implémenter (cf. matrice-retention.md). |
 | **Mesures de sécurité** | HTTPS/HSTS, en-têtes de sécurité (CSP…), validation et bornage des entrées, rate-limiting, accès base restreint, secrets hors dépôt. |
 | **Information des personnes** | Page /confidentialite + finalité affichée au point de collecte. |
-| **Exercice des droits** | rgpd@allopetsitter.fr (accès, rectification, effacement, retrait du consentement, réclamation CNIL). Réponse sous 1 mois. |
+| **Exercice des droits** | rgpd@allo-pet-sitter.fr (accès, rectification, effacement, retrait du consentement, réclamation CNIL). Réponse sous 1 mois. |
 
 ---
 

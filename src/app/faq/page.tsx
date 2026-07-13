@@ -236,10 +236,10 @@ const CATEGORIES: Categorie[] = [
             Le support est <strong>100 % en ligne, par écrit</strong> :
             assistant en ligne et réponse humaine sous 24 h, à{" "}
             <a
-              href="mailto:contact@allopetsitter.fr"
+              href="mailto:contact@allo-pet-sitter.fr"
               className="font-semibold text-primary underline"
             >
-              contact@allopetsitter.fr
+              contact@allo-pet-sitter.fr
             </a>
             . Nous n&apos;avons pas de ligne de contact vocale — tout se traite à
             l&apos;écrit, pour garder une trace claire de chaque échange.

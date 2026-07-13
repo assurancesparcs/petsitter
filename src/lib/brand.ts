@@ -5,7 +5,7 @@
  * dans une page.
  */
 export const BRAND = "AlloPetsitter" as const;
-export const DOMAIN = "allopetsitter.fr" as const;
+export const DOMAIN = "allo-pet-sitter.fr" as const;
 export const BASE_URL = `https://www.${DOMAIN}` as const;
 
 /** Baseline provisoire — sera arbitrée avec l'identité (Claude Design, Mission 1). */

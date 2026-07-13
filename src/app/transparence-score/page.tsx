@@ -170,10 +170,10 @@ export default function TransparenceScore() {
           réexamen par une personne, contester le résultat, exprimer son point
           de vue et obtenir une explication. Il suffit d&apos;écrire à{" "}
           <a
-            href="mailto:contact@allopetsitter.fr"
+            href="mailto:contact@allo-pet-sitter.fr"
             className="font-semibold text-surface underline"
           >
-            contact@allopetsitter.fr
+            contact@allo-pet-sitter.fr
           </a>{" "}
           : un humain revoit le calcul, jamais une machine seule.
         </p>

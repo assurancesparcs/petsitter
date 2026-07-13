@@ -112,10 +112,10 @@ export default function APropos() {
             ligne et une réponse humaine sous 24 h. Pour toute question, écrivez
             à{" "}
             <a
-              href="mailto:contact@allopetsitter.fr"
+              href="mailto:contact@allo-pet-sitter.fr"
               className="font-semibold text-primary underline"
             >
-              contact@allopetsitter.fr
+              contact@allo-pet-sitter.fr
             </a>
             . Les informations légales complètes figurent dans nos{" "}
             <Link

@@ -30,17 +30,17 @@ export default function MentionsLegales() {
         <p className="text-body">
           <strong className="text-ink">Contact</strong> :{" "}
           <a
-            href="mailto:contact@allopetsitter.fr"
+            href="mailto:contact@allo-pet-sitter.fr"
             className="underline hover:text-primary"
           >
-            contact@allopetsitter.fr
+            contact@allo-pet-sitter.fr
           </a>{" "}
           — données personnelles :{" "}
           <a
-            href="mailto:rgpd@allopetsitter.fr"
+            href="mailto:rgpd@allo-pet-sitter.fr"
             className="underline hover:text-primary"
           >
-            rgpd@allopetsitter.fr
+            rgpd@allo-pet-sitter.fr
           </a>
         </p>
         <p className="text-body">

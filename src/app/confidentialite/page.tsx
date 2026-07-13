@@ -27,10 +27,10 @@ export default function Confidentialite() {
           cours de constitution ; dans l&apos;intervalle, son fondateur en nom
           propre). Contact dédié aux données personnelles :{" "}
           <a
-            href="mailto:rgpd@allopetsitter.fr"
+            href="mailto:rgpd@allo-pet-sitter.fr"
             className="underline hover:text-primary"
           >
-            rgpd@allopetsitter.fr
+            rgpd@allo-pet-sitter.fr
           </a>
           . L&apos;identité sociale complète sera publiée avec les mentions
           légales dès l&apos;immatriculation de la société.
@@ -109,10 +109,10 @@ export default function Confidentialite() {
         <p className="mt-3 text-body">
           Accès, rectification, effacement : écrivez à{" "}
           <a
-            href="mailto:rgpd@allopetsitter.fr"
+            href="mailto:rgpd@allo-pet-sitter.fr"
             className="underline hover:text-primary"
           >
-            rgpd@allopetsitter.fr
+            rgpd@allo-pet-sitter.fr
           </a>
           . À l&apos;ouverture du service, l&apos;export et la suppression de vos
           données se feront en un clic depuis votre compte. Vous pouvez saisir

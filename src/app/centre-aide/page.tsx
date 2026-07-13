@@ -183,10 +183,10 @@ export default function CentreAide() {
             Notre assistance est 100 % en ligne : posez votre question à
             l&apos;assistant écrit ou à{" "}
             <a
-              href="mailto:contact@allopetsitter.fr"
+              href="mailto:contact@allo-pet-sitter.fr"
               className="font-semibold underline"
             >
-              contact@allopetsitter.fr
+              contact@allo-pet-sitter.fr
             </a>
             , une personne vous répond sous 24 h. Tout se traite à l&apos;écrit,
             pour garder une trace claire de chaque échange.
