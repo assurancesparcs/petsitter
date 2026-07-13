@@ -10,7 +10,13 @@ import { syncSetupIntentStatus } from "@/domains/payments/payments";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { displayName, priceLabel } from "@/domains/marketplace/sitters";
 import { annulerDemande } from "@/app/demande/actions";
-import { choisirCandidature, declarerGardeTerminee, laisserAvis } from "./actions";
+import {
+  choisirCandidature,
+  declarerGardeTerminee,
+  laisserAvis,
+  choisirRemplacant,
+  demanderRemboursement,
+} from "./actions";
 
 export const metadata: Metadata = {
   title: "Mes demandes de garde",
@@ -55,6 +61,10 @@ const MESSAGES_OK: Record<string, string> = {
   terminee:
     "Garde déclarée terminée. Vous pouvez maintenant laisser un avis vérifié à votre pet sitter.",
   avis: "Merci — votre avis est publié sur la fiche de votre pet sitter.",
+  remplacant:
+    "Remplaçant confirmé. Ses coordonnées sont affichées ci-dessous — aucun nouveau paiement.",
+  rembourse:
+    "Remboursement de la mise en relation en cours. Vous n'avez aucune démarche à faire.",
 };
 
 const MESSAGES_ERREUR: Record<string, string> = {
@@ -63,6 +73,7 @@ const MESSAGES_ERREUR: Record<string, string> = {
   fermee: "Cette demande n'est plus ouverte au paiement.",
   expiree: "La fenêtre de réponse de cette demande est expirée — vous n'avez jamais été débité.",
   introuvable: "Demande ou candidature introuvable.",
+  remplacement_clos: "Ce remplacement n'est plus en cours.",
   indisponible: "Paiement momentanément indisponible, réessayez dans un instant.",
   trop_tot: "La garde ne peut être déclarée terminée qu'après sa date de fin.",
   note: "Indiquez une note de 1 à 5 étoiles.",
@@ -192,6 +203,16 @@ export default async function MesDemandes({
           // Déclarer la garde terminée : seulement après la date de fin réelle.
           const peutDeclarer =
             ["UNLOCKED", "CONFIRMED"].includes(d.status) && d.endDate <= now;
+
+          // Plan B : le sitter confirmé a annulé (REPLACEMENT_IN_PROGRESS). Les
+          // remplaçants candidats = les autres candidatures (hors sitter annulé,
+          // toujours pointé par mission.confirmedSitterId tant qu'aucun choix).
+          const remplacants =
+            d.status === "REPLACEMENT_IN_PROGRESS"
+              ? d.applications.filter(
+                  (a) => a.sitterProfileId !== d.mission?.confirmedSitterId,
+                )
+              : [];
 
           return (
             <div key={d.id} className="rounded-[20px] border border-line bg-surface p-6">
@@ -399,6 +420,132 @@ export default async function MesDemandes({
                       )}
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* Plan B — le pet sitter confirmé a dû annuler */}
+              {d.status === "REPLACEMENT_IN_PROGRESS" && (
+                <div className="mt-4 space-y-3 border-t border-line-2 pt-4">
+                  <div className="rounded-[16px] border-2 border-primary bg-surface p-4">
+                    <p className="font-display font-bold text-primary-dark">
+                      Votre pet sitter a dû annuler
+                    </p>
+                    <p className="mt-1 text-sm text-body">
+                      Vous ne perdez rien.{" "}
+                      {remplacants.length > 0 ? (
+                        <>
+                          Choisissez un remplaçant parmi les autres candidats
+                          ci-dessous — <strong className="text-ink">sans nouveau
+                          paiement</strong> — ou faites-vous rembourser la mise en
+                          relation. À vous de décider.
+                        </>
+                      ) : (
+                        <>
+                          Aucun autre candidat n&apos;est disponible sur cette
+                          demande. Vous pouvez vous faire rembourser la mise en
+                          relation ci-dessous.
+                        </>
+                      )}
+                    </p>
+                  </div>
+
+                  {remplacants.map((a) => (
+                    <div
+                      key={a.id}
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-line bg-cream px-4 py-3"
+                    >
+                      <div>
+                        <Link
+                          href={`/petsitter/${a.sitterProfile.id}`}
+                          className="font-semibold text-ink underline-offset-2 hover:text-primary hover:underline"
+                        >
+                          {displayName(
+                            a.sitterProfile.user.firstName,
+                            a.sitterProfile.user.lastName,
+                          )}
+                        </Link>
+                        {a.shortPitch && (
+                          <p className="mt-0.5 text-sm text-muted">{a.shortPitch}</p>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <div className="text-right">
+                          <p className="font-mono font-bold text-ink">
+                            {priceLabel(a.priceCents, "per_day").replace("/ jour", "")}
+                          </p>
+                          <p className="font-mono text-xs font-bold text-success">
+                            il reçoit 100 %
+                          </p>
+                        </div>
+                        <form action={choisirRemplacant}>
+                          <input type="hidden" name="requestId" value={d.id} />
+                          <input type="hidden" name="applicationId" value={a.id} />
+                          <button
+                            type="submit"
+                            className="rounded-[12px] bg-primary px-4 py-2 text-sm font-bold text-surface hover:bg-primary-dark"
+                          >
+                            Choisir comme remplaçant
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  ))}
+
+                  <form
+                    action={demanderRemboursement}
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-line bg-surface px-4 py-3"
+                  >
+                    <input type="hidden" name="requestId" value={d.id} />
+                    <p className="text-sm text-body">
+                      Vous préférez être remboursé ? La mise en relation
+                      {d.payment ? (
+                        <>
+                          {" "}(
+                          <strong className="font-mono">
+                            {centsLabel(d.payment.amountCents)}
+                          </strong>
+                          )
+                        </>
+                      ) : null}{" "}
+                      vous est rendue, sans démarche.
+                    </p>
+                    <button className="rounded-[12px] border border-line px-4 py-2 text-sm font-bold text-body hover:border-primary hover:text-primary">
+                      Me faire rembourser (0 arnaque)
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {/* Garde annulée par le pet sitter — remboursement honnête */}
+              {d.status === "CANCELLED_BY_SITTER_POST_CONFIRMATION" && (
+                <div className="mt-4 border-t border-line-2 pt-4">
+                  <div className="rounded-[16px] border border-line bg-surface-2 p-5">
+                    <p className="font-display font-bold text-ink">
+                      Garde annulée par le pet sitter
+                    </p>
+                    {d.payment?.status === "REFUNDED" ? (
+                      <p className="mt-1 text-sm text-body">
+                        Le pet sitter a dû annuler et aucun remplaçant n&apos;a été
+                        retenu. La mise en relation
+                        {d.payment ? (
+                          <>
+                            {" "}(
+                            <strong className="font-mono">
+                              {centsLabel(d.payment.amountCents)}
+                            </strong>
+                            )
+                          </>
+                        ) : null}{" "}
+                        vous est remboursée — aucune démarche de votre part. Le
+                        remboursement apparaît sous quelques jours selon votre
+                        banque.
+                      </p>
+                    ) : (
+                      <p className="mt-1 text-sm text-body">
+                        Cette garde a été annulée par le pet sitter.
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
 

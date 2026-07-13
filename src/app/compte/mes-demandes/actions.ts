@@ -9,6 +9,7 @@ import { declareMissionDone } from "@/domains/missions/completion";
 import { recomputeReliability } from "@/domains/reliability/score";
 import { notify } from "@/domains/notifications/notify";
 import { envoyerRelancePaiement } from "@/domains/notifications/email";
+import { rembourserMiseEnRelation } from "@/domains/refunds/refund";
 
 /**
  * LE moment du paiement (Q14) : le propriétaire choisit un pet sitter →
@@ -247,6 +248,138 @@ export async function choisirCandidature(formData: FormData) {
   }
 
   redirect("/compte/mes-demandes?erreur=paiement");
+}
+
+/**
+ * Plan B — le propriétaire choisit un REMPLAÇANT après l'annulation du sitter
+ * confirmé. Strictement borné :
+ *  - appartenance : la demande est celle de l'owner ET en REPLACEMENT_IN_PROGRESS ;
+ *  - la candidature choisie est validée EN BASE comme une candidature de CETTE
+ *    demande, et un AUTRE profil que le sitter qui a annulé ;
+ *  - transition atomique : Mission.confirmedSitterId ← remplaçant (l'accès aux
+ *    coordonnées via la messagerie bascule vers lui ; l'annulé le PERD, car
+ *    l'accès post-déblocage est réservé au sitter confirmé/backup) et
+ *    CareRequest REPLACEMENT_IN_PROGRESS → UNLOCKED (verrou : un gagnant).
+ * AUCUN nouveau débit : la mise en relation est déjà CAPTURED.
+ */
+export async function choisirRemplacant(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/connexion");
+  if (session.user.role !== "OWNER") redirect("/compte");
+  const db = getPrisma();
+  if (!db) redirect("/compte/mes-demandes?erreur=indisponible");
+  const userId = session.user.id;
+
+  const requestId = String(formData.get("requestId") ?? "");
+  const applicationId = String(formData.get("applicationId") ?? "");
+
+  const request = await db.careRequest.findFirst({
+    where: { id: requestId, ownerId: userId },
+    select: {
+      status: true,
+      mission: { select: { confirmedSitterId: true } },
+      applications: {
+        where: { id: applicationId },
+        select: { id: true, sitterProfileId: true },
+      },
+    },
+  });
+  const backup = request?.applications[0];
+  if (!request || !backup) redirect("/compte/mes-demandes?erreur=introuvable");
+  if (request.status !== "REPLACEMENT_IN_PROGRESS") {
+    redirect("/compte/mes-demandes?erreur=remplacement_clos");
+  }
+  // Le remplaçant doit être un AUTRE profil que le sitter qui a annulé.
+  if (request.mission?.confirmedSitterId === backup.sitterProfileId) {
+    redirect("/compte/mes-demandes?erreur=introuvable");
+  }
+
+  const gagne = await db.$transaction(async (tx) => {
+    const verrou = await tx.careRequest.updateMany({
+      where: { id: requestId, ownerId: userId, status: "REPLACEMENT_IN_PROGRESS" },
+      data: { status: "UNLOCKED" },
+    });
+    if (verrou.count !== 1) return false;
+    // Réassignation : le remplaçant devient le sitter confirmé → seul lui (avec
+    // l'owner) accède désormais aux coordonnées ; l'annulé bascule hors périmètre.
+    await tx.mission.update({
+      where: { careRequestId: requestId },
+      data: { confirmedSitterId: backup.sitterProfileId },
+    });
+    await tx.requestEvent.create({
+      data: {
+        careRequestId: requestId,
+        type: "replacement_confirmed",
+        payload: { sitterProfileId: backup.sitterProfileId, applicationId: backup.id },
+      },
+    });
+    return true;
+  });
+  if (!gagne) redirect("/compte/mes-demandes?erreur=remplacement_clos");
+
+  // Effets de bord best-effort isolés : owner (relation rétablie) + remplaçant.
+  try {
+    await notify(db, {
+      userId,
+      type: "unlocked",
+      title: "Remplaçant confirmé",
+      body: "Les coordonnées de votre nouveau pet sitter sont affichées. Aucun nouveau paiement — la mise en relation reste réglée.",
+      careRequestId: requestId,
+    });
+    const sitter = await db.sitterProfile.findUnique({
+      where: { id: backup.sitterProfileId },
+      select: { userId: true },
+    });
+    if (sitter?.userId) {
+      await notify(db, {
+        userId: sitter.userId,
+        type: "accepted",
+        title: "Vous prenez le relais sur une garde",
+        body: "Un propriétaire vous a choisi comme remplaçant. Retrouvez la conversation dans vos messages.",
+        careRequestId: requestId,
+      });
+    }
+  } catch (err) {
+    console.error(
+      `[choisirRemplacant] effets de bord ignorés (${(err as Error)?.name ?? "Error"})`,
+    );
+  }
+  redirect("/compte/mes-demandes?ok=remplacant");
+}
+
+/**
+ * Plan B — le propriétaire préfère un REMBOURSEMENT plutôt qu'un remplaçant
+ * (même s'il existe des candidats : c'est son choix). Borné à sa demande, en
+ * REPLACEMENT_IN_PROGRESS. Délègue au remboursement proactif partagé (idempotent,
+ * dormant-safe). La plateforme initie le remboursement, sans obstacle.
+ */
+export async function demanderRemboursement(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/connexion");
+  if (session.user.role !== "OWNER") redirect("/compte");
+  const db = getPrisma();
+  if (!db) redirect("/compte/mes-demandes?erreur=indisponible");
+  const userId = session.user.id;
+
+  const requestId = String(formData.get("requestId") ?? "");
+  const request = await db.careRequest.findFirst({
+    where: { id: requestId, ownerId: userId, status: "REPLACEMENT_IN_PROGRESS" },
+    select: { id: true },
+  });
+  if (!request) redirect("/compte/mes-demandes?erreur=remplacement_clos");
+
+  const res = await rembourserMiseEnRelation(
+    db,
+    requestId,
+    "owner_requested_after_sitter_cancel",
+  );
+  // `already`/`no_payment` : la demande a été résolue autrement entre-temps
+  // (ex. un remplaçant confirmé en parallèle) → aucun remboursement engagé, on
+  // ne prétend pas le contraire.
+  if (res !== "refunded") {
+    redirect("/compte/mes-demandes?erreur=remplacement_clos");
+  }
+  redirect("/compte/mes-demandes?ok=rembourse");
 }
 
 /**

@@ -6,7 +6,12 @@ import { getPrisma } from "@/lib/prisma";
 import { distanceKm } from "@/domains/geo/communes";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { CONSTRAINT_LABELS } from "@/domains/marketplace/constraints";
-import { candidater, declarerGardeTermineeSitter, signalerAvis } from "./actions";
+import {
+  candidater,
+  declarerGardeTermineeSitter,
+  signalerAvis,
+  annulerGardeSitter,
+} from "./actions";
 
 export const metadata: Metadata = {
   title: "Demandes près de chez vous",
@@ -23,6 +28,9 @@ const ERREURS: Record<string, string> = {
   indisponible: "Service momentanément indisponible.",
   introuvable: "Mission introuvable.",
   trop_tot: "La garde ne peut être déclarée terminée qu'après sa date de fin.",
+  annulation_impossible: "Cette garde ne peut plus être annulée.",
+  annulation_trop_tard:
+    "Cette garde a déjà commencé (ou est terminée) : elle ne peut plus être annulée.",
   filtre: "",
 };
 
@@ -31,6 +39,10 @@ const OKS: Record<string, string> = {
   terminee: "Garde déclarée terminée. Le propriétaire peut désormais laisser un avis vérifié.",
   signale:
     "Avis signalé — il sera revu par un humain. Un avis n'est jamais supprimé automatiquement.",
+  annulee_planb:
+    "Annulation enregistrée. Le propriétaire peut choisir un remplaçant parmi les autres candidats, ou être remboursé de la mise en relation.",
+  annulee_remboursee:
+    "Annulation enregistrée. Aucun autre candidat n'était disponible : le propriétaire est remboursé de la mise en relation.",
 };
 
 const dateFr = (d: Date) =>
@@ -170,8 +182,14 @@ export default async function DemandesSitter({
           {missions.map((m) => {
             const r = m.careRequest;
             const tarif = r.applications[0]?.priceCents;
+            const now = new Date();
             const peutDeclarer =
-              ["UNLOCKED", "CONFIRMED"].includes(r.status) && r.endDate <= new Date();
+              ["UNLOCKED", "CONFIRMED"].includes(r.status) && r.endDate <= now;
+            // Annulation post-confirmation possible seulement sur une garde
+            // confirmée ENCORE à venir (endDate future) — jamais une garde en
+            // cours ou terminée.
+            const peutAnnuler =
+              ["UNLOCKED", "CONFIRMED"].includes(r.status) && r.endDate > now;
             return (
               <div
                 key={m.id}
@@ -237,6 +255,37 @@ export default async function DemandesSitter({
                       Déclarer la garde terminée
                     </button>
                   </form>
+                )}
+
+                {/* Annuler cette garde (post-confirmation) — honnête, sans
+                    culpabilisation : on explique clairement ce que ça déclenche. */}
+                {peutAnnuler && (
+                  <details className="mt-4 rounded-[14px] border border-line bg-surface p-4">
+                    <summary className="cursor-pointer text-sm font-semibold text-muted underline-offset-2 hover:text-primary hover:underline">
+                      Je dois annuler cette garde
+                    </summary>
+                    <div className="mt-3 space-y-3">
+                      <p className="text-sm text-body">
+                        Un imprévu arrive. En annulant, la demande repasse en
+                        recherche : le propriétaire pourra choisir un autre
+                        candidat si d&apos;autres pet sitters s&apos;étaient
+                        proposés, ou être remboursé de la mise en relation. S&apos;il
+                        n&apos;y a aucun autre candidat, le remboursement est
+                        déclenché tout de suite.
+                      </p>
+                      <p className="text-xs text-muted">
+                        À faire seulement si vous ne pouvez vraiment pas assurer la
+                        garde. Prévenir le propriétaire via la messagerie reste la
+                        bonne pratique.
+                      </p>
+                      <form action={annulerGardeSitter}>
+                        <input type="hidden" name="requestId" value={r.id} />
+                        <button className="rounded-[12px] border border-line px-4 py-2 text-sm font-bold text-body hover:border-primary hover:text-primary">
+                          Confirmer l&apos;annulation de cette garde
+                        </button>
+                      </form>
+                    </div>
+                  </details>
                 )}
 
                 {/* Avis reçu — signalement (jamais de suppression automatique) */}
