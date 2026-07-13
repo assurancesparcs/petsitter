@@ -289,10 +289,15 @@ model StructuredMessage {
   // Avant capture : puces pré-définies uniquement (predefinedKey). Après : texte libre filtré.
   predefinedKey String?
   body          String?
-  filterStatus  String   @default("pending") // hold-and-release
-  createdAt     DateTime @default(now())
+  // Règle 8 : version caviardée calculée CÔTÉ SERVEUR à l'envoi. Tant que la
+  // demande n'est pas débloquée, c'est la SEULE version renvoyée au client —
+  // le brut (body) ne quitte jamais le serveur avant déblocage.
+  maskedBody       String?
+  hadMaskedContent Boolean @default(false) // un motif de coordonnée a été caviardé
+  filterStatus     String  @default("pending") // hold-and-release
+  createdAt        DateTime @default(now())
 
-  @@index([careRequestId])
+  @@index([careRequestId, createdAt])
 }
 
 // 1 déblocage = 1 mission (sitter confirmé + remplaçant Plan B éventuel)

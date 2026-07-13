@@ -47,6 +47,12 @@ export default async function Compte() {
               >
                 Mes demandes et candidatures reçues
               </Link>
+              <Link
+                href="/compte/messages"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Messages
+              </Link>
             </div>
           </>
         )}
@@ -73,6 +79,12 @@ export default async function Compte() {
                 className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
               >
                 Demandes près de chez vous
+              </Link>
+              <Link
+                href="/compte/messages"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Messages
               </Link>
             </div>
           </>

@@ -199,6 +199,15 @@ export default async function MesDemandes({
                 {d.communeName ?? d.communeCode} ({d.radiusKm} km)
               </p>
 
+              {(d.applications.length > 0 || debloquee) && (
+                <Link
+                  href={`/compte/messages/${d.id}`}
+                  className="mt-2 inline-block text-sm font-semibold text-primary underline-offset-2 hover:underline"
+                >
+                  Ouvrir la messagerie →
+                </Link>
+              )}
+
               {/* Échec de débit : parcours de PREMIER plan, pas une impasse */}
               {d.status === "PAYMENT_REQUIRED" && (
                 <div className="mt-4 rounded-[16px] border-2 border-primary bg-surface p-4">

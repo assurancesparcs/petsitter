@@ -208,6 +208,12 @@ export default async function DemandesSitter({
                   )}
                   Proposez une rencontre préalable gratuite avant la garde.
                 </p>
+                <Link
+                  href={`/compte/messages/${r.id}`}
+                  className="mt-3 inline-block text-sm font-semibold text-forest-text underline-offset-2 hover:underline"
+                >
+                  Ouvrir la messagerie →
+                </Link>
               </div>
             );
           })}
@@ -272,9 +278,17 @@ export default async function DemandesSitter({
             )}
 
             {d.dejaCandidat ? (
-              <p className="mt-4 rounded-[12px] bg-forest-tint px-4 py-2.5 text-sm font-semibold text-forest-text">
-                ✓ Vous avez candidaté — le propriétaire a votre proposition.
-              </p>
+              <div className="mt-4 space-y-2">
+                <p className="rounded-[12px] bg-forest-tint px-4 py-2.5 text-sm font-semibold text-forest-text">
+                  ✓ Vous avez candidaté — le propriétaire a votre proposition.
+                </p>
+                <Link
+                  href={`/compte/messages/${d.id}`}
+                  className="inline-block text-sm font-semibold text-primary underline-offset-2 hover:underline"
+                >
+                  Écrire au propriétaire →
+                </Link>
+              </div>
             ) : (
               <form
                 action={candidater}

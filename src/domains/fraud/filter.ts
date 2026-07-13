@@ -47,3 +47,30 @@ export function checkFreeText(text: string): FilterResult {
   }
   return { ok: true };
 }
+
+/** Bloc de caviardage — remplace le motif détecté à l'affichage masqué. */
+const REDACTION = "▓▓▓";
+
+// Mêmes motifs que la passe de blocage, mais globaux : on remplace TOUTES les
+// occurrences (le caviardage doit couvrir chaque fuite, pas seulement la 1re).
+const MASK_PATTERNS = PATTERNS.map(({ re }) => ({
+  re: new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g"),
+}));
+
+/**
+ * Caviarde (au lieu de rejeter) les coordonnées d'un texte. Utilisé CÔTÉ
+ * SERVEUR pour la messagerie pré-déblocage : on stocke/affiche la version
+ * masquée, jamais le brut. Renvoie le texte masqué et un booléen indiquant
+ * qu'au moins un motif a été trouvé (journalisation + hadMaskedContent).
+ */
+export function maskContacts(text: string): { masked: string; hadMatch: boolean } {
+  let hadMatch = false;
+  let masked = text;
+  for (const { re } of MASK_PATTERNS) {
+    masked = masked.replace(re, () => {
+      hadMatch = true;
+      return REDACTION;
+    });
+  }
+  return { masked, hadMatch };
+}
