@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { getStripe } from "@/lib/stripe";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
 import { deposerDemande } from "./actions";
 import { CONSTRAINT_KEYS } from "@/domains/marketplace/constraints";
@@ -52,8 +53,18 @@ export default async function Demande({
       <div className="mt-5 flex items-center gap-4 rounded-[16px] bg-ink px-5 py-4">
         <span className="font-mono text-2xl font-bold text-surface">0 €</span>
         <span className="text-sm text-surface/80">
-          débité aujourd&apos;hui. Le paiement de la mise en relation ouvre très
-          prochainement — déposez déjà votre demande, elle sera prête.
+          {getStripe() ? (
+            <>
+              débité aujourd&apos;hui : une simple empreinte carte à l&apos;étape
+              suivante. Vous ne serez prélevé que lorsque vous choisirez votre
+              pet sitter — même des mois plus tard.
+            </>
+          ) : (
+            <>
+              débité aujourd&apos;hui. Le paiement de la mise en relation ouvre
+              très prochainement — déposez déjà votre demande, elle sera prête.
+            </>
+          )}
         </span>
       </div>
 

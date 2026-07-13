@@ -49,6 +49,31 @@ export default async function DemandesSitter({
       })
     : null;
 
+  // Missions confirmées : le propriétaire a choisi CE pet sitter et réglé la
+  // mise en relation → ses coordonnées sont révélées (et seulement là).
+  const missions =
+    db && profile
+      ? await db.mission.findMany({
+          where: {
+            confirmedSitterId: profile.id,
+            careRequest: { status: { in: ["UNLOCKED", "CONFIRMED", "COMPLETED"] } },
+          },
+          orderBy: { careRequest: { startDate: "asc" } },
+          include: {
+            careRequest: {
+              include: {
+                owner: { select: { firstName: true, lastName: true, email: true } },
+                applications: {
+                  where: { sitterProfileId: profile.id },
+                  select: { priceCents: true },
+                },
+              },
+            },
+          },
+          take: 20,
+        })
+      : [];
+
   // Demandes ouvertes, dans les délais, compatibles service×espèce, à portée.
   let demandes: Array<{
     id: string;
@@ -123,6 +148,70 @@ export default async function DemandesSitter({
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">
           {detail || ERREURS[erreur] || "Une erreur est survenue."}
         </p>
+      )}
+
+      {/* Missions confirmées — coordonnées du propriétaire révélées post-paiement */}
+      {missions.length > 0 && (
+        <div className="mt-6 space-y-4">
+          <p className="kicker">
+            Mission{missions.length > 1 ? "s" : ""} confirmée
+            {missions.length > 1 ? "s" : ""}
+          </p>
+          {missions.map((m) => {
+            const r = m.careRequest;
+            const tarif = r.applications[0]?.priceCents;
+            return (
+              <div
+                key={m.id}
+                className="rounded-[20px] border border-forest-border bg-forest-tint p-6"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h2 className="font-display text-lg font-bold text-ink">
+                    {serviceLabel(r.service)} · {speciesLabel(r.species)}
+                    {r.animalCount > 1 ? ` ×${r.animalCount}` : ""}
+                  </h2>
+                  <span className="rounded-full border border-forest-border bg-surface px-3 py-1 text-xs font-bold text-forest-text">
+                    ✓ Le propriétaire vous a choisi
+                  </span>
+                </div>
+                <p className="mt-1 font-mono text-sm text-body">
+                  {dateFr(r.startDate)} → {dateFr(r.endDate)} ·{" "}
+                  {r.communeName ?? r.communeCode}
+                </p>
+                <div className="mt-4 rounded-[14px] border border-forest-border bg-surface p-4">
+                  <p className="font-semibold text-ink">
+                    {[r.owner.firstName, r.owner.lastName].filter(Boolean).join(" ") ||
+                      "Propriétaire"}
+                  </p>
+                  <p className="mt-0.5 text-sm text-body">
+                    E-mail :{" "}
+                    <a
+                      href={`mailto:${r.owner.email}`}
+                      className="font-mono font-bold text-forest-text underline underline-offset-2"
+                    >
+                      {r.owner.email}
+                    </a>
+                  </p>
+                </div>
+                <p className="mt-3 text-sm text-body">
+                  {tarif != null && (
+                    <>
+                      Votre tarif accepté :{" "}
+                      <strong className="font-mono">
+                        {(tarif / 100).toLocaleString("fr-FR", {
+                          minimumFractionDigits: tarif % 100 === 0 ? 0 : 2,
+                        })}{" "}
+                        €
+                      </strong>{" "}
+                      — payé en direct par le propriétaire, 100 % pour vous.{" "}
+                    </>
+                  )}
+                  Proposez une rencontre préalable gratuite avant la garde.
+                </p>
+              </div>
+            );
+          })}
+        </div>
       )}
 
       {!profile?.publishedAt && (

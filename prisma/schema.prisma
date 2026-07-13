@@ -35,6 +35,9 @@ model User {
   firstName       String? // prénom
   lastNameInitial String? // Anonymisation pré-paiement : prénom + initiale uniquement
   lastName        String? // Révélé uniquement post-capture, au sitter/owner confirmé
+  // Client Stripe (empreinte carte au dépôt, débit off-session à l'acceptation — Q14).
+  // Créé paresseusement au premier dépôt avec Stripe configuré, réutilisé ensuite.
+  stripeCustomerId String? @unique
   createdAt       DateTime  @default(now())
   deletedAt       DateTime? // droit à l'effacement : soft-delete puis purge (cron)
 

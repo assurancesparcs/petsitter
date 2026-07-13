@@ -3,6 +3,9 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
+import { getStripe } from "@/lib/stripe";
+import { passFromDates } from "@/lib/pricing";
+import { ensureStripeCustomer } from "@/domains/payments/payments";
 import { findByPostalCode } from "@/domains/geo/communes";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
 import { CONSTRAINT_KEYS } from "@/domains/marketplace/constraints";
@@ -56,6 +59,9 @@ export async function deposerDemande(formData: FormData) {
 
   const deadline = new Date(Date.now() + RESPONSE_WINDOW_H * 3600 * 1000);
 
+  // Pass DÉDUIT des dates, montant figé CÔTÉ SERVEUR (jamais depuis le client).
+  const pass = passFromDates(start, end);
+
   const request = await db.careRequest.create({
     data: {
       ownerId: session.user.id,
@@ -71,10 +77,36 @@ export async function deposerDemande(formData: FormData) {
       animalCount,
       constraints,
       responseDeadline: deadline,
-      events: { create: { type: "created", payload: { constraints } } },
+      events: { create: { type: "created", payload: { constraints, pass: pass.key } } },
     },
   });
 
+  // Stripe configuré → empreinte carte (0 € débité) : ligne Payment SETUP_PENDING
+  // puis redirection vers l'écran d'empreinte. Sinon, comportement inchangé.
+  const stripe = getStripe();
+  let versPaiement = false;
+  if (stripe) {
+    try {
+      const customerId = await ensureStripeCustomer(db, stripe, session.user.id);
+      await db.payment.create({
+        data: {
+          careRequestId: request.id,
+          stripeCustomerId: customerId,
+          amountCents: pass.cents,
+          packLabel: pass.key,
+          status: "SETUP_PENDING",
+        },
+      });
+      versPaiement = true;
+    } catch (e) {
+      // Stripe momentanément indisponible : la demande existe, l'empreinte
+      // pourra être enregistrée depuis « Mes demandes ». Aucune donnée de
+      // carte ici — on ne loggue que le type d'erreur.
+      console.error("[paiement] Création client/Payment impossible au dépôt :", (e as Error).name);
+    }
+  }
+
+  if (versPaiement) redirect(`/demande/paiement/${request.id}`);
   redirect(`/compte/mes-demandes?ok=creee&id=${request.id}`);
 }
 
