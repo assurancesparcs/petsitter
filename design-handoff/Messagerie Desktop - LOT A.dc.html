@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1200px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaison desktop · messagerie propriétaire ↔ pet sitter · LOT A</div>
+  </div>
+
+  <div style="max-width:1200px; margin:0 auto; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+    <!-- HEADER -->
+    <div style="padding:16px 32px; border-bottom:1px solid #EFE7DA; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <div style="position:relative; width:30px; height:30px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px;">AlloPetsitter</span>
+      </div>
+      <span style="font-family:'Space Mono'; font-size:12px; color:#8A8175;">Messagerie</span>
+    </div>
+
+    <div style="display:grid; grid-template-columns:300px 1fr 300px; height:640px;">
+
+      <!-- LEFT · conversation list -->
+      <div style="border-right:1px solid #EFE7DA; display:flex; flex-direction:column;">
+        <div style="padding:20px 22px 14px;">
+          <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:22px;">Conversations</div>
+        </div>
+        <div style="flex:1; overflow:hidden;">
+          <!-- active -->
+          <div style="display:flex; gap:12px; padding:14px 22px; background:#FBEEE9; border-left:3px solid #DD5A3F; align-items:center;">
+            <div style="width:44px; height:44px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="msg-l1" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Camille R.</span><span style="font-size:11px; color:#8A8175;">14:32</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Parfait, on se voit mardi alors !</div></div>
+          </div>
+          <!-- others -->
+          <div style="display:flex; gap:12px; padding:14px 22px; align-items:center;">
+            <div style="width:44px; height:44px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="msg-l2" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="circle" placeholder="chien"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Malik T.</span><span style="font-size:11px; color:#8A8175;">Hier</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Je peux passer pour la rencontre…</div></div>
+          </div>
+          <div style="display:flex; gap:12px; padding:14px 22px; align-items:center;">
+            <div style="width:44px; height:44px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="msg-l3" src="https://images.pexels.com/photos/19943347/pexels-photo-19943347.jpeg" shape="circle" placeholder="NAC"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Inès B.</span><span style="font-size:11px; color:#8A8175;">Lun</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Merci pour les photos du lapin !</div></div>
+          </div>
+          <!-- support bot -->
+          <div style="display:flex; gap:12px; padding:14px 22px; align-items:center; border-top:1px solid #EFE7DA;">
+            <div style="width:44px; height:44px; border-radius:999px; background:#22201C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FBF8F3" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Assistant AlloPetsitter</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Une question ? Je réponds 24/7.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER · thread -->
+      <div style="display:flex; flex-direction:column; background:#F3EDE3;">
+        <!-- thread header -->
+        <div style="padding:16px 26px; border-bottom:1px solid #E9E1D4; display:flex; align-items:center; gap:12px; background:#FBF8F3;">
+          <div style="width:40px; height:40px; border-radius:999px; overflow:hidden;"><image-slot id="msg-hdr" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+          <div style="flex:1;"><div style="font-weight:700; font-size:16px;">Camille R.</div><div style="font-size:12px; color:#2F7D57; font-weight:600;">Garde confirmée · 14 → 17 août</div></div>
+          <span style="font-size:12px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:6px 12px; border-radius:999px;">✓ Identité vérifiée</span>
+        </div>
+
+        <!-- messages -->
+        <div style="flex:1; padding:26px; display:flex; flex-direction:column; gap:14px; overflow:hidden;">
+          <div style="text-align:center;"><span style="font-family:'Space Mono'; font-size:11px; color:#8A8175; background:#EDE6DA; padding:5px 12px; border-radius:999px;">Contact débloqué le 11 août</span></div>
+          <!-- them -->
+          <div style="max-width:70%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:12px 16px;"><div style="font-size:15px; color:#22201C; line-height:1.5;">Bonjour ! Ravie de garder Minette. On se fait une rencontre avant, ça vous va ?</div><div style="font-size:11px; color:#8A8175; margin-top:5px;">14:20</div></div>
+          <!-- me -->
+          <div style="max-width:70%; align-self:flex-end; background:#DD5A3F; border-radius:16px 16px 4px 16px; padding:12px 16px;"><div style="font-size:15px; color:#fff; line-height:1.5;">Oui bien sûr ! Mardi 18h chez moi ? Elle est un peu timide au début.</div><div style="font-size:11px; color:#FBE3DB; margin-top:5px; text-align:right;">14:26</div></div>
+          <!-- them -->
+          <div style="max-width:70%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:12px 16px;"><div style="font-size:15px; color:#22201C; line-height:1.5;">Parfait, on se voit mardi alors !</div><div style="font-size:11px; color:#8A8175; margin-top:5px;">14:32</div></div>
+        </div>
+
+        <!-- composer -->
+        <div style="padding:16px 26px; border-top:1px solid #E9E1D4; background:#FBF8F3; display:flex; gap:12px; align-items:center;">
+          <input type="text" placeholder="Écrire un message…" style="flex:1; font-size:15px; padding:13px 18px; border:1.5px solid #E4DCCF; border-radius:999px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          <button style="font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:13px 24px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Envoyer</button>
+        </div>
+      </div>
+
+      <!-- RIGHT · garde detail -->
+      <div style="border-left:1px solid #EFE7DA; padding:24px 22px;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">Détail de la garde</div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Animal</span><span style="font-weight:700;">Minette · chat</span></div>
+          <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Dates</span><span style="font-weight:700;">14 → 17 août</span></div>
+          <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:14px;"><span style="color:#6B6459;">Versé à Camille</span><span style="display:inline-flex; align-items:baseline; gap:6px;"><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">75 €</span><span style="font-size:10px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:1px 6px; border-radius:999px;">100 %</span></span></div>
+        </div>
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Prochaines étapes</div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:#423E37;"><span style="color:#2F7D57; font-weight:700;">✓</span> Contact débloqué</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:#423E37;"><span style="width:14px; height:14px; border:1.5px solid #C9C1B4; border-radius:4px; flex-shrink:0; margin-top:2px;"></span> Rencontre préalable (mardi 18h)</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:#423E37;"><span style="width:14px; height:14px; border:1.5px solid #C9C1B4; border-radius:4px; flex-shrink:0; margin-top:2px;"></span> Signer le contrat de garde type</div>
+        </div>
+        <button style="width:100%; font-weight:700; font-size:14px; background:#fff; color:#22201C; border:1.5px solid #22201C; padding:12px; border-radius:12px; cursor:pointer; margin-bottom:16px;" style-hover="background:#22201C; color:#fff;">Ouvrir le contrat type</button>
+        <div style="background:#F3EDE3; border:1px dashed #C9C1B4; border-radius:12px; padding:12px 14px; font-size:12px; color:#6B6459; line-height:1.5;">Un souci avec Camille ? L'assistant écrit et le Plan B restent joignables 24/7 — <strong>tout se règle en ligne</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ÉTAT AVANT PAIEMENT · coordonnées masquées ============ -->
+  <div style="max-width:1200px; margin:40px auto 0;">
+    <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px;">État avant paiement · téléphone, adresse &amp; e-mail masqués automatiquement</div>
+    <div style="background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+      <div style="padding:16px 26px; border-bottom:1px solid #E9E1D4; display:flex; align-items:center; gap:12px; background:#FBF8F3;">
+        <div style="width:40px; height:40px; border-radius:999px; overflow:hidden;"><image-slot id="msg-pre-hdr" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="circle" placeholder="chien"></image-slot></div>
+        <div style="flex:1;"><div style="font-weight:700; font-size:16px;">Malik T.</div><div style="font-size:12px; color:#C24A31; font-weight:600;">En attente de paiement · contact non débloqué</div></div>
+        <span style="font-size:12px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:6px 12px; border-radius:999px;">Coordonnées masquées</span>
+      </div>
+      <div style="padding:26px; background:#F3EDE3; display:flex; flex-direction:column; gap:14px;">
+        <!-- me, contains phone -> masked -->
+        <div style="max-width:64%; align-self:flex-end; background:#DD5A3F; border-radius:16px 16px 4px 16px; padding:12px 16px;"><div style="font-size:15px; color:#fff; line-height:1.5;">Super ! Vous pouvez m'appeler au <span style="background:rgba(0,0,0,0.28); color:#fff; padding:1px 8px; border-radius:6px; font-family:'Space Mono'; font-size:13px;">•• •• •• •• ••</span> ?</div><div style="font-size:11px; color:#FBE3DB; margin-top:5px; text-align:right;">10:02</div></div>
+        <!-- system notice -->
+        <div style="align-self:center; max-width:80%; background:#fff; border:1px solid #E8D3C6; border-radius:12px; padding:12px 16px; text-align:center;"><div style="font-size:13px; color:#7A4232; line-height:1.5;">Pour votre sécurité, le numéro de téléphone a été masqué. <strong>Les coordonnées deviennent visibles une fois la garde confirmée et payée.</strong></div></div>
+        <!-- them, contains email -> masked -->
+        <div style="max-width:64%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:12px 16px;"><div style="font-size:15px; color:#22201C; line-height:1.5;">Pas de souci, écrivez-moi à <span style="background:#EDE6DA; color:#8A8175; padding:1px 8px; border-radius:6px; font-family:'Space Mono'; font-size:13px;">e-mail masqué</span> pour l'adresse.</div><div style="font-size:11px; color:#8A8175; margin-top:5px;">10:04</div></div>
+      </div>
+      <div style="padding:16px 26px; border-top:1px solid #E9E1D4; background:#FBF8F3; display:flex; gap:12px; align-items:center;">
+        <input type="text" placeholder="Écrire un message…" style="flex:1; font-size:15px; padding:13px 18px; border:1.5px solid #E4DCCF; border-radius:999px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+        <button style="font-weight:700; font-size:15px; background:#C24A31; color:#fff; border:none; padding:13px 24px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1200, &quot;height&quot;: 760}}"></script>
+</body>
+</html>

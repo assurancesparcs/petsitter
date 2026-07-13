@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:880px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Mobile · messagerie propriétaire ↔ pet sitter · LOT A</div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center; align-items:flex-start;">
+
+    <!-- SCREEN 1 · liste -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Conversations</div>
+      <div style="width:390px; max-width:100%; height:800px; background:#FBF8F3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF; display:flex; flex-direction:column;">
+        <div style="padding:20px 22px 14px; border-bottom:1px solid #EFE7DA;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div style="position:relative; width:28px; height:28px; background:#DD5A3F; border-radius:8px 8px 8px 2px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="13" height="13" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+            <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:16px;">AlloPetsitter</span>
+          </div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px;">Messages</div>
+        </div>
+        <div style="flex:1;">
+          <div style="display:flex; gap:12px; padding:16px 22px; background:#FBEEE9; align-items:center;">
+            <div style="width:48px; height:48px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="mm-l1" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Camille R.</span><span style="font-size:11px; color:#8A8175;">14:32</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Parfait, on se voit mardi alors !</div></div>
+          </div>
+          <div style="display:flex; gap:12px; padding:16px 22px; align-items:center;">
+            <div style="width:48px; height:48px; border-radius:999px; overflow:hidden; flex-shrink:0; position:relative;"><image-slot id="mm-l2" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="circle" placeholder="chien"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Malik T.</span><span style="font-size:11px; color:#C24A31; font-weight:700;">•</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">En attente de paiement</div></div>
+          </div>
+          <div style="display:flex; gap:12px; padding:16px 22px; align-items:center;">
+            <div style="width:48px; height:48px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="mm-l3" src="https://images.pexels.com/photos/19943347/pexels-photo-19943347.jpeg" shape="circle" placeholder="NAC"></image-slot></div>
+            <div style="flex:1; min-width:0;"><div style="display:flex; justify-content:space-between;"><span style="font-weight:700; font-size:15px;">Inès B.</span><span style="font-size:11px; color:#8A8175;">Lun</span></div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Merci pour les photos du lapin !</div></div>
+          </div>
+          <div style="display:flex; gap:12px; padding:16px 22px; align-items:center; border-top:1px solid #EFE7DA;">
+            <div style="width:48px; height:48px; border-radius:999px; background:#22201C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#FBF8F3" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>
+            <div style="flex:1; min-width:0;"><div style="font-weight:700; font-size:15px;">Assistant AlloPetsitter</div><div style="font-size:13px; color:#6B6459; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Une question ? Je réponds 24/7.</div></div>
+          </div>
+        </div>
+        <div style="border-top:1px solid #EFE7DA; padding:12px 22px; display:flex; justify-content:space-around; font-size:11px; color:#8A8175;">
+          <span>Recherche</span><span>Demandes</span><span style="color:#C24A31; font-weight:700;">Messages</span><span>Profil</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2 · fil confirmé -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Conversation · garde confirmée</div>
+      <div style="width:390px; max-width:100%; height:800px; background:#F3EDE3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF; display:flex; flex-direction:column;">
+        <div style="padding:14px 20px; background:#FBF8F3; border-bottom:1px solid #E9E1D4; display:flex; align-items:center; gap:12px;">
+          <span style="font-size:20px;">←</span>
+          <div style="width:40px; height:40px; border-radius:999px; overflow:hidden;"><image-slot id="mm-hdr" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+          <div style="flex:1;"><div style="font-weight:700; font-size:15px;">Camille R.</div><div style="font-size:11px; color:#2F7D57; font-weight:600;">Garde confirmée · 14 → 17 août</div></div>
+        </div>
+        <div style="flex:1; padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <div style="text-align:center;"><span style="font-family:'Space Mono'; font-size:10.5px; color:#8A8175; background:#EDE6DA; padding:5px 12px; border-radius:999px;">Contact débloqué le 11 août</span></div>
+          <div style="max-width:78%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:11px 15px;"><div style="font-size:14.5px; color:#22201C; line-height:1.5;">Bonjour ! Ravie de garder Minette. On se fait une rencontre avant ?</div><div style="font-size:10.5px; color:#8A8175; margin-top:5px;">14:20</div></div>
+          <div style="max-width:78%; align-self:flex-end; background:#DD5A3F; border-radius:16px 16px 4px 16px; padding:11px 15px;"><div style="font-size:14.5px; color:#fff; line-height:1.5;">Oui ! Mardi 18h chez moi ? Elle est timide au début.</div><div style="font-size:10.5px; color:#FBE3DB; margin-top:5px; text-align:right;">14:26</div></div>
+          <div style="max-width:78%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:11px 15px;"><div style="font-size:14.5px; color:#22201C; line-height:1.5;">Parfait, on se voit mardi alors !</div><div style="font-size:10.5px; color:#8A8175; margin-top:5px;">14:32</div></div>
+        </div>
+        <div style="padding:14px 18px; border-top:1px solid #E9E1D4; background:#FBF8F3; display:flex; gap:10px; align-items:center;">
+          <input type="text" placeholder="Message…" style="flex:1; font-size:14.5px; padding:11px 16px; border:1.5px solid #E4DCCF; border-radius:999px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          <button style="font-weight:700; font-size:14px; background:#C24A31; color:#fff; border:none; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3 · avant paiement, masqué -->
+    <div>
+      <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; text-align:center;">Avant paiement · coordonnées masquées</div>
+      <div style="width:390px; max-width:100%; height:800px; background:#F3EDE3; border-radius:34px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.18); border:1px solid #E4DCCF; display:flex; flex-direction:column;">
+        <div style="padding:14px 20px; background:#FBF8F3; border-bottom:1px solid #E9E1D4; display:flex; align-items:center; gap:12px;">
+          <span style="font-size:20px;">←</span>
+          <div style="width:40px; height:40px; border-radius:999px; overflow:hidden;"><image-slot id="mm-pre" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="circle" placeholder="chien"></image-slot></div>
+          <div style="flex:1;"><div style="font-weight:700; font-size:15px;">Malik T.</div><div style="font-size:11px; color:#C24A31; font-weight:600;">Contact non débloqué</div></div>
+        </div>
+        <div style="padding:10px 20px; background:#FBEEE9; border-bottom:1px solid #F0D3C9;"><div style="font-size:12px; color:#C24A31; text-align:center; font-weight:600;">Coordonnées masquées jusqu'au paiement</div></div>
+        <div style="flex:1; padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <div style="max-width:80%; align-self:flex-end; background:#DD5A3F; border-radius:16px 16px 4px 16px; padding:11px 15px;"><div style="font-size:14.5px; color:#fff; line-height:1.5;">Super ! Appelez-moi au <span style="background:rgba(0,0,0,0.28); color:#fff; padding:1px 8px; border-radius:6px; font-family:'Space Mono'; font-size:12.5px;">•• •• •• •• ••</span></div><div style="font-size:10.5px; color:#FBE3DB; margin-top:5px; text-align:right;">10:02</div></div>
+          <div style="align-self:center; max-width:88%; background:#fff; border:1px solid #E8D3C6; border-radius:12px; padding:11px 15px; text-align:center;"><div style="font-size:12.5px; color:#7A4232; line-height:1.5;">Numéro masqué pour votre sécurité. <strong>Visible une fois la garde confirmée et payée.</strong></div></div>
+          <div style="max-width:80%; align-self:flex-start; background:#fff; border:1px solid #E4DCCF; border-radius:16px 16px 16px 4px; padding:11px 15px;"><div style="font-size:14.5px; color:#22201C; line-height:1.5;">Pas de souci, écrivez à <span style="background:#EDE6DA; color:#8A8175; padding:1px 8px; border-radius:6px; font-family:'Space Mono'; font-size:12.5px;">e-mail masqué</span></div><div style="font-size:10.5px; color:#8A8175; margin-top:5px;">10:04</div></div>
+        </div>
+        <div style="padding:14px 18px; border-top:1px solid #E9E1D4; background:#FBF8F3; display:flex; gap:10px; align-items:center;">
+          <input type="text" placeholder="Message…" style="flex:1; font-size:14.5px; padding:11px 16px; border:1.5px solid #E4DCCF; border-radius:999px; background:#fff;" style-focus="border-color:#DD5A3F; outline:none;">
+          <button style="font-weight:700; font-size:14px; background:#C24A31; color:#fff; border:none; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#DD5A3F;">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 880, &quot;height&quot;: 880}}"></script>
+</body>
+</html>

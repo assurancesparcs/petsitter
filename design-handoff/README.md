@@ -24,6 +24,7 @@ Chaque fichier est un « Design Component » autonome : il s'ouvre dans un navig
 5. **Anti-dark-patterns (charte opposable).** Interdits : fausse urgence, case pré-cochée, prix barré fictif, frais cachés au checkout, conversion silencieuse. Résiliation **en 3 clics**, jamais plus longue que l'abonnement. Rappel **J-3** avant tout prélèvement. **Zéro faux avis / score gonflé** : sous le seuil, badge « Nouveau » assumé.
 6. **Paiement.** Empreinte carte au dépôt = **0 € débité** ; débit **uniquement** quand un pet sitter accepte. Un seul cas de remboursement : sitter confirmé qui annule sans remplaçant Plan B → remboursement **proactif** de la mise en relation.
 7. **Chat = Chien = NAC.** Égalité stricte dans la copie, les filtres, l'imagerie.
+8. **Masquage des coordonnées avant paiement (anti-désintermédiation).** Dans la messagerie, tant que le paiement n'est pas effectué, **bloquer/masquer automatiquement tout échange de numéro de téléphone, adresse postale et e-mail** (détection + caviardage côté serveur, jamais seulement côté client). Les coordonnées ne se débloquent qu'**après paiement** (empreinte débitée à l'acceptation). Afficher un message clair quand un contenu est masqué (« Les coordonnées sont visibles après confirmation de la garde »). Objectif : empêcher la sortie de plateforme avant la mise en relation payante.
 
 ---
 
@@ -111,6 +112,25 @@ Bulle de conversation (carré arrondi vermillon `#DD5A3F` avec queue en bas-gauc
 - **One-pager Partenariats Desktop** : vétos/toiletteurs/refuges/animaleries — partenariat en 3 points.
 - **Social Desktop** : board large du kit de contenu (système + 9 posts + 5 scripts).
 - **Charte Qualite Desktop** : 6 engagements opposables + 5 interdits anti-dark-patterns.
+
+### Espace pet sitter (LOT A) — parcours sitter complet
+- **Onboarding Sitter Desktop** : création de profil en 4 étapes (identité/vérif · animaux & services · tarifs · photo & bio), rappel « 0 % à vie ».
+- **Profil Sitter Desktop** : bio, animaux (chat/NAC/chien), tarifs « 100 % pour vous », galerie, score de fiabilité, revenus du mois, complétude profil.
+- **Demandes Recues Sitter Desktop** : onglets À traiter/Acceptées/Passées, demandes avec montant « 100 % pour vous » et badge Plan B, accepter/refuser.
+- **Revenus Sitter Desktop** : KPI (encaissé, 0 € commission, gardes, tarif moyen), graphe mensuel, tableau des versements, export CSV.
+- **Deblocage Sitter Desktop** : miroir sitter du déblocage — contact client révélé après acceptation, revenu 100 %, prochaines étapes.
+- **Espace Sitter AlloPetsitter** (mobile) : profil · demandes · revenus, barre d'onglets.
+
+### Messagerie & activité (LOT A)
+- **Messagerie Desktop** : 3 colonnes (liste, fil, détail garde) + **état avant paiement** avec coordonnées masquées (Règle 8).
+- **Messagerie AlloPetsitter** (mobile) : liste, fil confirmé, état avant paiement (bandeau + caviardage).
+- **Notifications Desktop** : acceptation, rappel J-3, message, remboursement proactif, Plan B, nouveau sitter NAC.
+- **Confirmation Demande Desktop** : étape 3/3 du tunnel propriétaire, « 0 € débité », suite en 3 temps.
+- **Avis Client Desktop** : laisser un avis vérifié (garde réelle), bloc « zéro faux avis / zéro score gonflé », impact score.
+- **Historique Gardes Desktop** : « Mes gardes » propriétaire — à venir + passées (reçus, avis).
+
+### Interne / back-office (LOT A)
+- **Panneau Admin Desktop** : tableau de bord modération — vérifications d'identité, **modération chat / masquage PII avant paiement (Règle 8)**, litiges & Plan B, remboursements, signalements (dont photo stock). Outil interne, non public.
 
 ### Navigation
 - **AlloPetsitter — Index** : page d'accueil reliant tous les écrans (liens relatifs `.dc.html`), groupés par section avec badges LOT A / PRIVÉ / NE PAS PUBLIER. **Point d'entrée recommandé** — ouvrir ce fichier en premier.

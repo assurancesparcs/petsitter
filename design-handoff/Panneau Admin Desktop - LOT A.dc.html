@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1240px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Interne · panneau d'administration (modération &amp; opérations) · LOT A</div>
+  </div>
+
+  <div style="max-width:1240px; margin:0 auto; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF; display:grid; grid-template-columns:220px 1fr;">
+
+    <!-- SIDEBAR -->
+    <div style="background:#22201C; color:#fff; padding:26px 20px; display:flex; flex-direction:column;">
+      <div style="display:flex; align-items:center; gap:9px; margin-bottom:30px;">
+        <div style="position:relative; width:28px; height:28px; background:#DD5A3F; border-radius:8px 8px 8px 2px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="13" height="13" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:15px;">Admin</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:3px; font-size:14px; flex:1;">
+        <span style="padding:10px 12px; background:rgba(255,255,255,0.1); border-radius:10px; font-weight:700;">Tableau de bord</span>
+        <span style="padding:10px 12px; color:#A79F92;">Vérifications</span>
+        <span style="padding:10px 12px; color:#A79F92;">Modération chat</span>
+        <span style="padding:10px 12px; color:#A79F92;">Litiges &amp; Plan B</span>
+        <span style="padding:10px 12px; color:#A79F92;">Remboursements</span>
+        <span style="padding:10px 12px; color:#A79F92;">Signalements</span>
+      </div>
+      <div style="background:rgba(255,255,255,0.08); border-radius:12px; padding:14px; font-size:12px; color:#C9C1B4; line-height:1.5;">Outil interne. Aucune donnée client exportée hors plateforme.</div>
+    </div>
+
+    <!-- MAIN -->
+    <div style="padding:32px 36px;">
+      <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:30px; letter-spacing:-0.02em; margin:0 0 20px;">Tableau de bord</h1>
+
+      <!-- KPIs -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:26px;">
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px;"><div style="font-family:'Space Mono'; font-size:10.5px; color:#8A8175; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Vérifs en attente</div><div style="font-family:'Space Mono'; font-weight:700; font-size:30px;">7</div></div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px;"><div style="font-family:'Space Mono'; font-size:10.5px; color:#8A8175; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Chats signalés (PII)</div><div style="font-family:'Space Mono'; font-weight:700; font-size:30px; color:#C24A31;">4</div></div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px;"><div style="font-family:'Space Mono'; font-size:10.5px; color:#8A8175; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Litiges ouverts</div><div style="font-family:'Space Mono'; font-weight:700; font-size:30px;">2</div></div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px;"><div style="font-family:'Space Mono'; font-size:10.5px; color:#8A8175; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Plan B actifs</div><div style="font-family:'Space Mono'; font-weight:700; font-size:30px;">1</div></div>
+      </div>
+
+      <!-- Modération chat (PII) -->
+      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;">
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px;">Modération chat · coordonnées avant paiement</div>
+        <span style="font-size:12px; color:#8A8175;">Détection auto · validation humaine</span>
+      </div>
+      <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; overflow:hidden; margin-bottom:26px;">
+        <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:14px; padding:12px 22px; background:#F3EDE3; font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.06em;"><span>Conversation</span><span>Détecté</span><span>État</span><span>Action</span></div>
+        <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:14px; padding:14px 22px; border-top:1px solid #EFE7DA; align-items:center; font-size:14px;">
+          <span style="font-weight:600;">Julie D. ↔ Malik T.</span><span style="color:#C24A31; font-weight:700;">Téléphone</span><span><span style="font-size:11px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:3px 9px; border-radius:999px;">Masqué auto</span></span>
+          <a href="#" style="font-size:13px; font-weight:700;">Revoir</a>
+        </div>
+        <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:14px; padding:14px 22px; border-top:1px solid #EFE7DA; align-items:center; font-size:14px;">
+          <span style="font-weight:600;">Théo L. ↔ Sophie M.</span><span style="color:#C24A31; font-weight:700;">E-mail</span><span><span style="font-size:11px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:3px 9px; border-radius:999px;">Masqué auto</span></span>
+          <a href="#" style="font-size:13px; font-weight:700;">Revoir</a>
+        </div>
+        <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:14px; padding:14px 22px; border-top:1px solid #EFE7DA; align-items:center; font-size:14px;">
+          <span style="font-weight:600;">Karim B. ↔ Inès B.</span><span style="color:#C24A31; font-weight:700;">Adresse</span><span><span style="font-size:11px; font-weight:700; background:#F3EDE3; color:#8A8175; padding:3px 9px; border-radius:999px; border:1px solid #E4DCCF;">À vérifier</span></span>
+          <a href="#" style="font-size:13px; font-weight:700;">Revoir</a>
+        </div>
+      </div>
+
+      <!-- two columns: vérifs + litiges -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; margin-bottom:12px;">Vérifications d'identité</div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid #EFE7DA;">
+              <div style="width:38px; height:38px; border-radius:999px; overflow:hidden;"><image-slot id="ad-v1" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="sitter"></image-slot></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600;">Léa V.</div><div style="font-size:12px; color:#8A8175;">Pièce + selfie reçus</div></div>
+              <div style="display:flex; gap:6px;"><button style="font-size:12px; font-weight:700; background:#E7F1E9; color:#1E6B45; border:none; padding:7px 12px; border-radius:9px; cursor:pointer;">Valider</button><button style="font-size:12px; font-weight:700; background:#fff; color:#22201C; border:1.5px solid #E4DCCF; padding:7px 12px; border-radius:9px; cursor:pointer;">Refuser</button></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; padding:8px 0;">
+              <div style="width:38px; height:38px; border-radius:999px; overflow:hidden;"><image-slot id="ad-v2" src="https://images.pexels.com/photos/13074581/pexels-photo-13074581.jpeg" shape="circle" placeholder="sitter"></image-slot></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600;">Malik T.</div><div style="font-size:12px; color:#8A8175;">En attente ACACED</div></div>
+              <div style="display:flex; gap:6px;"><button style="font-size:12px; font-weight:700; background:#E7F1E9; color:#1E6B45; border:none; padding:7px 12px; border-radius:9px; cursor:pointer;">Valider</button><button style="font-size:12px; font-weight:700; background:#fff; color:#22201C; border:1.5px solid #E4DCCF; padding:7px 12px; border-radius:9px; cursor:pointer;">Refuser</button></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px; margin-bottom:12px;">Litiges &amp; remboursements</div>
+          <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:16px;">
+            <div style="padding:10px 0; border-bottom:1px solid #EFE7DA;"><div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:14px; font-weight:600;">Désistement · garde 14 août</span><span style="font-size:11px; font-weight:700; background:#FBEEE9; color:#C24A31; padding:3px 9px; border-radius:999px;">Plan B</span></div><div style="font-size:12.5px; color:#6B6459; margin-top:4px;">Remboursement proactif 39 € proposé au client.</div></div>
+            <div style="padding:10px 0;"><div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:14px; font-weight:600;">Litige photo profil</span><span style="font-size:11px; font-weight:700; background:#F3EDE3; color:#8A8175; padding:3px 9px; border-radius:999px; border:1px solid #E4DCCF;">Ouvert</span></div><div style="font-size:12.5px; color:#6B6459; margin-top:4px;">Signalement : photo non conforme (stock).</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1240, &quot;height&quot;: 820}}"></script>
+</body>
+</html>

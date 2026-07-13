@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:840px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaison desktop · centre de notifications · LOT A</div>
+  </div>
+
+  <div style="max-width:840px; margin:0 auto; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+    <!-- HEADER -->
+    <div style="padding:20px 32px; border-bottom:1px solid #EFE7DA; display:flex; align-items:center; justify-content:space-between;">
+      <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; letter-spacing:-0.02em; margin:0;">Notifications</h1>
+      <a href="#" style="font-size:13px; font-weight:700;">Tout marquer comme lu</a>
+    </div>
+
+    <!-- filters -->
+    <div style="padding:16px 32px 8px; display:flex; gap:8px;">
+      <span style="font-size:13px; font-weight:700; padding:8px 15px; background:#22201C; color:#fff; border-radius:999px;">Tout</span>
+      <span style="font-size:13px; font-weight:600; padding:8px 15px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:999px;">Gardes</span>
+      <span style="font-size:13px; font-weight:600; padding:8px 15px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:999px;">Paiements</span>
+      <span style="font-size:13px; font-weight:600; padding:8px 15px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:999px;">Messages</span>
+    </div>
+
+    <div style="padding:12px 20px 24px;">
+      <!-- accepted (unread) -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; background:#FBEEE9; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:12px; background:#E7F1E9; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2F7D57" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;"><strong>Camille a accepté votre garde.</strong> Le paiement a été débité et le contact est débloqué.</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">Il y a 12 min</div></div>
+        <span style="width:9px; height:9px; border-radius:999px; background:#DD5A3F; flex-shrink:0; margin-top:6px;"></span>
+      </div>
+      <!-- reminder J-3 -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:12px; background:#F3EDE3; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C67139" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;"><strong>Rappel J-3 :</strong> votre abonnement (19 €/mois) sera renouvelé le 14 septembre. Vous pouvez le mettre en pause ou résilier en 3 clics.</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">Hier</div></div>
+      </div>
+      <!-- message -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="nt-msg" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;"><strong>Camille R.</strong> vous a envoyé un message : « Parfait, on se voit mardi alors ! »</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">Hier</div></div>
+      </div>
+      <!-- refund proactif -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:12px; background:#E7F1E9; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2F7D57" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.7 9.7 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;"><strong>Remboursement de 39 €.</strong> Une garde n'a pas pu être assurée — on vous a remboursé la mise en relation sans que vous ayez à le demander.</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">3 août</div></div>
+      </div>
+      <!-- Plan B -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:12px; background:#F3EDE3; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#22201C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;"><strong>Plan B activé.</strong> Nous avons alerté d'autres pet sitters compatibles près de chez vous pour votre garde du 14 août.</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">2 août</div></div>
+      </div>
+      <!-- new sitter (nouveau) -->
+      <div style="display:flex; gap:16px; padding:16px; border-radius:14px; align-items:flex-start;">
+        <div style="width:44px; height:44px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="nt-new" src="https://images.pexels.com/photos/19943347/pexels-photo-19943347.jpeg" shape="circle" placeholder="NAC"></image-slot></div>
+        <div style="flex:1;"><div style="font-size:15px; color:#22201C; line-height:1.5;">Un nouveau pet sitter <span style="font-size:10px; font-weight:700; background:#fff; color:#C24A31; padding:1px 7px; border-radius:999px; border:1.5px solid #DD5A3F;">✦ Nouveau</span> accueille les NAC près de chez vous.</div><div style="font-size:12px; color:#8A8175; margin-top:5px;">1 août</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 840, &quot;height&quot;: 720}}"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1120px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaison desktop · laisser un avis (vérifié, après garde réelle) · LOT A</div>
+  </div>
+
+  <div style="max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1fr 400px; gap:28px; align-items:start;">
+
+    <!-- LEFT · laisser un avis -->
+    <div style="background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+      <div style="padding:16px 32px; border-bottom:1px solid #EFE7DA; display:flex; align-items:center; gap:11px;">
+        <div style="position:relative; width:30px; height:30px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:18px;">Votre avis sur cette garde</span>
+      </div>
+      <div style="padding:32px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+          <div style="width:54px; height:54px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="av-sitter" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+          <div><div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px;">Camille R.</div><div style="font-size:13px; color:#8A8175;">Garde de Minette · 14 → 17 août</div></div>
+          <span style="margin-left:auto; font-size:11px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:5px 11px; border-radius:999px;">Garde vérifiée</span>
+        </div>
+
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Votre note</div>
+        <div style="display:flex; gap:6px; margin-bottom:24px;">
+          <span style="font-size:34px; color:#DD5A3F;">★</span><span style="font-size:34px; color:#DD5A3F;">★</span><span style="font-size:34px; color:#DD5A3F;">★</span><span style="font-size:34px; color:#DD5A3F;">★</span><span style="font-size:34px; color:#C9C1B4;">★</span>
+        </div>
+
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Ce qui s'est bien passé</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px;">
+          <span style="font-size:13px; font-weight:700; padding:8px 14px; border:1.5px solid #DD5A3F; background:#FBEEE9; color:#C24A31; border-radius:999px;">Photos quotidiennes</span>
+          <span style="font-size:13px; font-weight:700; padding:8px 14px; border:1.5px solid #DD5A3F; background:#FBEEE9; color:#C24A31; border-radius:999px;">Rencontre préalable</span>
+          <span style="font-size:13px; font-weight:600; padding:8px 14px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:999px;">Ponctualité</span>
+          <span style="font-size:13px; font-weight:600; padding:8px 14px; border:1.5px solid #E4DCCF; color:#423E37; border-radius:999px;">Propreté</span>
+        </div>
+
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Votre commentaire</div>
+        <div style="background:#fff; border:1.5px solid #E4DCCF; border-radius:14px; padding:16px 18px; font-size:15px; color:#423E37; line-height:1.6; min-height:96px;">Minette était détendue au retour, photos tous les jours. Camille connaît vraiment les chats — je réserve à nouveau sans hésiter.</div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:24px;">
+          <span style="font-size:12.5px; color:#8A8175;">Publié sous votre prénom + initiale. Modifiable 48 h.</span>
+          <button style="font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:14px 28px; border-radius:14px; cursor:pointer;" style-hover="background:#DD5A3F;">Publier mon avis</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT · notre règle -->
+    <div>
+      <div style="background:#22201C; color:#fff; border-radius:20px; padding:28px; margin-bottom:20px;">
+        <div style="font-family:'Space Mono'; font-size:11px; color:#E39A88; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">Notre règle sur les avis</div>
+        <h2 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:26px; line-height:1.05; letter-spacing:-0.02em; margin:0 0 14px;">Zéro faux avis. Zéro score gonflé.</h2>
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:14px; color:#C9C1B4; line-height:1.5;">
+          <div style="display:flex; gap:10px;"><span style="color:#2F7D57; font-weight:700;">✓</span> Seul un client ayant réellement payé une garde peut laisser un avis.</div>
+          <div style="display:flex; gap:10px;"><span style="color:#2F7D57; font-weight:700;">✓</span> Chaque avis est rattaché à une garde vérifiée.</div>
+          <div style="display:flex; gap:10px;"><span style="color:#2F7D57; font-weight:700;">✓</span> Sous le seuil d'avis, le sitter porte le badge « Nouveau » — jamais un score inventé.</div>
+        </div>
+      </div>
+      <div style="background:#FBF8F3; border:1px solid #E4DCCF; border-radius:20px; padding:24px;">
+        <div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:16px; margin-bottom:14px;">Impact sur le score de Camille</div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span style="position:relative; width:64px; height:64px; border-radius:999px; background: conic-gradient(#2F7D57 0turn 0.94turn, #E7F1E9 0.94turn 1turn); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><span style="width:48px; height:48px; border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono'; font-weight:700; font-size:18px; color:#1E6B45;">94</span></span>
+          <div style="font-size:13.5px; color:#6B6459; line-height:1.5;">Votre avis compte dans un score calculé <strong style="color:#22201C;">uniquement sur des gardes réelles</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1120, &quot;height&quot;: 720}}"></script>
+</body>
+</html>

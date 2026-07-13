@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EDE6DA; color:#22201C; font-family: "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C24A31; text-decoration: none; } a:hover { color: #DD5A3F; }
+  ::selection { background: #DD5A3F; color: #fff; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="padding:26px 20px 56px;">
+  <div style="max-width:1120px; margin:0 auto 22px;">
+    <div style="font-family:'Space Mono'; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175;">Déclinaison desktop · confirmation de demande (étape 3/3) · LOT A</div>
+  </div>
+
+  <div style="max-width:1120px; margin:0 auto; background:#FBF8F3; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(60,40,20,0.12); border:1px solid #E4DCCF;">
+    <!-- HEADER -->
+    <div style="padding:16px 40px; border-bottom:1px solid #EFE7DA; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <div style="position:relative; width:30px; height:30px; background:#DD5A3F; border-radius:9px 9px 9px 3px; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="#FBF8F3" style="display:block;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <span style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:19px;">AlloPetsitter</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Space Mono'; font-size:12px; color:#8A8175;">
+        <span style="color:#2F7D57; font-weight:700;">1 · Demande</span><span>—</span><span style="color:#2F7D57; font-weight:700;">2 · Offre</span><span>—</span><span style="color:#22201C; font-weight:700;">3 · Confirmation</span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 380px; gap:0;">
+      <!-- LEFT · confirmation -->
+      <div style="padding:52px 56px;">
+        <div style="width:72px; height:72px; border-radius:999px; background:#E7F1E9; display:flex; align-items:center; justify-content:center; margin-bottom:24px;"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#2F7D57" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h1 style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:42px; line-height:1.02; letter-spacing:-0.02em; margin:0 0 14px;">Demande envoyée à Camille.</h1>
+        <p style="font-size:18px; color:#423E37; line-height:1.55; max-width:46ch; margin:0 0 30px;">Elle a 24 h pour répondre. <strong style="color:#22201C;">Rien n'est débité</strong> tant qu'elle n'a pas accepté — votre empreinte carte reste juste en attente.</p>
+
+        <div style="font-family:'Space Mono'; font-size:11px; color:#8A8175; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">La suite</div>
+        <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:32px;">
+          <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px; color:#fff; background:#DD5A3F; width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</span><div style="padding-top:5px;"><div style="font-weight:700; font-size:16px;">Camille étudie votre demande</div><div style="font-size:14px; color:#6B6459;">Vous recevez une notification dès sa réponse.</div></div></div>
+          <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px; color:#fff; background:#DD5A3F; width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</span><div style="padding-top:5px;"><div style="font-weight:700; font-size:16px;">Si elle accepte, le paiement est débité</div><div style="font-size:14px; color:#6B6459;">Et le contact se débloque pour organiser la rencontre.</div></div></div>
+          <div style="display:flex; gap:14px; align-items:flex-start;"><span style="font-family:'Space Mono'; font-weight:700; font-size:15px; color:#fff; background:#DD5A3F; width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</span><div style="padding-top:5px;"><div style="font-weight:700; font-size:16px;">Si elle refuse ou ne répond pas</div><div style="font-size:14px; color:#6B6459;">Aucun débit, et on vous propose d'autres pet sitters.</div></div></div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <button style="font-weight:700; font-size:16px; background:#C24A31; color:#fff; border:none; padding:15px 26px; border-radius:14px; cursor:pointer;" style-hover="background:#DD5A3F;">Voir ma demande</button>
+          <button style="font-weight:700; font-size:16px; background:#fff; color:#22201C; border:1.5px solid #E4DCCF; padding:15px 26px; border-radius:14px; cursor:pointer;" style-hover="border-color:#22201C;">Continuer à explorer</button>
+        </div>
+      </div>
+
+      <!-- RIGHT · récap -->
+      <div style="background:#F3EDE3; border-left:1px solid #EFE7DA; padding:40px 32px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:22px;">
+          <div style="width:56px; height:56px; border-radius:999px; overflow:hidden; flex-shrink:0;"><image-slot id="cd-avatar" src="https://images.pexels.com/photos/16400873/pexels-photo-16400873.jpeg" shape="circle" placeholder="chat"></image-slot></div>
+          <div><div style="font-family:'Bricolage Grotesque'; font-weight:700; font-size:18px;">Camille R.</div><div style="font-size:12.5px; color:#2F7D57; font-weight:600;">✓ Identité vérifiée</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #E4DCCF; border-radius:16px; padding:18px 20px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Animal</span><span style="font-weight:700;">Minette · chat</span></div>
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Dates</span><span style="font-weight:700;">14 → 17 août</span></div>
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px; border-bottom:1px solid #EFE7DA;"><span style="color:#6B6459;">Versé à Camille</span><span style="display:inline-flex; align-items:baseline; gap:6px;"><span style="font-family:'Space Mono'; font-weight:700; color:#2F7D57;">75 €</span><span style="font-size:10px; font-weight:700; background:#E7F1E9; color:#1E6B45; padding:1px 6px; border-radius:999px;">100 %</span></span></div>
+          <div style="display:flex; justify-content:space-between; padding:7px 0; font-size:14px;"><span style="color:#6B6459;">Mise en relation</span><span style="font-family:'Space Mono'; font-weight:700;">39 €</span></div>
+        </div>
+        <div style="background:#22201C; border-radius:16px; padding:20px 22px;">
+          <div style="display:flex; align-items:baseline; gap:12px;"><span style="font-family:'Space Mono'; font-weight:700; font-size:32px; color:#fff;">0 €</span><span style="font-size:13px; color:#C9C1B4; line-height:1.4;">débité aujourd'hui. Empreinte en attente.</span></div>
+        </div>
+        <div style="text-align:center; font-size:12.5px; color:#8A8175; line-height:1.5; margin-top:16px;">Réponse attendue sous 24 h · notification par écrit, jamais par téléphone.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1120, &quot;height&quot;: 720}}"></script>
+</body>
+</html>
