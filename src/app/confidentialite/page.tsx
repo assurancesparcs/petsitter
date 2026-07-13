@@ -52,9 +52,9 @@ export default function Confidentialite() {
             (soumission volontaire du formulaire), retirable à tout moment par
             simple demande. Ces données ne sont ni vendues ni transmises.{" "}
             <strong className="text-ink">
-              Durée de conservation : jusqu&apos;à 12 mois après
-              l&apos;ouverture du service dans votre zone, puis suppression si
-              vous n&apos;avez pas créé de compte.
+              Durée de conservation : 6 mois maximum. Une inscription non
+              convertie en compte est supprimée automatiquement au-delà de ce
+              délai (purge quotidienne).
             </strong>
           </li>
           <li>
@@ -73,6 +73,25 @@ export default function Confidentialite() {
             </strong>{" "}
             : seuls le statut et la date de décision sont conservés, jamais les
             images. Ils ne sont ni vendus ni transmis.
+          </li>
+          <li>
+            <strong className="text-ink">Adresse exacte d&apos;une garde</strong>{" "}
+            : communiquée au seul pet sitter retenu, chiffrée, et{" "}
+            <strong className="text-ink">
+              effacée automatiquement 30 jours après la fin de la garde
+            </strong>{" "}
+            (nous n&apos;en gardons pas la trace au-delà).
+          </li>
+          <li>
+            <strong className="text-ink">Effacement de votre compte</strong> :
+            sur demande, votre compte est désactivé immédiatement, puis vos
+            données personnelles (nom, e-mail, téléphone, présentation,
+            localisation) sont{" "}
+            <strong className="text-ink">
+              anonymisées automatiquement après un court délai
+            </strong>
+            . Seules restent, sous forme non identifiante, les informations que
+            la loi nous oblige à conserver (facturation, obligations fiscales).
           </li>
           <li>
             <strong className="text-ink">Mesure d&apos;audience</strong> :
