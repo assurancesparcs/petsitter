@@ -157,7 +157,13 @@ async function envoyerLienConnexion(params: {
   });
 
   if (!res.ok) {
-    // Ne jamais inclure l'URL de connexion dans le message d'erreur.
+    // Diagnostic serveur : statut + réponse Resend (jamais l'URL du lien).
+    // Cas fréquent avant l'achat du domaine : 403 domaine non vérifié →
+    // définir EMAIL_FROM sur l'adresse de test Resend (voir .env.example).
+    const body = await res.text().catch(() => "");
+    console.error(
+      `[auth] Échec envoi Resend : HTTP ${res.status} — ${body.slice(0, 300)}`,
+    );
     throw new Error(`Échec de l'envoi de l'e-mail de connexion (HTTP ${res.status}).`);
   }
 }
