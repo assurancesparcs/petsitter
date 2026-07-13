@@ -4,13 +4,53 @@ import { Logo } from "@/components/Logo";
 export function Footer() {
   return (
     <footer className="mt-20 border-t border-line bg-surface-2">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4 sm:px-8">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-5 sm:px-8">
         <div>
           <Logo size={28} />
           <p className="mt-3 max-w-xs text-sm text-muted">
             Mise en relation entre propriétaires d&apos;animaux et pet sitters
             indépendants, partout en France. Nous vous aidons à trouver la bonne
             personne.
+          </p>
+        </div>
+        <div className="space-y-2 text-sm">
+          <p className="kicker">Services</p>
+          <p>
+            <Link href="/services" className="text-body hover:text-primary">
+              Tous les services
+            </Link>
+          </p>
+          <p>
+            <Link
+              href="/services/visite-a-domicile"
+              className="text-body hover:text-primary"
+            >
+              Visite à domicile
+            </Link>
+          </p>
+          <p>
+            <Link
+              href="/services/garde-a-domicile"
+              className="text-body hover:text-primary"
+            >
+              Garde à votre domicile
+            </Link>
+          </p>
+          <p>
+            <Link
+              href="/services/garde-chez-le-pet-sitter"
+              className="text-body hover:text-primary"
+            >
+              Garde chez le pet sitter
+            </Link>
+          </p>
+          <p>
+            <Link
+              href="/services/promenade-chien"
+              className="text-body hover:text-primary"
+            >
+              Promenade de chien
+            </Link>
           </p>
         </div>
         <div className="space-y-2 text-sm">

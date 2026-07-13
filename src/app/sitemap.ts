@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { BASE_URL } from "@/lib/brand";
 import { GUIDES } from "@/content/guides";
 import { ARTICLES } from "@/content/blog";
+import { SERVICE_SLUGS } from "@/content/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Pages indexables publiques. /comparatif et /qu-est-ce-qu-un-pet-sitter sont
@@ -23,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/confidentialite",
     "/comparatif",
     "/qu-est-ce-qu-un-pet-sitter",
+    "/services",
   ];
   return [
     ...staticPaths.map((p) => ({
@@ -42,6 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(a.updated),
       changeFrequency: "yearly" as const,
       priority: 0.6,
+    })),
+    ...SERVICE_SLUGS.map((slug) => ({
+      url: `${BASE_URL}/services/${slug}`,
+      lastModified: new Date("2026-07-13"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }

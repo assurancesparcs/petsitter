@@ -29,6 +29,13 @@ Chat, chien et NAC (nouveaux animaux de compagnie) sont traités à stricte éga
 
 Le Pass est déduit automatiquement de la durée de la garde, il ne se choisit pas. Le tarif de la garde revient en entier au pet sitter.
 
+## Pages services
+
+- [Visite à domicile (idéale pour les chats)](${BASE_URL}/services/visite-a-domicile)
+- [Garde à votre domicile](${BASE_URL}/services/garde-a-domicile)
+- [Garde chez le pet sitter](${BASE_URL}/services/garde-chez-le-pet-sitter)
+- [Promenade de chien](${BASE_URL}/services/promenade-chien)
+
 ## Pages clés
 
 - [Notre modèle](${BASE_URL}/notre-modele)
