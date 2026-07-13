@@ -28,6 +28,9 @@ export type SitterCard = {
   // fiabilité ET a au moins un avis vérifié — sinon null (badge « Nouveau »).
   // Jamais 0 comme note : une absence de score reste null.
   rating: number | null;
+  // Nombre d'avis vérifiés — exposé pour un libellé accessible honnête sur
+  // l'anneau de fiabilité compact (0 lorsque la note n'est pas affichable).
+  reviewCount: number;
 };
 
 const UNIT_LABEL: Record<string, string> = {
@@ -108,6 +111,7 @@ export async function searchSitters(params: {
             priceCents: svc.priceCents,
             priceUnit: svc.priceUnit,
             rating,
+            reviewCount: rating != null ? rel!.reviewCount : 0,
           }
         : null;
     })

@@ -97,6 +97,9 @@ export default async function Connexion({
         </a>{" "}
         détaille ce que nous faisons (et ne faisons pas) de vos données.
       </p>
+      <p className="mt-2 text-xs text-muted">
+        Aucun démarchage téléphonique — tout se passe en ligne, par écrit.
+      </p>
     </div>
   );
 }

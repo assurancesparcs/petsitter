@@ -7,9 +7,13 @@ export const SERVICES = [
   { key: "BOARDING", label: "Garde chez le pet sitter" },
 ] as const;
 
+// Chat = Chien = NAC : égalité stricte (charte Claude Design, règle 7). Le
+// schéma expose l'espèce OTHER = NAC ; la copie promet déjà cette égalité, donc
+// le sélecteur DOIT l'offrir (sinon promesse non tenue).
 export const SPECIES = [
   { key: "CAT", label: "Chat" },
   { key: "DOG", label: "Chien" },
+  { key: "OTHER", label: "NAC" },
 ] as const;
 
 export type ServiceKey = (typeof SERVICES)[number]["key"];

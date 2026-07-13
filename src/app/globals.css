@@ -38,6 +38,17 @@
   --color-line-2: #efe7da;
   --color-line-faint: #c9c1b4;
 
+  /* Variantes de charte additionnelles (issues des fichiers de design) —
+     ajoutées pour complétude des tokens, non encore appliquées aux pages. */
+  --color-forest-text-2: #42604e;
+  --color-on-forest-2: #a8cbb6;
+  --color-on-forest-3: #7fa592;
+  --color-caption-photo: #a79274;
+  --color-primary-deep-2: #9c4b36;
+  --color-primary-tint-warm-border: #e8d3c6;
+  --color-line-3: #e9e1d4;
+  --color-ink-deck: #1a1815;
+
   /* Alerte (LOT B « NE PAS PUBLIER ») */
   --color-danger: #7a1e10;
 

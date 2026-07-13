@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getSitterPublic, priceLabel } from "@/domains/marketplace/sitters";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { dateFrShort } from "@/domains/marketplace/availability";
+import { ReliabilityRing } from "@/components/ReliabilityRing";
 import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
@@ -16,13 +17,6 @@ function dayChipLabel(iso: string): { dow: string; day: number } {
   return { dow: JOURS[dow], day: d };
 }
 
-// Note à une décimale à la française (4.7 → « 4,7 »).
-function fmtRating(n: number): string {
-  return n.toLocaleString("fr-FR", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  });
-}
 // Taux (fraction 0–1) en pourcentage entier (« 0,1 » → « 10 % »).
 function fmtPercent(n: number): string {
   return `${Math.round(n * 100)} %`;
@@ -61,9 +55,8 @@ export default async function FicheSitter({
   const rel = s.reliability;
   // Score chiffré affiché UNIQUEMENT au-delà du seuil de gardes réalisées.
   // Sinon : badge « Nouveau » honnête (jamais de vide déguisé en chiffre).
+  // Ce même seuil est reproduit par les props de <ReliabilityRing/>.
   const eligible = rel?.displayEligible === true;
-  const showRating =
-    eligible && rel?.averageRating != null && rel.reviewCount >= 1;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
@@ -79,21 +72,16 @@ export default async function FicheSitter({
             {s.radiusKm} km
           </p>
         </div>
-        {showRating && rel ? (
-          <span
-            className="rounded-full border border-forest-border bg-forest-tint px-4 py-1.5 text-sm font-bold text-forest-text"
-            aria-label={`Note moyenne : ${fmtRating(rel.averageRating!)} sur 5, ${rel.reviewCount} avis vérifié${rel.reviewCount > 1 ? "s" : ""}`}
-          >
-            <span aria-hidden className="text-primary">
-              ★
-            </span>{" "}
-            {fmtRating(rel.averageRating!)} / 5
-          </span>
-        ) : (
-          <span className="rounded-full border border-primary-border bg-primary-tint px-4 py-1.5 text-sm font-bold text-primary-deep">
-            Nouveau sur {BRAND}
-          </span>
-        )}
+        {/* Score de Fiabilité — composant signature (anneau conique) ou repli
+            « Nouveau ». La logique de seuil d'honnêteté est reproduite à
+            l'identique par les props passées : anneau UNIQUEMENT si
+            eligible && averageRating != null && reviewCount >= 1. */}
+        <ReliabilityRing
+          score={rel?.averageRating ?? null}
+          reviewCount={rel?.reviewCount ?? 0}
+          eligible={eligible}
+          size={120}
+        />
       </div>
 
       {eligible && rel ? (
@@ -108,18 +96,6 @@ export default async function FicheSitter({
             </Link>
           </div>
           <div className="mt-3 grid gap-px overflow-hidden rounded-[14px] border border-forest-border bg-forest-border sm:grid-cols-3">
-            {showRating && (
-              <div className="bg-surface p-4 text-center">
-                <p className="kicker">Note moyenne</p>
-                <p className="mt-1 font-mono text-xl font-bold text-forest-text">
-                  {fmtRating(rel.averageRating!)}{" "}
-                  <span className="text-sm text-faint">/ 5</span>
-                </p>
-                <p className="mt-1 text-xs text-muted">
-                  {rel.reviewCount} avis vérifié{rel.reviewCount > 1 ? "s" : ""}
-                </p>
-              </div>
-            )}
             <div className="bg-surface p-4 text-center">
               <p className="kicker">Gardes réalisées</p>
               <p className="mt-1 font-mono text-xl font-bold text-forest-text">

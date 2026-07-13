@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Marque « La Bulle » : carré vermillon à rayon asymétrique (queue de bulle
+       en bas à gauche), miroir du Logo.tsx (16 16 16 5 sur 32 → 32 32 32 10 sur 64). -->
+  <path fill="#DD5A3F" d="M32 0a32 32 0 0 1 32 32a32 32 0 0 1-32 32H10a10 10 0 0 1-10-10V32A32 32 0 0 1 32 0z"/>
+  <!-- Combiné blanc décoratif (glyphe exact du logo), centré et mis à l'échelle. -->
+  <g transform="translate(17 17) scale(1.25)">
+    <path fill="#FBF8F3" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </g>
+</svg>

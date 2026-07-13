@@ -7,7 +7,7 @@ import {
 } from "@/domains/geo/communes";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { searchSitters, priceLabel } from "@/domains/marketplace/sitters";
-import { BRAND } from "@/lib/brand";
+import { ReliabilityRing } from "@/components/ReliabilityRing";
 import type { ServiceType, Species } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -116,24 +116,17 @@ export default async function Recherche({
                         <span className="font-mono">{s.distanceKm} km</span>
                       </p>
                     </div>
-                    {s.rating !== null ? (
-                      <span
-                        className="shrink-0 rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-bold text-forest-text"
-                        aria-label={`Note moyenne : ${s.rating.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} sur 5`}
-                      >
-                        <span aria-hidden className="text-primary">
-                          ★
-                        </span>{" "}
-                        {s.rating.toLocaleString("fr-FR", {
-                          minimumFractionDigits: 1,
-                          maximumFractionDigits: 1,
-                        })}
-                      </span>
-                    ) : (
-                      <span className="shrink-0 rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-xs font-bold text-primary-deep">
-                        Nouveau sur {BRAND}
-                      </span>
-                    )}
+                    {/* Anneau de fiabilité compact (signature charte) ou repli
+                        « Nouveau » : mêmes props que la fiche, gating d'honnêteté
+                        conservé (rating != null ⇒ éligible & ≥ 1 avis). */}
+                    <span className="shrink-0">
+                      <ReliabilityRing
+                        score={s.rating}
+                        reviewCount={s.reviewCount}
+                        eligible={s.rating !== null}
+                        size={56}
+                      />
+                    </span>
                   </div>
                   {s.bio && (
                     <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-body">
