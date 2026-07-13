@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { BRAND, BASELINE } from "@/lib/brand";
+import { BRAND, BASELINE, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 import { BlocTransparence } from "@/components/BlocTransparence";
+
+export const metadata: Metadata = {
+  alternates: { canonical: BASE_URL },
+};
 
 const PREUVES = [
   "Identité vérifiée",

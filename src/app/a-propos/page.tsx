@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "À propos — notre mission et nos convictions",
   description:
     "AlloPetsitter, une entreprise française de mise en relation entre propriétaires d'animaux et pet sitters indépendants. 0 % de commission, chat = chien = NAC, zéro dark pattern.",
+  alternates: { canonical: `${BASE_URL}/a-propos` },
 };
 
 const CONVICTIONS = [

@@ -1,17 +1,47 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
+import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Notre modèle — comment nous gagnons notre argent",
   description:
     "0 % de commission sur la garde : le pet sitter touche 100 % de ce que vous lui versez. Voici, ligne par ligne, comment la plateforme se rémunère.",
+  alternates: { canonical: `${BASE_URL}/notre-modele` },
+};
+
+// Convertit un libellé de prix FR (« 14,90 € », « 39 € ») en décimale schema.org
+// (« 14.90 », « 39 »). Source unique = PRICING, aucun montant en dur.
+function priceToDecimal(label: string): string {
+  return label.replace(/[^\d,]/g, "").replace(",", ".");
+}
+
+// Offres (schema.org) — les 3 formules de MISE EN RELATION, regroupées sous le
+// service. Prix réels tirés de PRICING. Ne décrit jamais la garde elle-même
+// (fixée et perçue à 100 % par le pet sitter, hors périmètre de facturation).
+const OFFERS_LD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Mise en relation avec un pet sitter",
+  serviceType: "Mise en relation",
+  provider: { "@type": "Organization", name: BRAND, url: BASE_URL },
+  areaServed: "FR",
+  offers: Object.values(PRICING).map((p) => ({
+    "@type": "Offer",
+    name: p.label,
+    description: p.detail,
+    price: priceToDecimal(p.price),
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: `${BASE_URL}/notre-modele`,
+  })),
 };
 
 export default function NotreModele() {
   return (
     <article className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
+      <JsonLd data={OFFERS_LD} />
       {/* En-tête — page de marque, pas page légale */}
       <header className="max-w-2xl">
         <p className="kicker">Notre modèle · ligne par ligne</p>

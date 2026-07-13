@@ -36,9 +36,28 @@ export default async function GuidePage({
     "@type": "Article",
     headline: g.title,
     description: g.description,
+    datePublished: g.updated,
     dateModified: g.updated,
+    image: `${BASE_URL}/opengraph-image`,
     inLanguage: "fr-FR",
-    publisher: { "@type": "Organization", name: BRAND },
+    author: { "@type": "Organization", name: BRAND },
+    publisher: {
+      "@type": "Organization",
+      name: BRAND,
+      logo: { "@type": "ImageObject", url: `${BASE_URL}/icon.svg` },
+    },
+    mainEntityOfPage: `${BASE_URL}/guides/${g.slug}`,
+  };
+
+  // Fil d'Ariane (schema.org) — Accueil › Guides › guide.
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${BASE_URL}/guides` },
+      { "@type": "ListItem", position: 3, name: g.title, item: `${BASE_URL}/guides/${g.slug}` },
+    ],
   };
 
   return (
@@ -46,6 +65,10 @@ export default async function GuidePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       {/* Bandeau de couverture ----------------------------------------- */}

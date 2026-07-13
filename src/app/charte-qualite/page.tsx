@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Notre charte de qualité — engagements publics et opposables",
   description:
     "Les 6 engagements d'AlloPetsitter et les 5 interdits que nous nous imposons. Publics, opposables, vérifiables.",
+  alternates: { canonical: `${BASE_URL}/charte-qualite` },
 };
 
 // Contenu : maquette « Charte Qualite Desktop — LOT A » (livrable design v2).

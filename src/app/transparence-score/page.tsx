@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 import { RELIABILITY_THRESHOLD } from "@/domains/reliability/score";
 
 export const metadata: Metadata = {
   title: "Comment le score de fiabilité est calculé",
   description:
     "Le score de fiabilité d'un pet sitter, expliqué en clair : d'où viennent les chiffres, ce qui reste masqué, et le droit de contester (RGPD art. 22).",
+  alternates: { canonical: `${BASE_URL}/transparence-score` },
 };
 
 // Chaque métrique : ce qu'elle mesure, sa source EXACTE, et si elle est

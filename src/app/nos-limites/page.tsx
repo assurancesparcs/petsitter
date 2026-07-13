@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Ce que nous ne faisons pas",
   description:
     "Les limites de la plateforme, affichées aussi clairement que ses promesses.",
+  alternates: { canonical: `${BASE_URL}/nos-limites` },
 };
 
 const LIMITES = [

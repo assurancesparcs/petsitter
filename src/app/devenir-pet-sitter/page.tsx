@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 import { WaitlistForm } from "./WaitlistForm";
 
 export const metadata: Metadata = {
   title: "Devenir pet sitter — 0 % de commission",
   description:
     "Inscription gratuite, 0 % de commission : vous fixez votre tarif et vous gardez 100 % de vos revenus. Rejoignez la liste d'attente.",
+  alternates: { canonical: `${BASE_URL}/devenir-pet-sitter` },
 };
 
 // ⛔ Tant que flags.insurance_live est false, cette page ne mentionne AUCUN

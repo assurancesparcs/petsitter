@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Centre d'aide — pet sitters",
   description:
     "Devenir pet sitter, profil et vérification d'identité, tarifs à 100 %, disponibilités, avis : le centre d'aide pour les pet sitters d'AlloPetsitter. Support écrit, réponse humaine sous 24 h.",
+  alternates: { canonical: `${BASE_URL}/centre-aide` },
 };
 
 type Bloc = { q: string; a: React.ReactNode };

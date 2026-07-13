@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ARTICLES } from "@/content/blog";
+import { BASE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Le Journal — articles et convictions",
   description:
     "Le Journal d'AlloPetsitter : des articles de fond, factuels et honnêtes, sur notre modèle sans commission, le choix d'un pet sitter en confiance et l'égalité chat / chien / NAC.",
+  alternates: { canonical: `${BASE_URL}/blog` },
 };
 
 export default function Blog() {

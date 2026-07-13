@@ -8,6 +8,7 @@ import {
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { searchSitters, priceLabel } from "@/domains/marketplace/sitters";
 import { ReliabilityRing } from "@/components/ReliabilityRing";
+import { BASE_URL } from "@/lib/brand";
 import type { ServiceType, Species } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "Rechercher un pet sitter",
   description:
     "Trouvez un pet sitter près de chez vous : visite à domicile, promenade, garde. Pour votre chat comme pour votre chien.",
+  alternates: { canonical: `${BASE_URL}/recherche` },
 };
 
 type SP = { [k: string]: string | string[] | undefined };

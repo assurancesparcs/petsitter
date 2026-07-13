@@ -36,10 +36,28 @@ export default async function ArticlePage({
     "@type": "Article",
     headline: a.title,
     description: a.description,
+    datePublished: a.updated,
     dateModified: a.updated,
+    image: `${BASE_URL}/opengraph-image`,
     inLanguage: "fr-FR",
     author: { "@type": "Organization", name: BRAND },
-    publisher: { "@type": "Organization", name: BRAND },
+    publisher: {
+      "@type": "Organization",
+      name: BRAND,
+      logo: { "@type": "ImageObject", url: `${BASE_URL}/icon.svg` },
+    },
+    mainEntityOfPage: `${BASE_URL}/blog/${a.slug}`,
+  };
+
+  // Fil d'Ariane (schema.org) — Accueil › Le Journal › article.
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Le Journal", item: `${BASE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: a.title, item: `${BASE_URL}/blog/${a.slug}` },
+    ],
   };
 
   return (
@@ -47,6 +65,10 @@ export default async function ArticlePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       {/* Bandeau de couverture ----------------------------------------- */}

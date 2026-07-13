@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GUIDES } from "@/content/guides";
+import { BASE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Guides — conseils pour la garde de votre animal",
   description:
     "Nos guides pratiques pour bien préparer la garde de votre chat ou de votre chien et choisir le bon pet sitter.",
+  alternates: { canonical: `${BASE_URL}/guides` },
 };
 
 export default function Guides() {

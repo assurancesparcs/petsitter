@@ -5,7 +5,7 @@ import { getSitterPublic, priceLabel } from "@/domains/marketplace/sitters";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { dateFrShort } from "@/domains/marketplace/availability";
 import { ReliabilityRing } from "@/components/ReliabilityRing";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -36,11 +36,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const s = await getSitterPublic((await params).id);
+  const { id } = await params;
+  const s = await getSitterPublic(id);
   if (!s) return {};
   return {
     title: `${s.displayName} — pet sitter à ${s.communeName ?? "proximité"}`,
     description: `Profil de ${s.displayName}, pet sitter${s.communeName ? ` autour de ${s.communeName}` : ""}. Tarifs libres, payés en direct — 0 % de commission.`,
+    // Fiche anonymisée (prénom + initiale), contenu fin et dynamique : hors index
+    // pour préserver la vie privée du pet sitter, mais liens suivis.
+    robots: { index: false, follow: true },
+    alternates: { canonical: `${BASE_URL}/petsitter/${id}` },
   };
 }
 

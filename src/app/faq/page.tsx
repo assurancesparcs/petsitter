@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Questions fréquentes (FAQ)",
   description:
     "Comment ça marche, paiement, sécurité, avis, annulation et remboursement, résiliation, support écrit : les réponses claires aux questions les plus courantes sur AlloPetsitter.",
+  alternates: { canonical: `${BASE_URL}/faq` },
 };
 
 type QA = { q: string; a: React.ReactNode };
