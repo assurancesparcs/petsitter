@@ -72,14 +72,34 @@ export default function Home() {
       {/* ===== Héros — texte + photo (slot "home-hero" de la maquette) ===== */}
       <section className="grid items-center gap-10 pt-10 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="text-center lg:text-left">
-          <span className="inline-flex items-center gap-2 rounded-full border border-forest-border bg-forest-tint px-4 py-1.5">
-            <span className="font-mono text-sm font-bold text-forest-text">
-              0 %
+          <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+            <span className="inline-flex items-center gap-2 rounded-full border border-forest-border bg-forest-tint px-4 py-1.5">
+              <span className="font-mono text-sm font-bold text-forest-text">
+                0 %
+              </span>
+              <span className="text-sm font-semibold text-forest-text">
+                de commission sur la garde
+              </span>
             </span>
-            <span className="text-sm font-semibold text-forest-text">
-              de commission sur la garde
+            {/* Repère de confiance : société française (face aux plateformes
+                multinationales) — factuel, sans dénigrement. */}
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5">
+              <svg
+                width="18"
+                height="12"
+                viewBox="0 0 18 12"
+                aria-hidden
+                className="rounded-[2px] ring-1 ring-black/10"
+              >
+                <rect width="6" height="12" fill="#0055A4" />
+                <rect x="6" width="6" height="12" fill="#FFFFFF" />
+                <rect x="12" width="6" height="12" fill="#EF4135" />
+              </svg>
+              <span className="text-sm font-semibold text-ink">
+                Entreprise française
+              </span>
             </span>
-          </span>
+          </div>
 
           <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold leading-[1.03] tracking-[-0.03em] sm:text-5xl lg:mx-0 xl:text-6xl">
             Trouvez un pet sitter de confiance pour votre chat ou votre chien
