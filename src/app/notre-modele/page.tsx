@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BRAND, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 import { JsonLd } from "@/components/JsonLd";
+import { FaitsVerifiables } from "@/components/FaitsVerifiables";
 
 export const metadata: Metadata = {
   title: "Notre modèle — comment nous gagnons notre argent",
@@ -82,6 +83,11 @@ export default function NotreModele() {
             Inscription et présence sur la plateforme gratuites, à vie.
           </p>
         </div>
+      </section>
+
+      {/* En bref / Faits vérifiables (GEO/AEO) */}
+      <section className="mt-10">
+        <FaitsVerifiables />
       </section>
 
       {/* 1. Aucune commission sur la garde */}

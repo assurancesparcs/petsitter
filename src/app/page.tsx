@@ -4,6 +4,7 @@ import Image from "next/image";
 import { BRAND, BASELINE, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 import { BlocTransparence } from "@/components/BlocTransparence";
+import { FaitsVerifiables } from "@/components/FaitsVerifiables";
 
 export const metadata: Metadata = {
   alternates: { canonical: BASE_URL },
@@ -189,6 +190,11 @@ export default function Home() {
             </strong>
           </span>
         </div>
+      </section>
+
+      {/* ===== En bref / Faits vérifiables (GEO/AEO) ===== */}
+      <section className="mt-8">
+        <FaitsVerifiables />
       </section>
 
       {/* ===== Comment ça marche ===== */}

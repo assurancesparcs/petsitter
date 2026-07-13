@@ -62,6 +62,19 @@ export function Footer() {
             </Link>
           </p>
           <p>
+            <Link
+              href="/qu-est-ce-qu-un-pet-sitter"
+              className="text-body hover:text-primary"
+            >
+              Qu&apos;est-ce qu&apos;un pet sitter ?
+            </Link>
+          </p>
+          <p>
+            <Link href="/comparatif" className="text-body hover:text-primary">
+              Comparatif des modèles
+            </Link>
+          </p>
+          <p>
             <Link href="/centre-aide" className="text-body hover:text-primary">
               Centre d&apos;aide pet sitters
             </Link>

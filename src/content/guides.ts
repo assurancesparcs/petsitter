@@ -3,6 +3,7 @@
  * Contenu factuel, sans statistique inventée, chat à égalité, vocabulaire de
  * mise en relation. Sujets du LOT B (cf. flag insurance_live) exclus d'ici.
  */
+import { PRICING } from "@/lib/pricing";
 
 export type Guide = {
   slug: string;
@@ -117,6 +118,40 @@ export const GUIDES: Guide[] = [
           "Laissez un moyen de vous joindre et un contact de secours",
           "Convenez du rythme des nouvelles que vous souhaitez recevoir",
         ],
+      },
+    ],
+  },
+  {
+    slug: "combien-coute-une-garde-d-animaux",
+    title: "Combien coûte une garde d'animaux ?",
+    description:
+      "Le prix d'une garde d'animaux dépend du pet sitter, du service et de la durée. Voici comment le coût se compose et ce que facture AlloPetsitter, en toute transparence.",
+    updated: "2026-07-13",
+    body: [
+      {
+        p: "Il n'existe pas de prix unique pour une garde d'animaux : le tarif est fixé librement par chaque pet sitter, qui le perçoit à 100 %. AlloPetsitter ne fixe pas ce tarif et ne prélève aucune commission dessus. Comprendre la structure du coût aide à comparer les propositions sereinement, plutôt que de chercher un « prix moyen » qui ne veut pas dire grand-chose.",
+      },
+      {
+        h: "Deux montants distincts, à ne pas confondre",
+        ul: [
+          "Le tarif de la garde : fixé par le pet sitter, versé en direct, perçu à 100 % par lui — aucune commission.",
+          "Le frais de mise en relation d'AlloPetsitter : forfaitaire et affiché à l'avance, c'est le seul revenu de la plateforme.",
+        ],
+      },
+      {
+        h: "Ce que facture AlloPetsitter",
+        p: `La plateforme facture uniquement la mise en relation, à un tarif fixe et connu d'avance : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou l'${PRICING.abonnement.label.toLowerCase()} à ${PRICING.abonnement.price} (${PRICING.abonnement.unit}). Le Pass est déduit automatiquement de la durée de la garde, il ne se choisit pas. Vous n'êtes débité que lorsqu'un pet sitter a accepté votre garde.`,
+      },
+      {
+        h: "Ce qui fait varier le tarif de la garde",
+        ul: [
+          "La durée : nombre de visites, de nuits ou de promenades sur la période.",
+          "Le service : une visite à domicile, une garde à domicile, une garde chez le pet sitter ou une promenade ne demandent pas le même temps.",
+          "Le nombre d'animaux et leurs besoins : plusieurs animaux, un traitement à administrer ou des sorties fréquentes demandent davantage d'attention.",
+        ],
+      },
+      {
+        p: "Pour estimer un budget, décrivez précisément votre besoin : les pet sitters disponibles près de chez vous candidatent avec leur tarif, et vous choisissez en connaissance de cause. Le montant que vous versez au pet sitter lui revient intégralement.",
       },
     ],
   },
