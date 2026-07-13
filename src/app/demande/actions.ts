@@ -59,26 +59,64 @@ export async function deposerDemande(formData: FormData) {
 
   const deadline = new Date(Date.now() + RESPONSE_WINDOW_H * 3600 * 1000);
 
+  // Récurrence — OPTION décochée par défaut. Le produit réel de l'abonnement :
+  // la garde qui se répète. Weekdays dédupliqués et bornés à 0-6, timeSlot
+  // trituré/capé. Si la case est cochée sans aucun jour valide → erreur douce.
+  const recurring = formData.get("recurring") === "on";
+  const weekdays = recurring
+    ? [
+        ...new Set(
+          formData
+            .getAll("weekday")
+            .map((v) => parseInt(String(v), 10))
+            .filter((n) => Number.isInteger(n) && n >= 0 && n <= 6),
+        ),
+      ].sort((a, b) => a - b)
+    : [];
+  if (recurring && weekdays.length === 0) {
+    redirect("/demande?erreur=recurrence");
+  }
+  const timeSlot =
+    String(formData.get("timeSlot") ?? "").trim().slice(0, 60) || null;
+
   // Pass DÉDUIT des dates, montant figé CÔTÉ SERVEUR (jamais depuis le client).
   const pass = passFromDates(start, end);
 
-  const request = await db.careRequest.create({
-    data: {
-      ownerId: session.user.id,
-      service: service as ServiceType,
-      species: species as Species,
-      startDate: start,
-      endDate: end,
-      communeCode: commune.code,
-      communeName: commune.nom,
-      lat: commune.lat,
-      lng: commune.lng,
-      radiusKm,
-      animalCount,
-      constraints,
-      responseDeadline: deadline,
-      events: { create: { type: "created", payload: { constraints, pass: pass.key } } },
-    },
+  // CareRequest + RecurringRequest créés dans la MÊME transaction : la
+  // récurrence est liée à la demande du propriétaire authentifié (IDOR-safe),
+  // ou rien n'est écrit. Sans option cochée : comportement strictement inchangé.
+  const request = await db.$transaction(async (tx) => {
+    const cr = await tx.careRequest.create({
+      data: {
+        ownerId: session.user.id,
+        service: service as ServiceType,
+        species: species as Species,
+        startDate: start,
+        endDate: end,
+        communeCode: commune.code,
+        communeName: commune.nom,
+        lat: commune.lat,
+        lng: commune.lng,
+        radiusKm,
+        animalCount,
+        constraints,
+        responseDeadline: deadline,
+        events: {
+          create: { type: "created", payload: { constraints, pass: pass.key, recurring } },
+        },
+      },
+    });
+    if (recurring) {
+      await tx.recurringRequest.create({
+        data: {
+          careRequestId: cr.id,
+          weekdays,
+          timeSlot,
+          renewSitter: true,
+        },
+      });
+    }
+    return cr;
   });
 
   // Stripe configuré → empreinte carte (0 € débité) : ligne Payment SETUP_PENDING

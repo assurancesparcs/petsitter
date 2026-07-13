@@ -18,8 +18,20 @@ const ERREURS: Record<string, string> = {
   champs: "Vérifiez le service et l'animal sélectionnés.",
   dates: "Vérifiez vos dates : le début ne peut pas être passé, la fin doit suivre le début.",
   cp: "Code postal introuvable.",
+  recurrence: "Récurrence cochée : sélectionnez au moins un jour de la semaine.",
   indisponible: "Service momentanément indisponible, réessayez.",
 };
+
+// Jours de la semaine — valeurs 0-6 (0 = dimanche), affichés du lundi au dimanche.
+const WEEKDAYS: Array<{ value: number; label: string }> = [
+  { value: 1, label: "Lun" },
+  { value: 2, label: "Mar" },
+  { value: 3, label: "Mer" },
+  { value: 4, label: "Jeu" },
+  { value: 5, label: "Ven" },
+  { value: 6, label: "Sam" },
+  { value: 0, label: "Dim" },
+];
 
 export default async function Demande({
   searchParams,
@@ -223,6 +235,58 @@ export default async function Demande({
               </label>
             ))}
           </div>
+        </section>
+
+        {/* Récurrence — OPTIONNELLE, décochée par défaut (jamais de case pré-cochée) */}
+        <section className="rounded-[20px] border border-line bg-surface p-6">
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              name="recurring"
+              className="mt-1 h-4 w-4 accent-[var(--color-primary)]"
+            />
+            <span>
+              <span className="font-display text-lg font-bold text-ink">
+                Cette garde se répète
+              </span>
+              <span className="mt-1 block text-sm text-muted">
+                Optionnel. Cochez seulement si votre besoin est régulier
+                (promenade quotidienne, visites…). La récurrence organise vos
+                demandes ; elle ne déclenche aucun prélèvement. L&apos;abonnement
+                (19 €/mois, sans engagement, résiliable en 3 clics) reste
+                facultatif.
+              </span>
+            </span>
+          </label>
+
+          <fieldset className="mt-4">
+            <legend className="kicker mb-2">Jours concernés</legend>
+            <div className="flex flex-wrap gap-2">
+              {WEEKDAYS.map((d) => (
+                <label key={d.value} className="cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="weekday"
+                    value={d.value}
+                    className="peer sr-only"
+                  />
+                  <span className="inline-flex rounded-full border border-line px-4 py-2 text-sm font-semibold text-body peer-checked:border-primary peer-checked:bg-primary-tint peer-checked:text-primary-dark">
+                    {d.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label className="mt-4 flex flex-col gap-1.5">
+            <span className="kicker">Créneau souhaité (optionnel)</span>
+            <input
+              name="timeSlot"
+              maxLength={60}
+              placeholder="Ex. le matin, vers 8 h"
+              className="rounded-[12px] border border-line bg-cream px-4 py-3 text-ink placeholder:text-faint focus:border-primary focus:outline-none"
+            />
+          </label>
         </section>
 
         <button
