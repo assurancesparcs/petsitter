@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { getPrisma } from "@/lib/prisma";
 import { choisirRole, seDeconnecter } from "./actions";
 
 export const metadata: Metadata = {
@@ -18,6 +19,21 @@ export default async function Compte() {
   }
 
   const { email, role } = session.user;
+
+  // Sitter : le profil est-il publié ? Détermine la CTA principale (terminer la
+  // mise en ligne tant que le profil n'est pas publié). Dégradation gracieuse.
+  const db = getPrisma();
+  const sitterPublie =
+    role === "SITTER" && db && session.user.id
+      ? Boolean(
+          (
+            await db.sitterProfile.findUnique({
+              where: { userId: session.user.id },
+              select: { publishedAt: true },
+            })
+          )?.publishedAt,
+        )
+      : false;
 
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:py-20">
@@ -62,11 +78,26 @@ export default async function Compte() {
               Compte pet sitter
             </p>
             <div className="mt-4 grid gap-3">
+              {sitterPublie ? (
+                <Link
+                  href="/compte/demarrage"
+                  className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+                >
+                  Ma mise en ligne
+                </Link>
+              ) : (
+                <Link
+                  href="/compte/demarrage"
+                  className="block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
+                >
+                  Terminer ma mise en ligne →
+                </Link>
+              )}
               <Link
                 href="/compte/profil"
-                className="block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
               >
-                Compléter mon profil pet sitter →
+                Mon profil pet sitter
               </Link>
               <Link
                 href="/compte/profil/identite"

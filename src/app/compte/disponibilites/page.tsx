@@ -14,6 +14,14 @@ import {
   slotISO,
   todayISOParis,
 } from "@/domains/marketplace/availability";
+import {
+  loadOnboarding,
+  nextStepExcluding,
+} from "@/domains/marketplace/onboarding";
+import {
+  OnboardingBreadcrumb,
+  OnboardingContinue,
+} from "@/components/OnboardingChrome";
 import { enregistrerDisponibilites } from "./actions";
 import { CalendrierEditor } from "./CalendrierEditor";
 
@@ -122,13 +130,31 @@ export default async function Disponibilites({
   const stale = isCalendarStale(profile.calendarUpdated);
   const incomplete = !profile.communeCode || profile._count.services === 0;
 
+  // Parcours de mise en ligne — chrome affiché tant que le profil n'est pas
+  // publié. Étape 4 sur 4 (recommandée, non bloquante).
+  const onboarding = await loadOnboarding(db, session.user.id);
+  const showChrome = onboarding ? !onboarding.published : false;
+  const suiteDispo = onboarding
+    ? nextStepExcluding(onboarding, ["disponibilites"])
+    : null;
+
   return (
     <Shell>
+      {showChrome && onboarding && (
+        <OnboardingBreadcrumb current={4} doneCount={onboarding.doneCount} />
+      )}
+
       {/* Messages */}
       {ok && (
         <p className="mt-4 rounded-[12px] border border-forest-border bg-forest-tint px-4 py-3 text-sm font-semibold text-forest-text">
           Disponibilités enregistrées pour ce mois.
         </p>
+      )}
+      {showChrome && ok && (
+        <OnboardingContinue
+          href={suiteDispo?.href ?? "/compte/demarrage"}
+          label={suiteDispo?.title ?? "Récapitulatif de ma mise en ligne"}
+        />
       )}
       {erreur && (
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">

@@ -4,6 +4,14 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { isStorageConfigured } from "@/lib/storage";
+import {
+  loadOnboarding,
+  nextStepExcluding,
+} from "@/domains/marketplace/onboarding";
+import {
+  OnboardingBreadcrumb,
+  OnboardingContinue,
+} from "@/components/OnboardingChrome";
 import { soumettreIdentite } from "./actions";
 
 export const metadata: Metadata = {
@@ -53,6 +61,14 @@ export default async function VerificationIdentite({
   const status = verif?.status ?? "pending";
   const storageOn = isStorageConfigured();
 
+  // Parcours de mise en ligne — chrome affiché tant que le profil n'est pas
+  // publié. Étape 3 sur 4.
+  const onboarding = db ? await loadOnboarding(db, session.user.id) : null;
+  const showChrome = onboarding ? !onboarding.published : false;
+  const suiteIdentite = onboarding
+    ? nextStepExcluding(onboarding, ["identite"])
+    : null;
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:py-14">
       <Link
@@ -72,6 +88,10 @@ export default async function VerificationIdentite({
         examine votre pièce et votre selfie, puis valide votre profil.
       </p>
 
+      {showChrome && onboarding && (
+        <OnboardingBreadcrumb current={3} doneCount={onboarding.doneCount} />
+      )}
+
       {/* Statut courant */}
       <StatutBloc status={status} verif={verif} />
 
@@ -80,6 +100,12 @@ export default async function VerificationIdentite({
         <p className="mt-4 rounded-[12px] border border-forest-border bg-forest-tint px-4 py-3 text-sm font-semibold text-forest-text">
           Documents reçus — votre identité est en cours de vérification.
         </p>
+      )}
+      {showChrome && ok && (
+        <OnboardingContinue
+          href={suiteIdentite?.href ?? "/compte/demarrage"}
+          label={suiteIdentite?.title ?? "Récapitulatif de ma mise en ligne"}
+        />
       )}
       {erreur && (
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">

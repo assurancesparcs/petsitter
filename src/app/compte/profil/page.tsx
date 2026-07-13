@@ -4,6 +4,14 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
+import {
+  computeOnboarding,
+  nextStepExcluding,
+} from "@/domains/marketplace/onboarding";
+import {
+  OnboardingBreadcrumb,
+  OnboardingContinue,
+} from "@/components/OnboardingChrome";
 import { enregistrerProfil, publierProfil, depublierProfil } from "./actions";
 
 export const metadata: Metadata = {
@@ -69,6 +77,25 @@ export default async function ProfilSitter({
 
   const publie = Boolean(profile?.publishedAt);
 
+  // Parcours de mise en ligne — chrome affiché UNIQUEMENT tant que le profil
+  // n'est pas publié. Calculé à partir des données déjà chargées.
+  const onboarding = computeOnboarding({
+    firstName: profile?.user.firstName ?? null,
+    lastName: profile?.user.lastName ?? null,
+    communeCode: profile?.communeCode ?? null,
+    servicesCount: profile?.services.length ?? 0,
+    identityStatus: identiteStatus,
+    calendarUpdated: profile?.calendarUpdated ?? null,
+    publishedAt: profile?.publishedAt ?? null,
+  });
+  const showChrome = !onboarding.published;
+  // Les étapes 1 et 2 (profil + services) sont éditées sur cette page : on
+  // pointe « Continuer » vers la première autre étape à compléter.
+  // On n'exclut QUE l'étape « profil » : si les services (étape 2, éditée sur
+  // cette même page via l'ancre #services) ne sont pas encore renseignés, le
+  // « Continuer » y ramène au lieu de sauter à l'identité (guidage honnête).
+  const suiteProfil = nextStepExcluding(onboarding, ["profil"]);
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
       <p className="kicker">Espace pet sitter</p>
@@ -80,6 +107,10 @@ export default async function ProfilSitter({
         votre commune et votre rayon — jamais votre adresse. Vos tarifs sont
         libres, et vous les touchez à 100 %.
       </p>
+
+      {showChrome && (
+        <OnboardingBreadcrumb current={1} to={2} doneCount={onboarding.doneCount} />
+      )}
 
       {/* Statut de publication */}
       <div
@@ -160,6 +191,13 @@ export default async function ProfilSitter({
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">
           {detail || ERREURS[erreur] || "Une erreur est survenue."}
         </p>
+      )}
+
+      {showChrome && ok && (
+        <OnboardingContinue
+          href={suiteProfil?.href ?? "/compte/demarrage"}
+          label={suiteProfil?.title ?? "Récapitulatif de ma mise en ligne"}
+        />
       )}
 
       {/* Formulaire */}
@@ -278,7 +316,10 @@ export default async function ProfilSitter({
         </section>
 
         {/* Services & tarifs */}
-        <section className="rounded-[20px] border border-line bg-surface p-6">
+        <section
+          id="services"
+          className="scroll-mt-24 rounded-[20px] border border-line bg-surface p-6"
+        >
           <h2 className="font-display text-lg font-bold text-ink">
             Services et tarifs — fixés par vous, touchés à 100 %
           </h2>
