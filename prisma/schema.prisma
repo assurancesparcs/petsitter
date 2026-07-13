@@ -134,10 +134,23 @@ model IdentityVerification {
   id              String        @id @default(cuid())
   sitterProfileId String        @unique
   sitterProfile   SitterProfile @relation(fields: [sitterProfileId], references: [id])
-  provider        String // prestataire UE — aucune pièce stockée chez nous
-  status          String // pending / verified / rejected
-  verifiedAt      DateTime?
-  createdAt       DateTime      @default(now())
+  // MVP : contrôle interne (pièce + selfie revus par un administrateur). Un
+  // prestataire d'identité UE (type Ubble) remplacera « manual » plus tard —
+  // aucune pièce ne serait alors stockée chez nous.
+  provider        String        @default("manual")
+  // Cycle de vie : pending (aucune soumission) / submitted (pièces reçues, à
+  // revoir) / verified / rejected.
+  status          String        @default("pending")
+  submittedAt     DateTime? // horodatage de la soumission des pièces par le sitter
+  // Chemins de stockage privé (Vercel Blob). ⚠️ Données à risque : les fichiers
+  // sont SUPPRIMÉS dès la décision de l'administrateur (validé OU refusé). On ne
+  // conserve alors que le statut + les horodatages, JAMAIS les images.
+  docStoragePath    String?
+  selfieStoragePath String?
+  rejectionReason   String? // motif obligatoire en cas de refus (décision motivée)
+  reviewedAt        DateTime? // horodatage de la décision de l'administrateur
+  verifiedAt        DateTime?
+  createdAt         DateTime  @default(now())
 }
 
 enum Species {

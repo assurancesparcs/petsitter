@@ -58,6 +58,23 @@ export default function Confidentialite() {
             </strong>
           </li>
           <li>
+            <strong className="text-ink">Vérification d&apos;identité (pet sitters)</strong>{" "}
+            : pièce d&apos;identité et selfie, déposés volontairement par le pet
+            sitter. Finalité unique : vérifier son identité avant qu&apos;il ne
+            soit visible et reçoive des demandes.{" "}
+            <strong className="text-ink">
+              Base légale : notre intérêt légitime à sécuriser la mise en
+              relation
+            </strong>{" "}
+            (et l&apos;exécution du contrat côté pet sitter). Ces fichiers sont
+            conservés en accès privé et{" "}
+            <strong className="text-ink">
+              supprimés dès la fin de l&apos;examen (validé ou refusé)
+            </strong>{" "}
+            : seuls le statut et la date de décision sont conservés, jamais les
+            images. Ils ne sont ni vendus ni transmis.
+          </li>
+          <li>
             <strong className="text-ink">Mesure d&apos;audience</strong> :
             statistiques anonymes sans cookie ni traceur publicitaire — aucun
             bandeau n&apos;est nécessaire car aucune donnée personnelle

@@ -19,6 +19,8 @@ const ERREURS: Record<string, string> = {
   cp: "Code postal introuvable — vérifiez la saisie.",
   incomplet:
     "Pour publier : prénom, commune et au moins un service avec un tarif.",
+  identite_requise:
+    "Vérification d'identité requise avant publication — déposez votre pièce et votre selfie.",
   indisponible: "Service momentanément indisponible, réessayez.",
   filtre: "", // détail fourni via ?detail=
 };
@@ -41,9 +43,22 @@ export default async function ProfilSitter({
   const profile = db
     ? await db.sitterProfile.findUnique({
         where: { userId: session.user.id },
-        include: { services: true, user: { select: { firstName: true, lastName: true } } },
+        include: {
+          services: true,
+          user: { select: { firstName: true, lastName: true } },
+          identityVerification: { select: { status: true } },
+        },
       })
     : null;
+
+  const identiteStatus = profile?.identityVerification?.status ?? "pending";
+  const identiteVerifiee = identiteStatus === "verified";
+  const IDENTITE_LABEL: Record<string, string> = {
+    pending: "Non soumise — requise pour publier votre profil.",
+    submitted: "En cours de vérification.",
+    verified: "Vérifiée.",
+    rejected: "Refusée — déposez de nouveaux documents.",
+  };
 
   const prix = (service: string, species: string) => {
     const s = profile?.services.find(
@@ -105,6 +120,30 @@ export default async function ProfilSitter({
             </button>
           </form>
         )}
+      </div>
+
+      {/* Vérification d'identité */}
+      <div
+        className={`mt-4 flex flex-wrap items-center justify-between gap-4 rounded-[20px] border p-5 ${
+          identiteVerifiee
+            ? "border-forest-border bg-forest-tint"
+            : identiteStatus === "rejected"
+              ? "border-primary-border bg-primary-tint"
+              : "border-line bg-surface"
+        }`}
+      >
+        <div>
+          <p className="font-semibold text-ink">Vérification d&apos;identité</p>
+          <p className="text-sm text-muted">
+            {IDENTITE_LABEL[identiteStatus] ?? IDENTITE_LABEL.pending}
+          </p>
+        </div>
+        <Link
+          href="/compte/profil/identite"
+          className="rounded-[14px] border border-line px-5 py-2.5 text-sm font-bold text-body hover:border-primary hover:text-primary"
+        >
+          {identiteVerifiee ? "Voir le statut" : "Vérifier mon identité"}
+        </Link>
       </div>
 
       {/* Messages */}

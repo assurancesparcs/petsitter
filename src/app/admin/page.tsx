@@ -307,12 +307,20 @@ function Shell({ children }: { children: React.ReactNode }) {
             Console {BRAND}
           </h1>
         </div>
-        <Link
-          href="/admin/moderation"
-          className="rounded-[14px] bg-ink px-4 py-2 text-sm font-bold text-surface hover:opacity-90"
-        >
-          Modération
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/verifications"
+            className="rounded-[14px] border border-line bg-surface px-4 py-2 text-sm font-bold text-body hover:border-primary hover:text-primary"
+          >
+            Vérifications
+          </Link>
+          <Link
+            href="/admin/moderation"
+            className="rounded-[14px] bg-ink px-4 py-2 text-sm font-bold text-surface hover:opacity-90"
+          >
+            Modération
+          </Link>
+        </div>
       </div>
       <div className="mt-8">{children}</div>
     </div>

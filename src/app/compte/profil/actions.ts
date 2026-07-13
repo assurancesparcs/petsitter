@@ -125,11 +125,20 @@ export async function publierProfil() {
   const { userId, db } = await requireSitter();
   const profile = await db.sitterProfile.findUnique({
     where: { userId },
-    include: { services: true, user: { select: { firstName: true } } },
+    include: {
+      services: true,
+      user: { select: { firstName: true } },
+      identityVerification: { select: { status: true } },
+    },
   });
   // Publication seulement si le profil est complet — sinon retour avec motif.
   if (!profile || !profile.user.firstName || !profile.communeCode || profile.services.length === 0) {
     redirect("/compte/profil?erreur=incomplet");
+  }
+  // Contrôle d'identité obligatoire avant toute publication : un profil non
+  // vérifié n'est jamais visible dans la recherche.
+  if (profile.identityVerification?.status !== "verified") {
+    redirect("/compte/profil?erreur=identite_requise");
   }
   await db.sitterProfile.update({
     where: { userId },
