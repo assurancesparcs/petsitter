@@ -348,6 +348,11 @@ model ReliabilityScore {
   medianResponseH  Float?
   cancellationRate Float?
   completedCount   Int    @default(0)
+  // Note moyenne dénormalisée (avis vérifiés non modérés) + volume, recalculées
+  // sur évènement. averageRating = null tant qu'aucun avis. Affichées seulement
+  // si displayEligible (seuil) — sinon badge « Nouveau », jamais de score gonflé.
+  averageRating    Float?
+  reviewCount      Int    @default(0)
   memberSince      DateTime @default(now())
   // Affiché publiquement UNIQUEMENT au-delà du seuil (paramètre) — sinon badge
   // « Nouveau sur AlloPetsitter ». Critères publiés (P2B / art. 22 RGPD).

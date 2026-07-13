@@ -16,6 +16,27 @@ function dayChipLabel(iso: string): { dow: string; day: number } {
   return { dow: JOURS[dow], day: d };
 }
 
+// Note à une décimale à la française (4.7 → « 4,7 »).
+function fmtRating(n: number): string {
+  return n.toLocaleString("fr-FR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+}
+// Taux (fraction 0–1) en pourcentage entier (« 0,1 » → « 10 % »).
+function fmtPercent(n: number): string {
+  return `${Math.round(n * 100)} %`;
+}
+// Délai médian lisible. Sous 1 h on affiche des minutes (jamais « 0 h », qui se
+// lirait comme cassé pour une réponse très rapide) ; au-delà, des heures.
+function fmtHours(n: number): string {
+  if (n < 1) {
+    const min = Math.max(1, Math.round(n * 60));
+    return `${min} min`;
+  }
+  return `${n.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} h`;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -37,6 +58,13 @@ export default async function FicheSitter({
   const s = await getSitterPublic((await params).id);
   if (!s) notFound();
 
+  const rel = s.reliability;
+  // Score chiffré affiché UNIQUEMENT au-delà du seuil de gardes réalisées.
+  // Sinon : badge « Nouveau » honnête (jamais de vide déguisé en chiffre).
+  const eligible = rel?.displayEligible === true;
+  const showRating =
+    eligible && rel?.averageRating != null && rel.reviewCount >= 1;
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
       {/* En-tête anonymisé : prénom + initiale, commune + rayon — jamais plus */}
@@ -51,15 +79,91 @@ export default async function FicheSitter({
             {s.radiusKm} km
           </p>
         </div>
-        <span className="rounded-full border border-primary-border bg-primary-tint px-4 py-1.5 text-sm font-bold text-primary-deep">
-          Nouveau sur {BRAND}
-        </span>
+        {showRating && rel ? (
+          <span
+            className="rounded-full border border-forest-border bg-forest-tint px-4 py-1.5 text-sm font-bold text-forest-text"
+            aria-label={`Note moyenne : ${fmtRating(rel.averageRating!)} sur 5, ${rel.reviewCount} avis vérifié${rel.reviewCount > 1 ? "s" : ""}`}
+          >
+            <span aria-hidden className="text-primary">
+              ★
+            </span>{" "}
+            {fmtRating(rel.averageRating!)} / 5
+          </span>
+        ) : (
+          <span className="rounded-full border border-primary-border bg-primary-tint px-4 py-1.5 text-sm font-bold text-primary-deep">
+            Nouveau sur {BRAND}
+          </span>
+        )}
       </div>
-      <p className="mt-2 text-sm text-faint">
-        Pas encore assez de gardes déclarées pour afficher un score — nous
-        n&apos;affichons jamais un vide déguisé en chiffre. L&apos;identité
-        complète et les coordonnées sont partagées après la mise en relation.
-      </p>
+
+      {eligible && rel ? (
+        <section className="mt-5 rounded-[20px] border border-forest-border bg-forest-tint p-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className="kicker">Score de fiabilité</p>
+            <Link
+              href="/transparence-score"
+              className="text-xs font-semibold text-forest-text underline"
+            >
+              Comment ce score est calculé
+            </Link>
+          </div>
+          <div className="mt-3 grid gap-px overflow-hidden rounded-[14px] border border-forest-border bg-forest-border sm:grid-cols-3">
+            {showRating && (
+              <div className="bg-surface p-4 text-center">
+                <p className="kicker">Note moyenne</p>
+                <p className="mt-1 font-mono text-xl font-bold text-forest-text">
+                  {fmtRating(rel.averageRating!)}{" "}
+                  <span className="text-sm text-faint">/ 5</span>
+                </p>
+                <p className="mt-1 text-xs text-muted">
+                  {rel.reviewCount} avis vérifié{rel.reviewCount > 1 ? "s" : ""}
+                </p>
+              </div>
+            )}
+            <div className="bg-surface p-4 text-center">
+              <p className="kicker">Gardes réalisées</p>
+              <p className="mt-1 font-mono text-xl font-bold text-forest-text">
+                {rel.completedCount}
+              </p>
+              <p className="mt-1 text-xs text-muted">déclarées terminées</p>
+            </div>
+            {rel.cancellationRate != null && (
+              <div className="bg-surface p-4 text-center">
+                <p className="kicker">Annulations</p>
+                <p className="mt-1 font-mono text-xl font-bold text-forest-text">
+                  {fmtPercent(rel.cancellationRate)}
+                </p>
+                <p className="mt-1 text-xs text-muted">après confirmation</p>
+              </div>
+            )}
+            {rel.medianResponseH != null && (
+              <div className="bg-surface p-4 text-center">
+                <p className="kicker">Délai de réponse</p>
+                <p className="mt-1 font-mono text-xl font-bold text-forest-text">
+                  {fmtHours(rel.medianResponseH)}
+                </p>
+                <p className="mt-1 text-xs text-muted">médian, à une demande</p>
+              </div>
+            )}
+          </div>
+          <p className="mt-3 text-sm text-forest-text">
+            Calculé automatiquement à partir des gardes réellement déclarées
+            terminées et des avis vérifiés — jamais gonflé, jamais inventé.
+            L&apos;identité complète et les coordonnées sont partagées après la
+            mise en relation.
+          </p>
+        </section>
+      ) : (
+        <p className="mt-2 text-sm text-faint">
+          Pas encore assez de gardes déclarées pour afficher un score — nous
+          n&apos;affichons jamais un vide déguisé en chiffre. Voir{" "}
+          <Link href="/transparence-score" className="underline">
+            comment le score est calculé
+          </Link>
+          . L&apos;identité complète et les coordonnées sont partagées après la
+          mise en relation.
+        </p>
+      )}
 
       {/* Bio */}
       {s.bio && (

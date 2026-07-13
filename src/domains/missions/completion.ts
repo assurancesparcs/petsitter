@@ -1,5 +1,6 @@
 import "server-only";
 import type { PrismaClient, Role } from "@prisma/client";
+import { recomputeReliability } from "@/domains/reliability/score";
 
 /**
  * « Déclarer la garde terminée » — transition d'état partagée (owner ou pet
@@ -54,6 +55,8 @@ export async function declareMissionDone(
         where: { careRequestId: cr.id },
         data: { declaredDone: true },
       });
+      // declaredDone vient de passer à true → le score de fiabilité change.
+      await recomputeReliability(db, mission.confirmedSitterId);
     }
     return "already";
   }
@@ -81,7 +84,12 @@ export async function declareMissionDone(
     return true;
   });
 
-  if (gagne) return "done";
+  if (gagne) {
+    // Garde réellement déclarée terminée → recalcul best-effort du score
+    // (completedCount notamment). Ne lève jamais : n'affecte pas la transition.
+    await recomputeReliability(db, mission.confirmedSitterId);
+    return "done";
+  }
 
   // Verrou non déclenché : re-lire le statut (course éventuelle) pour distinguer
   // « déjà terminée entre-temps » d'un statut réellement incompatible.
@@ -95,6 +103,7 @@ export async function declareMissionDone(
         where: { careRequestId: cr.id },
         data: { declaredDone: true },
       });
+      await recomputeReliability(db, mission.confirmedSitterId);
     }
     return "already";
   }

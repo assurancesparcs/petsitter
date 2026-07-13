@@ -24,7 +24,10 @@ export type SitterCard = {
   distanceKm: number;
   priceCents: number;
   priceUnit: string;
-  isNew: true; // V1 : toujours « Nouveau » (score affiché seulement au-delà d'un seuil)
+  // Note moyenne affichable UNIQUEMENT si le sitter est au-delà du seuil de
+  // fiabilité ET a au moins un avis vérifié — sinon null (badge « Nouveau »).
+  // Jamais 0 comme note : une absence de score reste null.
+  rating: number | null;
 };
 
 const UNIT_LABEL: Record<string, string> = {
@@ -77,6 +80,11 @@ export async function searchSitters(params: {
         where: { service: params.service, species: params.species },
         take: 1,
       },
+      // Score de fiabilité dénormalisé : on n'affiche la note que si le sitter
+      // est éligible (au-delà du seuil) et a au moins un avis vérifié.
+      reliability: {
+        select: { displayEligible: true, averageRating: true, reviewCount: true },
+      },
     },
     take: 100,
   });
@@ -85,6 +93,11 @@ export async function searchSitters(params: {
     .map((r) => {
       const d = distanceKm(params.lat, params.lng, r.lat!, r.lng!);
       const svc = r.services[0];
+      const rel = r.reliability;
+      const rating =
+        rel && rel.displayEligible && rel.reviewCount >= 1
+          ? rel.averageRating
+          : null;
       return d <= params.radiusKm + (r.radiusKm ?? 0) && svc
         ? {
             id: r.id,
@@ -94,7 +107,7 @@ export async function searchSitters(params: {
             distanceKm: Math.round(d * 10) / 10,
             priceCents: svc.priceCents,
             priceUnit: svc.priceUnit,
-            isNew: true as const,
+            rating,
           }
         : null;
     })
@@ -112,6 +125,7 @@ export async function getSitterPublic(id: string) {
     include: {
       user: { select: { firstName: true, lastName: true, createdAt: true } },
       services: { orderBy: { priceCents: "asc" } },
+      reliability: true,
     },
   });
   if (!p) return null;
@@ -185,8 +199,61 @@ export async function getSitterPublic(id: string) {
       availableCount14, // nb de jours dispo sur les 14 prochains
       blockedCount14: 14 - availableCount14,
     },
-    // Liste d'avis vérifiés + total (aucune moyenne agrégée : feature séparée).
+    // Liste d'avis vérifiés + total (aucune moyenne agrégée dans CETTE liste :
+    // la moyenne vit dans le bloc `reliability` ci-dessous, sous condition de seuil).
     reviews,
     reviewCount: reviews.length,
+    // Score de fiabilité. `null` si jamais calculé (aucune activité). Les
+    // métriques CHIFFRÉES ne sont exposées QUE si `displayEligible` : sinon la
+    // fiche garde le badge « Nouveau » (jamais de vide déguisé en chiffre).
+    reliability: buildPublicReliability(p.reliability),
+  };
+}
+
+/** Métriques de fiabilité exposables. */
+export type PublicReliability = {
+  displayEligible: boolean;
+  completedCount: number;
+  // Chiffres masqués (mis à null) tant que displayEligible est faux.
+  averageRating: number | null;
+  reviewCount: number;
+  cancellationRate: number | null;
+  medianResponseH: number | null;
+};
+
+/**
+ * Projette un `ReliabilityScore` en objet public honnête. Sous le seuil
+ * (`displayEligible === false`), on N'EXPOSE AUCUN chiffre de score : la fiche
+ * affiche le badge « Nouveau ». La note n'est fournie que s'il existe au moins
+ * un avis vérifié (jamais 0 comme note).
+ */
+function buildPublicReliability(
+  rel: {
+    displayEligible: boolean;
+    completedCount: number;
+    averageRating: number | null;
+    reviewCount: number;
+    cancellationRate: number | null;
+    medianResponseH: number | null;
+  } | null,
+): PublicReliability | null {
+  if (!rel) return null;
+  if (!rel.displayEligible) {
+    return {
+      displayEligible: false,
+      completedCount: rel.completedCount,
+      averageRating: null,
+      reviewCount: rel.reviewCount,
+      cancellationRate: null,
+      medianResponseH: null,
+    };
+  }
+  return {
+    displayEligible: true,
+    completedCount: rel.completedCount,
+    averageRating: rel.reviewCount >= 1 ? rel.averageRating : null,
+    reviewCount: rel.reviewCount,
+    cancellationRate: rel.cancellationRate,
+    medianResponseH: rel.medianResponseH,
   };
 }

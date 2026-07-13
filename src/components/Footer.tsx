@@ -31,6 +31,14 @@ export function Footer() {
             </Link>
           </p>
           <p>
+            <Link
+              href="/transparence-score"
+              className="text-body hover:text-primary"
+            >
+              Comment le score est calculé
+            </Link>
+          </p>
+          <p>
             <Link href="/guides" className="text-body hover:text-primary">
               Guides pratiques
             </Link>

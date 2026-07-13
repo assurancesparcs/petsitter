@@ -116,9 +116,24 @@ export default async function Recherche({
                         <span className="font-mono">{s.distanceKm} km</span>
                       </p>
                     </div>
-                    <span className="shrink-0 rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-xs font-bold text-primary-deep">
-                      Nouveau sur {BRAND}
-                    </span>
+                    {s.rating !== null ? (
+                      <span
+                        className="shrink-0 rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-bold text-forest-text"
+                        aria-label={`Note moyenne : ${s.rating.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} sur 5`}
+                      >
+                        <span aria-hidden className="text-primary">
+                          ★
+                        </span>{" "}
+                        {s.rating.toLocaleString("fr-FR", {
+                          minimumFractionDigits: 1,
+                          maximumFractionDigits: 1,
+                        })}
+                      </span>
+                    ) : (
+                      <span className="shrink-0 rounded-full border border-primary-border bg-primary-tint px-3 py-1 text-xs font-bold text-primary-deep">
+                        Nouveau sur {BRAND}
+                      </span>
+                    )}
                   </div>
                   {s.bio && (
                     <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-body">

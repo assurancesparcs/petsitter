@@ -6,6 +6,7 @@ import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { checkFreeText } from "@/domains/fraud/filter";
 import { declareMissionDone } from "@/domains/missions/completion";
+import { recomputeReliability } from "@/domains/reliability/score";
 
 /**
  * LE moment du paiement (Q14) : le propriétaire choisit un pet sitter →
@@ -268,7 +269,11 @@ export async function laisserAvis(formData: FormData) {
       declaredDone: true,
       careRequest: { ownerId: session.user.id, status: "COMPLETED" },
     },
-    select: { id: true, careRequest: { select: { endDate: true } } },
+    select: {
+      id: true,
+      confirmedSitterId: true,
+      careRequest: { select: { endDate: true } },
+    },
   });
   if (!mission) redirect("/compte/mes-demandes?erreur=avis_impossible");
 
@@ -295,5 +300,11 @@ export async function laisserAvis(formData: FormData) {
   await db.requestEvent.create({
     data: { careRequestId: requestId, type: "review_posted", payload: { rating } },
   });
+
+  // Recalcul best-effort du score de fiabilité (moyenne + volume d'avis) après
+  // publication. `recomputeReliability` ne lève jamais : un échec ici ne casse
+  // pas la publication de l'avis ni la redirection.
+  await recomputeReliability(db, mission.confirmedSitterId);
+
   redirect("/compte/mes-demandes?ok=avis");
 }
