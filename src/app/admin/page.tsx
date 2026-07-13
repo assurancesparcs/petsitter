@@ -70,6 +70,8 @@ export default async function Admin() {
     fraudSignals,
     waitlistRealCount,
     waitlistTestCount,
+    reportedReviewsPending,
+    refundsCount,
     recentWaitlist,
     recentRequests,
     recentSitters,
@@ -93,6 +95,8 @@ export default async function Admin() {
     db.fraudSignal.count({ where: { reviewedAt: null } }),
     db.sitterWaitlist.count({ where: realWhere }),
     db.sitterWaitlist.count({ where: testWhere }),
+    db.review.count({ where: { reportedAt: { not: null }, moderatedAt: null } }),
+    db.payment.count({ where: { status: "REFUNDED" } }),
     db.sitterWaitlist.findMany({
       where: realWhere,
       orderBy: { createdAt: "desc" },
@@ -196,6 +200,27 @@ export default async function Admin() {
               .join(" · ") || "Filtre anti-fuite"
           }
           tone={filterHits > 0 || unlockNoReview > 0 ? "alert" : undefined}
+        />
+      </section>
+
+      {/* Litiges & remboursements */}
+      <section className="mt-4 grid gap-4 sm:grid-cols-3">
+        <Stat
+          label="Avis signalés en attente"
+          value={reportedReviewsPending}
+          hint="À revoir dans Litiges & Plan B"
+          tone={reportedReviewsPending > 0 ? "alert" : undefined}
+        />
+        <Stat
+          label="Plan B en cours"
+          value={statusCount("REPLACEMENT_IN_PROGRESS")}
+          hint="Annulation sitter — décision propriétaire attendue"
+          tone={statusCount("REPLACEMENT_IN_PROGRESS") > 0 ? "alert" : undefined}
+        />
+        <Stat
+          label="Remboursements émis"
+          value={refundsCount}
+          hint="Mise en relation remboursée (annulation sitter)"
         />
       </section>
 

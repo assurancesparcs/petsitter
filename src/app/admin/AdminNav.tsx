@@ -9,8 +9,6 @@ import { BRAND } from "@/lib/brand";
  * - Desktop : colonne sombre (bg-ink) avec onglets empilés.
  * - Mobile : barre d'onglets repliée, défilante horizontalement.
  * L'état actif est déduit du chemin courant (usePathname).
- * Les entrées « à venir » (dépendantes du paiement, encore dormant) sont
- * grisées, non cliquables, avec un badge « bientôt ».
  */
 
 type NavLink = { href: string; label: string; exact?: boolean };
@@ -19,9 +17,9 @@ const LINKS: NavLink[] = [
   { href: "/admin", label: "Tableau de bord", exact: true },
   { href: "/admin/verifications", label: "Vérifications" },
   { href: "/admin/moderation", label: "Modération" },
+  { href: "/admin/litiges", label: "Litiges & Plan B" },
+  { href: "/admin/remboursements", label: "Remboursements" },
 ];
-
-const SOON: string[] = ["Litiges & Plan B", "Remboursements"];
 
 function isActive(pathname: string, link: NavLink): boolean {
   if (link.exact) return pathname === link.href;
@@ -71,19 +69,6 @@ export function AdminNav() {
             </Link>
           );
         })}
-
-        {SOON.map((label) => (
-          <span
-            key={label}
-            aria-disabled="true"
-            className="flex shrink-0 cursor-not-allowed items-center gap-2 whitespace-nowrap rounded-[10px] px-3 py-2.5 text-sm font-medium text-faint"
-          >
-            {label}
-            <span className="rounded-full border border-line-faint/30 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-line-faint">
-              bientôt
-            </span>
-          </span>
-        ))}
       </nav>
 
       {/* Mention outil interne */}
