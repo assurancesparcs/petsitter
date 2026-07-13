@@ -1,32 +1,29 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { adminCredentials, verifyBasicAuth } from "@/lib/admin-auth";
 
 /**
  * Protège /admin par authentification HTTP Basic (identifiants dans les
  * variables d'environnement Vercel : ADMIN_USER / ADMIN_PASSWORD). Sur HTTPS,
  * suffisant pour un accès administrateur unique en P1. Sera remplacé par une
  * vraie authentification (Auth.js + rôles) en P2/P3.
+ *
+ * La logique de vérification est factorisée dans `@/lib/admin-auth` et
+ * réutilisée par les server actions d'administration (chacune étant un endpoint
+ * POST qui doit revérifier l'accès de son côté).
  */
 export const config = { matcher: ["/admin/:path*"] };
 
 export function middleware(req: NextRequest) {
-  const user = process.env.ADMIN_USER;
-  const pass = process.env.ADMIN_PASSWORD;
-
-  if (!user || !pass) {
+  if (!adminCredentials()) {
     return new NextResponse(
       "Accès admin non configuré : définissez ADMIN_USER et ADMIN_PASSWORD dans Vercel.",
       { status: 503 },
     );
   }
 
-  const auth = req.headers.get("authorization");
-  if (auth?.startsWith("Basic ")) {
-    const decoded = atob(auth.slice(6));
-    const sep = decoded.indexOf(":");
-    const u = decoded.slice(0, sep);
-    const p = decoded.slice(sep + 1);
-    if (u === user && p === pass) return NextResponse.next();
+  if (verifyBasicAuth(req.headers.get("authorization"))) {
+    return NextResponse.next();
   }
 
   return new NextResponse("Authentification requise.", {

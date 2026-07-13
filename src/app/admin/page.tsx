@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getPrisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
@@ -11,14 +12,6 @@ export const metadata: Metadata = {
 
 // Lecture en base à chaque affichage (données vivantes).
 export const dynamic = "force-dynamic";
-
-function isTest(email: string) {
-  return (
-    email.includes("@example.com") ||
-    email.includes("verification-deploiement@") ||
-    email.includes("audit")
-  );
-}
 
 const dateFr = (d: Date) =>
   d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
@@ -52,30 +45,60 @@ export default async function Admin() {
   }
 
   const now = new Date();
+  // Filtre des enregistrements de test (audits) pour la waitlist, exprimé
+  // en base (plus de chargement complet de la table — audit §3.3).
+  const testWhere = {
+    OR: [
+      { email: { contains: "@example.com" } },
+      { email: { contains: "verification-deploiement@" } },
+      { email: { contains: "audit" } },
+    ],
+  };
+  const realWhere = { NOT: testWhere };
+
   const [
     usersByRole,
     sitterTotal,
     sitterPublished,
+    sittersWithApp,
     requestsByStatus,
     requestsTotal,
+    openLive,
     requestsWithApp,
     applicationsTotal,
+    unlockNoReview,
     filterHits,
     fraudSignals,
-    waitlist,
+    waitlistRealCount,
+    waitlistTestCount,
+    recentWaitlist,
     recentRequests,
     recentSitters,
   ] = await Promise.all([
     db.user.groupBy({ by: ["role"], _count: true }),
     db.sitterProfile.count(),
     db.sitterProfile.count({ where: { publishedAt: { not: null } } }),
+    db.sitterProfile.count({ where: { applications: { some: {} } } }),
     db.careRequest.groupBy({ by: ["status"], _count: true }),
     db.careRequest.count(),
+    db.careRequest.count({ where: { status: "OPEN", responseDeadline: { gt: now } } }),
     db.careRequest.count({ where: { applications: { some: {} } } }),
     db.application.count(),
+    db.mission.count({
+      where: {
+        review: null,
+        careRequest: { status: { in: ["UNLOCKED", "CONFIRMED", "COMPLETED"] } },
+      },
+    }),
     db.contentFilterHit.count(),
     db.fraudSignal.count({ where: { reviewedAt: null } }),
-    db.sitterWaitlist.findMany({ orderBy: { createdAt: "desc" } }),
+    db.sitterWaitlist.count({ where: realWhere }),
+    db.sitterWaitlist.count({ where: testWhere }),
+    db.sitterWaitlist.findMany({
+      where: realWhere,
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    }),
     db.careRequest.findMany({
       orderBy: { createdAt: "desc" },
       take: 8,
@@ -95,12 +118,23 @@ export default async function Admin() {
   const statusCount = (s: string) =>
     requestsByStatus.find((x) => x.status === s)?._count ?? 0;
 
-  const realWaitlist = waitlist.filter((w) => !isTest(w.email));
-  const testWaitlist = waitlist.length - realWaitlist.length;
+  const realWaitlist = recentWaitlist;
+  const testWaitlist = waitlistTestCount;
 
   // Liquidité : part des demandes ayant reçu >= 1 candidature.
   const liquidite =
     requestsTotal > 0 ? Math.round((requestsWithApp / requestsTotal) * 100) : null;
+  // Conversion : part des demandes menant à une garde confirmée/terminée.
+  const confirmees = statusCount("CONFIRMED") + statusCount("COMPLETED");
+  const tauxConfirme =
+    requestsTotal > 0 ? Math.round((confirmees / requestsTotal) * 100) : null;
+  // Activation sitter : part des pet sitters ayant déjà candidaté au moins une fois.
+  const tauxActivation =
+    sitterTotal > 0 ? Math.round((sittersWithApp / sitterTotal) * 100) : null;
+  // Désistements : annulations par le sitter (avant ou après confirmation).
+  const desistements =
+    statusCount("CANCELLED_BY_SITTER_PRE_CONFIRMATION") +
+    statusCount("CANCELLED_BY_SITTER_POST_CONFIRMATION");
 
   return (
     <Shell>
@@ -112,7 +146,7 @@ export default async function Admin() {
           value={sitters}
           hint={`${sitterPublished}/${sitterTotal} profil(s) publié(s)`}
         />
-        <Stat label="Demandes de garde" value={requestsTotal} hint={`${statusCount("OPEN")} ouverte(s)`} />
+        <Stat label="Demandes de garde" value={requestsTotal} hint={`${openLive} ouverte(s) actuellement`} />
         <Stat label="Candidatures" value={applicationsTotal} />
       </div>
 
@@ -125,16 +159,44 @@ export default async function Admin() {
           tone="forest"
         />
         <Stat
+          label="Conversion — demandes → garde confirmée"
+          value={tauxConfirme === null ? "—" : `${tauxConfirme} %`}
+          hint="Entonnoir de bout en bout"
+          tone="forest"
+        />
+        <Stat
+          label="Activation sitter — inscrit → 1ʳᵉ candidature"
+          value={tauxActivation === null ? "—" : `${tauxActivation} %`}
+          hint={`${sittersWithApp}/${sitterTotal} pet sitter(s)`}
+          tone="forest"
+        />
+      </section>
+
+      {/* Confiance & anti-fuite */}
+      <section className="mt-4 grid gap-4 sm:grid-cols-3">
+        <Stat
           label="Mises en relation débloquées"
           value={statusCount("UNLOCKED") + statusCount("CONFIRMED") + statusCount("COMPLETED")}
-          hint="Demandes payées (P3)"
-          tone="forest"
+          hint="Demandes payées"
+        />
+        <Stat
+          label="Désistements pet sitter"
+          value={desistements}
+          hint="KPI signature (anti-annulation)"
+          tone={desistements > 0 ? "alert" : undefined}
         />
         <Stat
           label="Tentatives de fuite détectées"
           value={filterHits}
-          hint={fraudSignals > 0 ? `+ ${fraudSignals} signal(aux) à revoir` : "Filtre anti-fuite"}
-          tone={filterHits > 0 ? "alert" : undefined}
+          hint={
+            [
+              fraudSignals > 0 ? `${fraudSignals} signal(aux) à revoir` : null,
+              unlockNoReview > 0 ? `${unlockNoReview} déblocage(s) sans avis` : null,
+            ]
+              .filter(Boolean)
+              .join(" · ") || "Filtre anti-fuite"
+          }
+          tone={filterHits > 0 || unlockNoReview > 0 ? "alert" : undefined}
         />
       </section>
 
@@ -209,7 +271,7 @@ export default async function Admin() {
       </Section>
 
       {/* Liste d'attente */}
-      <Section title={`Liste d'attente pet sitter (${realWaitlist.length})`}>
+      <Section title={`Liste d'attente pet sitter (${waitlistRealCount})`}>
         {testWaitlist > 0 && (
           <p className="mb-3 rounded-[12px] bg-primary-tint px-4 py-2 text-sm text-primary-deep">
             {testWaitlist} enregistrement(s) de test (audits) — exclus du compte,
@@ -245,6 +307,12 @@ function Shell({ children }: { children: React.ReactNode }) {
             Console {BRAND}
           </h1>
         </div>
+        <Link
+          href="/admin/moderation"
+          className="rounded-[14px] bg-ink px-4 py-2 text-sm font-bold text-surface hover:opacity-90"
+        >
+          Modération
+        </Link>
       </div>
       <div className="mt-8">{children}</div>
     </div>
