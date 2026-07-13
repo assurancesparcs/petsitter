@@ -137,6 +137,30 @@ export async function getSitterPublic(id: string) {
   }
   const availableCount14 = next14.filter((d) => d.available).length;
 
+  // Avis VÉRIFIÉS de ce pet sitter (chacun adossé à une garde réellement réglée
+  // via la plateforme). On exclut les avis masqués par modération motivée
+  // (moderatedAt != null) — mais JAMAIS un avis sur son seul caractère négatif.
+  // Tri par défaut : du plus récent au plus ancien (critère affiché côté fiche).
+  // Pas de moyenne agrégée ici : le score de fiabilité est une feature séparée,
+  // à seuil (« Nouveau » sous le seuil).
+  const reviewRows = await db.review.findMany({
+    where: {
+      moderatedAt: null,
+      mission: { confirmedSitterId: p.id },
+    },
+    orderBy: { createdAt: "desc" },
+    include: { author: { select: { firstName: true, lastName: true } } },
+    take: 100,
+  });
+  const reviews = reviewRows.map((r) => ({
+    id: r.id,
+    rating: r.rating,
+    body: r.body,
+    createdAt: r.createdAt, // date de publication (D111-16)
+    experienceDate: r.experienceDate, // date de l'expérience (D111-16)
+    authorName: displayName(r.author.firstName, r.author.lastName),
+  }));
+
   return {
     id: p.id,
     displayName: displayName(p.user.firstName, p.user.lastName),
@@ -161,5 +185,8 @@ export async function getSitterPublic(id: string) {
       availableCount14, // nb de jours dispo sur les 14 prochains
       blockedCount14: 14 - availableCount14,
     },
+    // Liste d'avis vérifiés + total (aucune moyenne agrégée : feature séparée).
+    reviews,
+    reviewCount: reviews.length,
   };
 }

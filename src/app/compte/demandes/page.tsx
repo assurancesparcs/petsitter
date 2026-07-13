@@ -6,7 +6,7 @@ import { getPrisma } from "@/lib/prisma";
 import { distanceKm } from "@/domains/geo/communes";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { CONSTRAINT_LABELS } from "@/domains/marketplace/constraints";
-import { candidater } from "./actions";
+import { candidater, declarerGardeTermineeSitter, signalerAvis } from "./actions";
 
 export const metadata: Metadata = {
   title: "Demandes près de chez vous",
@@ -21,7 +21,16 @@ const ERREURS: Record<string, string> = {
   fermee: "Cette demande n'est plus ouverte.",
   deja: "Vous avez déjà candidaté à cette demande.",
   indisponible: "Service momentanément indisponible.",
+  introuvable: "Mission introuvable.",
+  trop_tot: "La garde ne peut être déclarée terminée qu'après sa date de fin.",
   filtre: "",
+};
+
+const OKS: Record<string, string> = {
+  envoyee: "Candidature envoyée — le propriétaire voit votre tarif et votre message.",
+  terminee: "Garde déclarée terminée. Le propriétaire peut désormais laisser un avis vérifié.",
+  signale:
+    "Avis signalé — il sera revu par un humain. Un avis n'est jamais supprimé automatiquement.",
 };
 
 const dateFr = (d: Date) =>
@@ -60,6 +69,7 @@ export default async function DemandesSitter({
           },
           orderBy: { careRequest: { startDate: "asc" } },
           include: {
+            review: true,
             careRequest: {
               include: {
                 owner: { select: { firstName: true, lastName: true, email: true } },
@@ -141,7 +151,7 @@ export default async function DemandesSitter({
 
       {ok && (
         <p className="mt-4 rounded-[12px] border border-forest-border bg-forest-tint px-4 py-3 text-sm font-semibold text-forest-text">
-          Candidature envoyée — le propriétaire voit votre tarif et votre message.
+          {OKS[ok] ?? "C'est fait."}
         </p>
       )}
       {erreur && (
@@ -160,6 +170,8 @@ export default async function DemandesSitter({
           {missions.map((m) => {
             const r = m.careRequest;
             const tarif = r.applications[0]?.priceCents;
+            const peutDeclarer =
+              ["UNLOCKED", "CONFIRMED"].includes(r.status) && r.endDate <= new Date();
             return (
               <div
                 key={m.id}
@@ -171,7 +183,9 @@ export default async function DemandesSitter({
                     {r.animalCount > 1 ? ` ×${r.animalCount}` : ""}
                   </h2>
                   <span className="rounded-full border border-forest-border bg-surface px-3 py-1 text-xs font-bold text-forest-text">
-                    ✓ Le propriétaire vous a choisi
+                    {r.status === "COMPLETED"
+                      ? "✓ Garde terminée"
+                      : "✓ Le propriétaire vous a choisi"}
                   </span>
                 </div>
                 <p className="mt-1 font-mono text-sm text-body">
@@ -214,6 +228,48 @@ export default async function DemandesSitter({
                 >
                   Ouvrir la messagerie →
                 </Link>
+
+                {/* Déclarer la garde terminée — après la date de fin */}
+                {peutDeclarer && (
+                  <form action={declarerGardeTermineeSitter} className="mt-4">
+                    <input type="hidden" name="requestId" value={r.id} />
+                    <button className="rounded-[12px] border border-forest-border bg-surface px-4 py-2 text-sm font-bold text-forest-text hover:bg-forest-tint">
+                      Déclarer la garde terminée
+                    </button>
+                  </form>
+                )}
+
+                {/* Avis reçu — signalement (jamais de suppression automatique) */}
+                {m.review && (
+                  <div className="mt-4 rounded-[14px] border border-forest-border bg-surface p-4">
+                    <p className="text-sm font-semibold text-ink">
+                      Avis reçu :{" "}
+                      <span aria-hidden>{"★".repeat(m.review.rating)}</span>
+                      <span className="sr-only">
+                        note {m.review.rating} sur 5
+                      </span>
+                    </p>
+                    {m.review.body && (
+                      <p className="mt-2 whitespace-pre-line text-sm text-body">
+                        {m.review.body}
+                      </p>
+                    )}
+                    {m.review.reportedAt ? (
+                      <p className="mt-3 text-xs font-semibold text-muted">
+                        ✓ Signalé — en cours de revue humaine. L&apos;avis reste
+                        affiché tant qu&apos;aucune modération motivée n&apos;a
+                        eu lieu.
+                      </p>
+                    ) : (
+                      <form action={signalerAvis} className="mt-3">
+                        <input type="hidden" name="reviewId" value={m.review.id} />
+                        <button className="text-xs font-semibold text-muted underline-offset-2 hover:text-primary hover:underline">
+                          Signaler cet avis comme douteux
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                )}
               </div>
             );
           })}

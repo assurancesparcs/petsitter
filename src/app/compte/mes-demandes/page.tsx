@@ -10,7 +10,7 @@ import { syncSetupIntentStatus } from "@/domains/payments/payments";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { displayName, priceLabel } from "@/domains/marketplace/sitters";
 import { annulerDemande } from "@/app/demande/actions";
-import { choisirCandidature } from "./actions";
+import { choisirCandidature, declarerGardeTerminee, laisserAvis } from "./actions";
 
 export const metadata: Metadata = {
   title: "Mes demandes de garde",
@@ -52,6 +52,9 @@ const MESSAGES_OK: Record<string, string> = {
   debloquee:
     "Mise en relation débloquée : les coordonnées de votre pet sitter sont affichées ci-dessous.",
   annulee: "Demande annulée.",
+  terminee:
+    "Garde déclarée terminée. Vous pouvez maintenant laisser un avis vérifié à votre pet sitter.",
+  avis: "Merci — votre avis est publié sur la fiche de votre pet sitter.",
 };
 
 const MESSAGES_ERREUR: Record<string, string> = {
@@ -61,6 +64,11 @@ const MESSAGES_ERREUR: Record<string, string> = {
   expiree: "La fenêtre de réponse de cette demande est expirée — vous n'avez jamais été débité.",
   introuvable: "Demande ou candidature introuvable.",
   indisponible: "Paiement momentanément indisponible, réessayez dans un instant.",
+  trop_tot: "La garde ne peut être déclarée terminée qu'après sa date de fin.",
+  note: "Indiquez une note de 1 à 5 étoiles.",
+  deja_avis: "Vous avez déjà laissé un avis pour cette garde.",
+  avis_impossible:
+    "Avis impossible : la garde doit être déclarée terminée pour laisser un avis.",
 };
 
 export default async function MesDemandes({
@@ -75,6 +83,7 @@ export default async function MesDemandes({
   const sp = await searchParams;
   const ok = one(sp.ok);
   const erreur = one(sp.erreur);
+  const detail = one(sp.detail);
 
   const db = getPrisma();
   const stripe = getStripe();
@@ -84,7 +93,7 @@ export default async function MesDemandes({
         orderBy: { createdAt: "desc" },
         include: {
           payment: true,
-          mission: true,
+          mission: { include: { review: true } },
           applications: {
             orderBy: { priceCents: "asc" },
             include: {
@@ -137,7 +146,7 @@ export default async function MesDemandes({
       )}
       {erreur && (
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">
-          {MESSAGES_ERREUR[erreur] ?? "Une erreur est survenue."}
+          {detail || MESSAGES_ERREUR[erreur] || "Une erreur est survenue."}
         </p>
       )}
 
@@ -180,6 +189,9 @@ export default async function MesDemandes({
           const confirmee = debloquee
             ? d.applications.find((a) => a.sitterProfileId === d.mission?.confirmedSitterId)
             : undefined;
+          // Déclarer la garde terminée : seulement après la date de fin réelle.
+          const peutDeclarer =
+            ["UNLOCKED", "CONFIRMED"].includes(d.status) && d.endDate <= now;
 
           return (
             <div key={d.id} className="rounded-[20px] border border-line bg-surface p-6">
@@ -292,6 +304,99 @@ export default async function MesDemandes({
                         lui revient à <strong className="font-mono">100&nbsp;%</strong>, payé en
                         direct.
                       </p>
+                    </div>
+                  )}
+
+                  {/* Déclarer la garde terminée — possible après la date de fin */}
+                  {peutDeclarer && (
+                    <div className="rounded-[16px] border border-line bg-cream p-5">
+                      <p className="font-display font-bold text-ink">
+                        La garde est-elle terminée ?
+                      </p>
+                      <p className="mt-1 text-sm text-body">
+                        Déclarez la garde terminée pour laisser un avis vérifié à{" "}
+                        {displayName(
+                          confirmee.sitterProfile.user.firstName,
+                          confirmee.sitterProfile.user.lastName,
+                        )}
+                        .
+                      </p>
+                      <form action={declarerGardeTerminee} className="mt-3">
+                        <input type="hidden" name="requestId" value={d.id} />
+                        <button className="rounded-[12px] bg-primary px-5 py-2.5 text-sm font-bold text-surface hover:bg-primary-dark">
+                          Déclarer la garde terminée
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {/* Garde terminée : formulaire d'avis (un seul par garde) */}
+                  {d.status === "COMPLETED" && !d.mission?.review && (
+                    <div className="rounded-[16px] border border-line bg-surface p-5">
+                      <p className="font-display font-bold text-ink">
+                        Laisser un avis vérifié
+                      </p>
+                      <p className="mt-1 text-sm text-muted">
+                        Votre avis porte sur votre garde du{" "}
+                        {dateFr(d.endDate)} (date de l&apos;expérience). Il sera
+                        publié daté sur la fiche, sans coordonnées.
+                      </p>
+                      <form action={laisserAvis} className="mt-3 space-y-3">
+                        <input type="hidden" name="requestId" value={d.id} />
+                        <label className="flex flex-col gap-1.5">
+                          <span className="kicker">Note (obligatoire)</span>
+                          <select
+                            name="rating"
+                            required
+                            defaultValue=""
+                            className="w-full rounded-[12px] border border-line bg-cream px-4 py-2.5 text-ink focus:border-primary focus:outline-none"
+                          >
+                            <option value="" disabled>
+                              Choisir une note…
+                            </option>
+                            <option value="5">★★★★★ — Excellent</option>
+                            <option value="4">★★★★ — Très bien</option>
+                            <option value="3">★★★ — Correct</option>
+                            <option value="2">★★ — Décevant</option>
+                            <option value="1">★ — Mauvais</option>
+                          </select>
+                        </label>
+                        <label className="flex flex-col gap-1.5">
+                          <span className="kicker">
+                            Votre avis (optionnel, sans coordonnées)
+                          </span>
+                          <textarea
+                            name="body"
+                            rows={4}
+                            maxLength={1500}
+                            placeholder="Comment s'est passée la garde ?"
+                            className="w-full rounded-[12px] border border-line bg-cream px-4 py-2.5 text-ink placeholder:text-faint focus:border-primary focus:outline-none"
+                          />
+                        </label>
+                        <button className="rounded-[12px] bg-primary px-5 py-2.5 text-sm font-bold text-surface hover:bg-primary-dark">
+                          Publier mon avis
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {/* Avis déjà déposé */}
+                  {d.status === "COMPLETED" && d.mission?.review && (
+                    <div className="rounded-[16px] border border-forest-border bg-forest-tint p-5">
+                      <p className="font-semibold text-forest-text">
+                        ✓ Avis publié —{" "}
+                        <span aria-hidden>
+                          {"★".repeat(d.mission.review.rating)}
+                        </span>
+                        <span className="sr-only">
+                          note {d.mission.review.rating} sur 5
+                        </span>
+                      </p>
+                      {d.mission.review.body && (
+                        <p className="mt-2 whitespace-pre-line text-sm text-body">
+                          {d.mission.review.body}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>

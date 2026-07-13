@@ -194,6 +194,78 @@ export default async function FicheSitter({
         )}
       </section>
 
+      {/* Avis vérifiés — conformité Code conso. L111-7-2 / D111-16 */}
+      <section className="mt-6 rounded-[20px] border border-line bg-surface p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-display text-lg font-bold text-ink">
+            Avis vérifiés
+          </h2>
+          <span className="kicker">
+            {s.reviewCount} avis vérifié{s.reviewCount > 1 ? "s" : ""}
+          </span>
+        </div>
+
+        {s.reviews.length === 0 ? (
+          <p className="mt-3 text-sm text-muted">
+            Pas encore d&apos;avis. Les avis n&apos;apparaissent qu&apos;après
+            une garde réellement réglée via {BRAND} — nous n&apos;en inventons
+            aucun.
+          </p>
+        ) : (
+          <>
+            <p className="mt-1 text-sm text-muted">
+              Affichés du plus récent au plus ancien.
+            </p>
+            <ul className="mt-4 space-y-4">
+              {s.reviews.map((r) => (
+                <li
+                  key={r.id}
+                  className="rounded-[16px] border border-line-2 bg-cream p-5"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span
+                      className="text-primary"
+                      aria-label={`Note : ${r.rating} sur 5`}
+                      title={`${r.rating} / 5`}
+                    >
+                      <span aria-hidden className="font-bold tracking-[0.1em]">
+                        {/* Bornage défensif : la note est déjà validée 1–5 à
+                            l'écriture, mais on ne laisse jamais repeat() lever. */}
+                        {"★".repeat(Math.max(0, Math.min(5, r.rating)))}
+                        <span className="text-faint">
+                          {"★".repeat(Math.max(0, Math.min(5, 5 - r.rating)))}
+                        </span>
+                      </span>
+                    </span>
+                    <span className="rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-bold text-forest-text">
+                      ✓ Avis vérifié
+                    </span>
+                  </div>
+                  {r.body && (
+                    <p className="mt-3 whitespace-pre-line leading-relaxed text-body">
+                      {r.body}
+                    </p>
+                  )}
+                  <p className="mt-3 text-xs text-faint">
+                    {r.authorName} · Expérience du{" "}
+                    {dateFrShort(r.experienceDate)} · Publié le{" "}
+                    {dateFrShort(r.createdAt)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        <p className="mt-4 border-t border-line-2 pt-4 text-xs leading-relaxed text-faint">
+          Chaque avis est adossé à une garde réellement réglée via {BRAND} (avis
+          vérifié). Les avis sont affichés du plus récent au plus ancien. Un avis
+          négatif n&apos;est jamais retiré : seule une modération motivée est
+          possible. Le pet sitter peut signaler un avis qui lui paraît douteux —
+          il est alors revu par un humain, jamais supprimé automatiquement.
+        </p>
+      </section>
+
       {/* Dépôt de demande — diffusée aux sitters compatibles de la zone */}
       <section className="mt-6 rounded-[20px] bg-forest p-7">
         <h2 className="text-xl font-bold text-surface">

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { checkFreeText } from "@/domains/fraud/filter";
+import { declareMissionDone } from "@/domains/missions/completion";
 
 /**
  * LE moment du paiement (Q14) : le propriétaire choisit un pet sitter →
@@ -194,4 +196,104 @@ export async function choisirCandidature(formData: FormData) {
     data: { careRequestId: requestId, type: "charge_failed", payload: { code: codeEchec } },
   });
   redirect("/compte/mes-demandes?erreur=paiement");
+}
+
+/**
+ * Le propriétaire déclare la garde terminée (après la date de fin). Transition
+ * UNLOCKED/CONFIRMED → COMPLETED, déléguée au verrou d'état partagé. Débloque
+ * le dépôt d'un avis vérifié (une expérience réelle, réglée via la plateforme).
+ */
+export async function declarerGardeTerminee(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/connexion");
+  if (session.user.role !== "OWNER") redirect("/compte");
+  const db = getPrisma();
+  if (!db) redirect("/compte/mes-demandes?erreur=indisponible");
+
+  const requestId = String(formData.get("requestId") ?? "");
+  const res = await declareMissionDone(db, {
+    userId: session.user.id,
+    role: "OWNER",
+    requestId,
+  });
+
+  if (res === "introuvable") redirect("/compte/mes-demandes?erreur=introuvable");
+  if (res === "trop_tot") redirect("/compte/mes-demandes?erreur=trop_tot");
+  if (res === "etat") redirect("/compte/mes-demandes?erreur=fermee");
+  redirect("/compte/mes-demandes?ok=terminee");
+}
+
+/**
+ * Avis client conforme (Code conso. L111-7-2 / D111-16). Réservé au
+ * propriétaire de la demande, sur une mission déclarée terminée :
+ *  - note 1–5 obligatoire, validée côté serveur ;
+ *  - texte optionnel (≤ 1500), passé au filtre anti-fuite comme la bio/pitch ;
+ *  - experienceDate = date de fin réelle de la garde (l'expérience) ;
+ *    createdAt = date de publication (les deux exigées par D111-16) ;
+ *  - un seul avis par mission (missionId @unique) — doublon géré sans 500.
+ */
+export async function laisserAvis(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/connexion");
+  if (session.user.role !== "OWNER") redirect("/compte");
+  const db = getPrisma();
+  if (!db) redirect("/compte/mes-demandes?erreur=indisponible");
+
+  const requestId = String(formData.get("requestId") ?? "");
+
+  // Note 1–5 obligatoire — entier STRICT (on rejette "3.5", "4abc", "5e0"…).
+  const ratingRaw = String(formData.get("rating") ?? "").trim();
+  if (!/^[1-5]$/.test(ratingRaw)) {
+    redirect("/compte/mes-demandes?erreur=note");
+  }
+  const rating = Number(ratingRaw);
+
+  // Texte libre optionnel — filtre anti-fuite AVANT enregistrement (comme bio).
+  const body = String(formData.get("body") ?? "").trim().slice(0, 1500);
+  if (body) {
+    const check = checkFreeText(body);
+    if (!check.ok) {
+      await db.contentFilterHit.create({
+        data: { userId: session.user.id, field: "review", pattern: "regex" },
+      });
+      redirect(`/compte/mes-demandes?erreur=filtre&detail=${encodeURIComponent(check.reason)}`);
+    }
+  }
+
+  // Appartenance + éligibilité STRICTES : mission du propriétaire de la session,
+  // garde déclarée terminée. La date d'expérience = la date de fin réelle.
+  const mission = await db.mission.findFirst({
+    where: {
+      careRequestId: requestId,
+      declaredDone: true,
+      careRequest: { ownerId: session.user.id, status: "COMPLETED" },
+    },
+    select: { id: true, careRequest: { select: { endDate: true } } },
+  });
+  if (!mission) redirect("/compte/mes-demandes?erreur=avis_impossible");
+
+  try {
+    await db.review.create({
+      data: {
+        missionId: mission.id,
+        authorId: session.user.id,
+        rating,
+        body: body || null,
+        experienceDate: mission.careRequest.endDate,
+      },
+    });
+  } catch (e) {
+    // Unicité missionId (P2002) : un avis existe déjà pour cette garde. Jamais de
+    // 500. Toute autre erreur (base indisponible…) NE doit PAS être maquillée en
+    // « déjà noté » — on la laisse remonter.
+    if ((e as { code?: string }).code === "P2002") {
+      redirect("/compte/mes-demandes?erreur=deja_avis");
+    }
+    throw e;
+  }
+
+  await db.requestEvent.create({
+    data: { careRequestId: requestId, type: "review_posted", payload: { rating } },
+  });
+  redirect("/compte/mes-demandes?ok=avis");
 }
