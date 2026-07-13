@@ -7,6 +7,8 @@ import { getStripe } from "@/lib/stripe";
 import { checkFreeText } from "@/domains/fraud/filter";
 import { declareMissionDone } from "@/domains/missions/completion";
 import { recomputeReliability } from "@/domains/reliability/score";
+import { notify } from "@/domains/notifications/notify";
+import { envoyerRelancePaiement } from "@/domains/notifications/email";
 
 /**
  * LE moment du paiement (Q14) : le propriétaire choisit un pet sitter →
@@ -184,6 +186,34 @@ export async function choisirCandidature(formData: FormData) {
   }
 
   if (resultat === "ok") {
+    // Effets de bord BEST-EFFORT, après le commit de la transaction et AVANT la
+    // redirection : notifier l'owner (mise en relation débloquée) et le pet
+    // sitter confirmé (candidature acceptée). Tout est isolé dans un try/catch —
+    // un échec ici ne casse ni l'état débité ni la redirection.
+    try {
+      await notify(db, {
+        userId: session.user.id,
+        type: "unlocked",
+        title: "Mise en relation débloquée",
+        body: "Vous pouvez maintenant échanger avec votre pet sitter et organiser la garde.",
+        careRequestId: request.id,
+      });
+      const sitter = await db.sitterProfile.findUnique({
+        where: { id: application.sitterProfileId },
+        select: { userId: true },
+      });
+      if (sitter?.userId) {
+        await notify(db, {
+          userId: sitter.userId,
+          type: "accepted",
+          title: "Votre candidature a été retenue",
+          body: "Un propriétaire vous a choisi pour une garde. Retrouvez la conversation dans vos messages.",
+          careRequestId: request.id,
+        });
+      }
+    } catch (err) {
+      console.error(`[choisirCandidature] effets de bord (ok) ignorés (${(err as Error)?.name ?? "Error"})`);
+    }
     redirect("/compte/mes-demandes?ok=debloquee");
   }
 
@@ -196,6 +226,26 @@ export async function choisirCandidature(formData: FormData) {
   await db.requestEvent.create({
     data: { careRequestId: requestId, type: "charge_failed", payload: { code: codeEchec } },
   });
+
+  // Effets de bord BEST-EFFORT (une seule fois, on est déjà dans la seule
+  // branche d'échec) : notification in-app + UN e-mail de relance à l'owner.
+  // Isolé : aucun échec ne casse la redirection. Jamais de donnée carte en logs.
+  try {
+    await notify(db, {
+      userId: session.user.id,
+      type: "payment_failed",
+      title: "Votre carte n'a pas pu être débitée",
+      body: "Aucun montant n'a été prélevé (0 €). Vous pouvez réessayer quand vous le souhaitez.",
+      careRequestId: requestId,
+    });
+    const email = session.user.email;
+    if (email) {
+      await envoyerRelancePaiement({ to: email, requestId });
+    }
+  } catch (err) {
+    console.error(`[choisirCandidature] effets de bord (échec) ignorés (${(err as Error)?.name ?? "Error"})`);
+  }
+
   redirect("/compte/mes-demandes?erreur=paiement");
 }
 

@@ -48,6 +48,7 @@ model User {
   careRequests   CareRequest[]
   reviewsWritten Review[]       @relation("reviewAuthor")
   subscriptions  Subscription[]
+  notifications  Notification[]
 }
 
 // ─── Auth.js (adaptateur Prisma) ───
@@ -543,6 +544,23 @@ model ContentFilterHit {
   pattern   String // regex / llm
   createdAt DateTime @default(now())
   // Récidive → malus de score, décision notifiée avec recours humain (art. 22)
+}
+
+// Notifications produit adressées à un utilisateur (acceptation, rappel J-3,
+// message, remboursement proactif, Plan B, avis à laisser…). In-app ;
+// certaines doublées d'un e-mail (ex. relance après échec de débit).
+model Notification {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          String // accepted / unlocked / reminder_j3 / message / refund / plan_b / review_request / payment_failed
+  title         String
+  body          String?
+  careRequestId String? // lien optionnel vers la demande concernée
+  readAt        DateTime? // null = non lue
+  createdAt     DateTime  @default(now())
+
+  @@index([userId, createdAt])
 }
 
 // Append-only : consentements, rétractations, résiliations, DDA, notices, remboursements.

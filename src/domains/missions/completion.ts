@@ -1,6 +1,7 @@
 import "server-only";
 import type { PrismaClient, Role } from "@prisma/client";
 import { recomputeReliability } from "@/domains/reliability/score";
+import { notify } from "@/domains/notifications/notify";
 
 /**
  * « Déclarer la garde terminée » — transition d'état partagée (owner ou pet
@@ -88,6 +89,15 @@ export async function declareMissionDone(
     // Garde réellement déclarée terminée → recalcul best-effort du score
     // (completedCount notamment). Ne lève jamais : n'affecte pas la transition.
     await recomputeReliability(db, mission.confirmedSitterId);
+    // Événement RÉEL (transition → COMPLETED) : on invite l'owner à laisser un
+    // avis. Best-effort — `notify` ne lève jamais et n'altère pas la transition.
+    await notify(db, {
+      userId: cr.ownerId,
+      type: "review_request",
+      title: "Votre garde est terminée",
+      body: "Vous pouvez maintenant laisser un avis vérifié sur cette garde.",
+      careRequestId: cr.id,
+    });
     return "done";
   }
 

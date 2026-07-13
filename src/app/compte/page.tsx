@@ -35,6 +35,29 @@ export default async function Compte() {
         )
       : false;
 
+  // Compteur de notifications non lues — scoped STRICTEMENT à la session.
+  // Dégradation gracieuse : 0 si la base n'est pas configurée.
+  const notifsNonLues =
+    db && session.user.id
+      ? await db.notification.count({
+          where: { userId: session.user.id, readAt: null },
+        })
+      : 0;
+
+  const lienNotifications = (
+    <Link
+      href="/compte/notifications"
+      className="flex items-center justify-between gap-2 rounded-[14px] border border-line px-4 py-3 text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+    >
+      <span>Notifications</span>
+      {notifsNonLues > 0 && (
+        <span className="inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-surface">
+          {notifsNonLues}
+        </span>
+      )}
+    </Link>
+  );
+
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:py-20">
       <p className="kicker">Espace personnel</p>
@@ -93,6 +116,7 @@ export default async function Compte() {
               >
                 Mon abonnement
               </Link>
+              {lienNotifications}
             </div>
           </>
         )}
@@ -147,6 +171,7 @@ export default async function Compte() {
               >
                 Messages
               </Link>
+              {lienNotifications}
             </div>
           </>
         )}
