@@ -4,7 +4,7 @@ import { Logo } from "@/components/Logo";
 export function Footer() {
   return (
     <footer className="mt-20 border-t border-line bg-surface-2">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-3 sm:px-8">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4 sm:px-8">
         <div>
           <Logo size={28} />
           <p className="mt-3 max-w-xs text-sm text-muted">
@@ -46,6 +46,29 @@ export function Footer() {
           <p>
             <Link href="/resilier" className="text-body hover:text-primary">
               Résilier son abonnement
+            </Link>
+          </p>
+        </div>
+        <div className="space-y-2 text-sm">
+          <p className="kicker">À propos &amp; aide</p>
+          <p>
+            <Link href="/a-propos" className="text-body hover:text-primary">
+              À propos
+            </Link>
+          </p>
+          <p>
+            <Link href="/faq" className="text-body hover:text-primary">
+              Questions fréquentes
+            </Link>
+          </p>
+          <p>
+            <Link href="/centre-aide" className="text-body hover:text-primary">
+              Centre d&apos;aide pet sitters
+            </Link>
+          </p>
+          <p>
+            <Link href="/blog" className="text-body hover:text-primary">
+              Le Journal
             </Link>
           </p>
         </div>
