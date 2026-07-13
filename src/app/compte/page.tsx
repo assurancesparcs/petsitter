@@ -52,16 +52,34 @@ export default async function Compte() {
             </p>
             <div className="mt-4 grid gap-3">
               <Link
-                href="/demande"
+                href="/compte/tableau-de-bord"
                 className="block rounded-[14px] bg-primary px-4 py-3 text-center text-sm font-bold text-surface transition-colors hover:bg-primary-dark"
               >
-                Déposer une demande de garde →
+                Tableau de bord →
+              </Link>
+              <Link
+                href="/demande"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Déposer une demande de garde
               </Link>
               <Link
                 href="/compte/mes-demandes"
                 className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
               >
                 Mes demandes et candidatures reçues
+              </Link>
+              <Link
+                href="/compte/animaux"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Mes animaux
+              </Link>
+              <Link
+                href="/compte/gardes"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Mes gardes &amp; reçus
               </Link>
               <Link
                 href="/compte/messages"
