@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getPrisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
@@ -299,29 +298,17 @@ export default async function Admin() {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
-      <div className="flex items-baseline justify-between">
-        <div>
-          <p className="kicker">Espace privé</p>
-          <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">
-            Console {BRAND}
-          </h1>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="/admin/verifications"
-            className="rounded-[14px] border border-line bg-surface px-4 py-2 text-sm font-bold text-body hover:border-primary hover:text-primary"
-          >
-            Vérifications
-          </Link>
-          <Link
-            href="/admin/moderation"
-            className="rounded-[14px] bg-ink px-4 py-2 text-sm font-bold text-surface hover:opacity-90"
-          >
-            Modération
-          </Link>
-        </div>
-      </div>
+    <div>
+      <header className="border-b border-line-2 pb-5">
+        <p className="kicker">Console {BRAND}</p>
+        <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">
+          Tableau de bord
+        </h1>
+        <p className="mt-1 text-sm text-muted">
+          Vue d&apos;ensemble de la mise en relation : volumes, santé de la
+          place de marché et signaux de confiance.
+        </p>
+      </header>
       <div className="mt-8">{children}</div>
     </div>
   );

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getPrisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import { displayName } from "@/domains/marketplace/sitters";
@@ -241,19 +240,13 @@ export default async function Moderation({
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
-      <div>
-        <p className="kicker">Espace privé</p>
+    <div>
+      <header className="border-b border-line-2 pb-5">
+        <p className="kicker">Console {BRAND}</p>
         <h1 className="mt-1 font-display text-3xl font-extrabold tracking-[-0.02em] text-ink">
-          Modération {BRAND}
+          Modération
         </h1>
-        <Link
-          href="/admin"
-          className="mt-2 inline-block text-sm font-semibold text-primary hover:text-primary-dark"
-        >
-          ← Retour à la console
-        </Link>
-      </div>
+      </header>
       <div className="mt-8">{children}</div>
     </div>
   );
