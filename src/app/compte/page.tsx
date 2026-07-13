@@ -75,6 +75,12 @@ export default async function Compte() {
                 Vérifier mon identité (requis pour être visible)
               </Link>
               <Link
+                href="/compte/disponibilites"
+                className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
+              >
+                Gérer mes disponibilités
+              </Link>
+              <Link
                 href="/compte/demandes"
                 className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
               >

@@ -1,6 +1,13 @@
 import "server-only";
 import { getPrisma } from "@/lib/prisma";
 import { distanceKm } from "@/domains/geo/communes";
+import {
+  addDaysISO,
+  isCalendarStale,
+  slotDate,
+  slotISO,
+  todayISOParis,
+} from "@/domains/marketplace/availability";
 import type { ServiceType, Species } from "@prisma/client";
 
 /**
@@ -109,6 +116,27 @@ export async function getSitterPublic(id: string) {
   });
   if (!p) return null;
 
+  // Disponibilités à venir (14 jours) : lecture seule, jamais de donnée sensible.
+  // Rappel sémantique : ligne available=false = jour bloqué ; absence = dispo.
+  const today = todayISOParis();
+  const horizonISO = addDaysISO(today, 13); // fenêtre de 14 jours (aujourd'hui inclus)
+  const blockedRows = await db.availabilitySlot.findMany({
+    where: {
+      sitterProfileId: p.id,
+      available: false,
+      date: { gte: slotDate(today), lte: slotDate(horizonISO) },
+    },
+    select: { date: true },
+  });
+  const blockedSet = new Set(blockedRows.map((r) => slotISO(r.date)));
+
+  const next14: Array<{ iso: string; available: boolean }> = [];
+  for (let i = 0; i < 14; i++) {
+    const iso = addDaysISO(today, i);
+    next14.push({ iso, available: !blockedSet.has(iso) });
+  }
+  const availableCount14 = next14.filter((d) => d.available).length;
+
   return {
     id: p.id,
     displayName: displayName(p.user.firstName, p.user.lastName),
@@ -125,5 +153,13 @@ export async function getSitterPublic(id: string) {
       priceCents: s.priceCents,
       priceUnit: s.priceUnit,
     })),
+    // Disponibilité publique (lecture seule).
+    availability: {
+      calendarUpdated: p.calendarUpdated,
+      stale: isCalendarStale(p.calendarUpdated), // règle des 14 jours → « à confirmer »
+      next14, // bande jour par jour sur 14 jours
+      availableCount14, // nb de jours dispo sur les 14 prochains
+      blockedCount14: 14 - availableCount14,
+    },
   };
 }

@@ -3,9 +3,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSitterPublic, priceLabel } from "@/domains/marketplace/sitters";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
+import { dateFrShort } from "@/domains/marketplace/availability";
 import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
+
+// Libellé court d'une date ISO pour la bande de disponibilité (ex. « lun. 14 »).
+const JOURS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
+function dayChipLabel(iso: string): { dow: string; day: number } {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+  return { dow: JOURS[dow], day: d };
+}
 
 export async function generateMetadata({
   params,
@@ -131,6 +140,58 @@ export default async function FicheSitter({
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* Disponibilités — lecture seule, règle des 14 jours pour la fraîcheur */}
+      <section className="mt-6 rounded-[20px] border border-line bg-surface p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-lg font-bold text-ink">
+            Disponibilités
+          </h2>
+          {s.availability.stale ? (
+            <span className="rounded-full border border-line bg-surface-2 px-3 py-1 text-xs font-semibold text-muted">
+              à confirmer
+            </span>
+          ) : (
+            <span className="rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-semibold text-forest-text">
+              à jour
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-sm text-muted">
+          {s.availability.stale
+            ? "Ce calendrier n'a pas été confirmé récemment : les jours ci-dessous sont indicatifs, à confirmer lors de la mise en relation."
+            : `Sur les 14 prochains jours, ${s.displayName} indique ${s.availability.availableCount14} jour${
+                s.availability.availableCount14 > 1 ? "s" : ""
+              } disponible${s.availability.availableCount14 > 1 ? "s" : ""}.`}
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {s.availability.next14.map((d) => {
+            const { dow, day } = dayChipLabel(d.iso);
+            return (
+              <div
+                key={d.iso}
+                title={`${dow} ${day} — ${d.available ? "disponible" : "indisponible"}`}
+                className={
+                  "flex w-11 flex-col items-center rounded-[10px] border px-1 py-1.5 text-center " +
+                  (d.available
+                    ? "border-forest-border bg-forest-tint text-forest-text"
+                    : "border-line-2 bg-surface-2 text-faint")
+                }
+              >
+                <span className="text-[10px] font-medium">{dow}</span>
+                <span className="text-sm font-bold">{day}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {s.availability.calendarUpdated && (
+          <p className="mt-3 text-xs text-faint">
+            Calendrier mis à jour le {dateFrShort(s.availability.calendarUpdated)}.
+          </p>
+        )}
       </section>
 
       {/* Dépôt de demande — diffusée aux sitters compatibles de la zone */}
