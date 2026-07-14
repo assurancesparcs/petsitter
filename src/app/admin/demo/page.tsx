@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPrisma } from "@/lib/prisma";
-import { BASE_URL } from "@/lib/brand";
 import { DEMO_SITTER_EMAIL } from "@/domains/dev/seed";
 import { creerScenario, nettoyerScenario } from "./actions";
 
@@ -53,11 +52,14 @@ export default async function AdminDemo({
           <p className="mt-2 text-sm text-body">
             Suivez ces étapes, dans l&apos;ordre :
           </p>
+          {/* Liens RELATIFS : ils restent sur l'hôte où l'on navigue (URL
+              Vercel aujourd'hui) — jamais BASE_URL, qui pointe vers le domaine
+              réservé tant qu'il n'est pas branché (page morte sinon). */}
           <ol className="mt-3 space-y-2 text-sm text-body">
             <li>
               <span className="font-bold">1.</span>{" "}
               <a
-                href={`${BASE_URL}/connexion`}
+                href="/connexion"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-forest-text underline"
@@ -65,12 +67,13 @@ export default async function AdminDemo({
                 Se connecter
               </a>{" "}
               avec l&apos;adresse <span className="font-mono">{owner}</span> (le
-              lien magique arrive par e-mail).
+              lien magique arrive par e-mail — en mode test, seule
+              l&apos;adresse du compte Resend le reçoit).
             </li>
             <li>
               <span className="font-bold">2.</span>{" "}
               <a
-                href={`${BASE_URL}/compte/mes-demandes`}
+                href="/compte/mes-demandes"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-forest-text underline"
@@ -88,7 +91,7 @@ export default async function AdminDemo({
               <li>
                 <span className="font-bold">+</span>{" "}
                 <a
-                  href={`${BASE_URL}/petsitter/${ficheId}`}
+                  href={`/petsitter/${ficheId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-semibold text-forest-text underline"
