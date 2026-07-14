@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
-import { passFromDates } from "@/lib/pricing";
+import { passFromService, sejourAmountFor } from "@/lib/pricing";
 import { ensureStripeCustomer } from "@/domains/payments/payments";
 import { findByPostalCode } from "@/domains/geo/communes";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
@@ -30,8 +30,7 @@ export async function deposerDemande(formData: FormData) {
     redirect("/demande?erreur=champs");
   }
 
-  // Dates : début >= aujourd'hui, fin >= début. Le Pass est DÉDUIT des dates
-  // (>= 2 nuits => Séjour), jamais choisi — anti-arbitrage (DECISIONS n°9).
+  // Dates : début >= aujourd'hui, fin >= début.
   const start = new Date(String(formData.get("startDate") ?? ""));
   const end = new Date(String(formData.get("endDate") ?? formData.get("startDate") ?? ""));
   const today = new Date();
@@ -79,8 +78,27 @@ export async function deposerDemande(formData: FormData) {
   const timeSlot =
     String(formData.get("timeSlot") ?? "").trim().slice(0, 60) || null;
 
-  // Pass DÉDUIT des dates, montant figé CÔTÉ SERVEUR (jamais depuis le client).
-  const pass = passFromDates(start, end);
+  // Pass DÉDUIT du type de service (jamais choisi — anti-arbitrage, DECISIONS
+  // n° 9 et n° 14), montant figé CÔTÉ SERVEUR (jamais depuis le client).
+  // Pass Séjour : −30 % automatique sur EXACTEMENT le 2e de ce propriétaire —
+  // éligible quand son historique compte UN SEUL Pass Séjour antérieur
+  // réellement facturé (CAPTURED, ou REFUNDED : remboursé après un vrai
+  // débit). Historique lu en base sur l'ownerId de SESSION (IDOR-safe) —
+  // déterministe et idempotent : même historique ⇒ même montant.
+  const pass = passFromService(service as ServiceType);
+  let amountCents = pass.cents;
+  let deuxiemeSejour = false;
+  if (pass.key === "pass_sejour") {
+    const priorChargedSejours = await db.payment.count({
+      where: {
+        packLabel: "pass_sejour",
+        status: { in: ["CAPTURED", "REFUNDED"] },
+        careRequest: { ownerId: session.user.id },
+      },
+    });
+    ({ cents: amountCents, discounted: deuxiemeSejour } =
+      sejourAmountFor(priorChargedSejours));
+  }
 
   // CareRequest + RecurringRequest créés dans la MÊME transaction : la
   // récurrence est liée à la demande du propriétaire authentifié (IDOR-safe),
@@ -102,7 +120,12 @@ export async function deposerDemande(formData: FormData) {
         constraints,
         responseDeadline: deadline,
         events: {
-          create: { type: "created", payload: { constraints, pass: pass.key, recurring } },
+          create: {
+            type: "created",
+            // amountCents + deuxiemeSejour tracés pour l'audit : le montant
+            // figé au dépôt doit rester explicable des années plus tard.
+            payload: { constraints, pass: pass.key, amountCents, deuxiemeSejour, recurring },
+          },
         },
       },
     });
@@ -130,7 +153,7 @@ export async function deposerDemande(formData: FormData) {
         data: {
           careRequestId: request.id,
           stripeCustomerId: customerId,
-          amountCents: pass.cents,
+          amountCents, // FIGÉ ici : c'est ce montant que Stripe débitera
           packLabel: pass.key,
           status: "SETUP_PENDING",
         },

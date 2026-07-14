@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND, BASE_URL } from "@/lib/brand";
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Questions fréquentes (FAQ)",
@@ -81,8 +86,13 @@ const CATEGORIES: Categorie[] = [
             {PRICING.passTrimestre.label} à {PRICING.passTrimestre.price} payé{" "}
             {PRICING.passTrimestre.unit} (
             {PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie
-            une fois. Le Pass ponctuel est déduit automatiquement de la durée de
-            la garde, il ne se choisit pas.
+            une fois. Le Pass ponctuel est déduit automatiquement du service
+            choisi, il ne se choisit pas : visite ou promenade relèvent du{" "}
+            {PRICING.passCourt.label}, toute garde dès une nuit du{" "}
+            {PRICING.passSejour.label}. Et votre deuxième{" "}
+            {PRICING.passSejour.label} est automatiquement à −
+            {PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (
+            {centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}), sans code ni démarche.
           </>
         ),
       },

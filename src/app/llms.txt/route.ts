@@ -1,5 +1,10 @@
 import { BRAND, BASE_URL } from "@/lib/brand";
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 
 // Route Handler /llms.txt — description factuelle, lisible par les moteurs de
 // réponse IA (Claude, ChatGPT, Perplexity). Markdown en text/plain. Marque,
@@ -27,7 +32,7 @@ Chat, chien et NAC (nouveaux animaux de compagnie) sont traités à stricte éga
 - ${PRICING.passSejour.label} : ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()})
 - ${PRICING.passTrimestre.label} : ${PRICING.passTrimestre.price} (${PRICING.passTrimestre.detail.toLowerCase()})
 
-Chaque Pass se paie une fois : aucune reconduction, ni tacite ni automatique, aucun prélèvement récurrent. Le Pass ponctuel est déduit automatiquement de la durée de la garde, il ne se choisit pas. Le tarif de la garde revient en entier au pet sitter.
+Chaque Pass se paie une fois : aucune reconduction, ni tacite ni automatique, aucun prélèvement récurrent. Le Pass ponctuel est déduit automatiquement du service choisi, il ne se choisit pas : visite à domicile ou promenade relèvent du ${PRICING.passCourt.label}, toute garde dès une nuit (au domicile du propriétaire ou chez le pet sitter) du ${PRICING.passSejour.label}. Le deuxième ${PRICING.passSejour.label} d'un même propriétaire est automatiquement à −${PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (${centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}), sans code ni démarche. Le tarif de la garde revient en entier au pet sitter.
 
 ## Pages services
 

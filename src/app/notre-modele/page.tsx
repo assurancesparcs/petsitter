@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND, BASE_URL } from "@/lib/brand";
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 import { JsonLd } from "@/components/JsonLd";
 import { FaitsVerifiables } from "@/components/FaitsVerifiables";
 
@@ -159,7 +164,15 @@ export default function NotreModele() {
           ))}
         </div>
         <p className="mt-4 text-sm text-muted">
-          Aucune reconduction tacite : chaque Pass se paie une fois, y compris
+          Le Pass ponctuel est déduit automatiquement du service : visite à
+          domicile ou promenade, {PRICING.passCourt.label} ; garde dès une
+          nuit (chez vous ou chez le pet sitter), {PRICING.passSejour.label}.
+          Votre deuxième {PRICING.passSejour.label} est automatiquement à −
+          {PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (
+          {centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)} au lieu de{" "}
+          {PRICING.passSejour.price}) — aucun code à saisir, la réduction
+          s&apos;applique toute seule. Aucune reconduction tacite : chaque
+          Pass se paie une fois, y compris
           le {PRICING.passTrimestre.label}, qui s&apos;arrête tout seul à son
           échéance — le prolonger serait un nouvel achat, explicite. Il
           n&apos;y a donc rien à résilier ; la page{" "}

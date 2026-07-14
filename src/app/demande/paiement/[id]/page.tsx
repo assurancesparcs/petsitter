@@ -4,7 +4,14 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
-import { centsLabel, passFromDates, passLabelFromKey } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  passFromService,
+  passLabelFromKey,
+  sejourAmountFor,
+} from "@/lib/pricing";
 import { ensureStripeCustomer, isSetupIntentReusable } from "@/domains/payments/payments";
 import { serviceLabel, speciesLabel } from "@/domains/marketplace/catalog";
 import { SetupCarteForm } from "./SetupCarteForm";
@@ -74,13 +81,28 @@ export default async function PaiementDemande({
   // la configuration de Stripe. Montant/pack TOUJOURS recalculés serveur.
   let payment = request.payment;
   if (!payment) {
-    const pass = passFromDates(request.startDate, request.endDate);
+    // Mêmes règles qu'au dépôt (grille v2, DECISIONS n° 14) : Pass déduit du
+    // type de service, −30 % automatique sur exactement le 2e Pass Séjour
+    // (un seul antérieur facturé CAPTURED/REFUNDED), historique compté sur
+    // l'ownerId de session uniquement.
+    const pass = passFromService(request.service);
+    let amountCents = pass.cents;
+    if (pass.key === "pass_sejour") {
+      const priorChargedSejours = await db.payment.count({
+        where: {
+          packLabel: "pass_sejour",
+          status: { in: ["CAPTURED", "REFUNDED"] },
+          careRequest: { ownerId: session.user.id },
+        },
+      });
+      amountCents = sejourAmountFor(priorChargedSejours).cents;
+    }
     const customerId = await ensureStripeCustomer(db, stripe, session.user.id);
     payment = await db.payment.create({
       data: {
         careRequestId: request.id,
         stripeCustomerId: customerId,
-        amountCents: pass.cents,
+        amountCents,
         packLabel: pass.key,
         status: "SETUP_PENDING",
       },
@@ -137,6 +159,10 @@ export default async function PaiementDemande({
 
   const passLabel = passLabelFromKey(payment.packLabel);
   const montant = centsLabel(payment.amountCents);
+  // −30 % automatique du 2e Pass Séjour (DECISIONS n° 14) : détecté depuis le
+  // montant FIGÉ en base — le prix barré affiché est le vrai prix normal.
+  const deuxiemeSejour =
+    payment.packLabel === "pass_sejour" && payment.amountCents < PASS_SEJOUR_CENTS;
 
   return (
     <div className="mx-auto max-w-xl px-4 py-10 sm:py-14">
@@ -214,9 +240,31 @@ export default async function PaiementDemande({
           <span className="font-mono font-bold">commission 0 €</span>
         </div>
         <div className="mt-1 flex justify-between border-t border-dashed border-forest-border pt-2 text-sm text-forest-text">
-          <span>Mise en relation · {passLabel}</span>
-          <span className="font-mono font-bold">{montant}</span>
+          <span>
+            Mise en relation · {passLabel}
+            {deuxiemeSejour ? " — votre 2e Pass Séjour" : ""}
+          </span>
+          <span className="font-mono font-bold">
+            {deuxiemeSejour ? (
+              <>
+                <s className="mr-1.5 font-normal opacity-70">
+                  {centsLabel(PASS_SEJOUR_CENTS)}
+                </s>
+                {montant}
+              </>
+            ) : (
+              montant
+            )}
+          </span>
         </div>
+        {deuxiemeSejour && (
+          <p className="mt-2 text-xs text-forest-text">
+            Votre deuxième {passLabel} est automatiquement à −
+            {PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % : {montant} au lieu de{" "}
+            {centsLabel(PASS_SEJOUR_CENTS)}. Rien à faire, aucun code — la
+            réduction est déjà appliquée.
+          </p>
+        )}
       </div>
 
       <div className="mt-6">

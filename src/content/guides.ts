@@ -3,7 +3,12 @@
  * Contenu factuel, sans statistique inventée, chat à égalité, vocabulaire de
  * mise en relation. Sujets du LOT B (cf. flag insurance_live) exclus d'ici.
  */
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 
 export type Guide = {
   slug: string;
@@ -126,7 +131,7 @@ export const GUIDES: Guide[] = [
     title: "Combien coûte une garde d'animaux ?",
     description:
       "Le prix d'une garde d'animaux dépend du pet sitter, du service et de la durée. Voici comment le coût se compose et ce que facture AlloPetsitter, en toute transparence.",
-    updated: "2026-07-13",
+    updated: "2026-07-14",
     body: [
       {
         p: "Il n'existe pas de prix unique pour une garde d'animaux : le tarif est fixé librement par chaque pet sitter, qui le perçoit à 100 %. AlloPetsitter ne fixe pas ce tarif et ne prélève aucune commission dessus. Comprendre la structure du coût aide à comparer les propositions sereinement, plutôt que de chercher un « prix moyen » qui ne veut pas dire grand-chose.",
@@ -140,7 +145,7 @@ export const GUIDES: Guide[] = [
       },
       {
         h: "Ce que facture AlloPetsitter",
-        p: `La plateforme facture uniquement la mise en relation, à un tarif fixe et connu d'avance : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou ${PRICING.passTrimestre.label} à ${PRICING.passTrimestre.price} payé ${PRICING.passTrimestre.unit} (${PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie une fois, sans reconduction. Le Pass ponctuel est déduit automatiquement de la durée de la garde, il ne se choisit pas. Vous n'êtes débité que lorsqu'un pet sitter a accepté votre garde.`,
+        p: `La plateforme facture uniquement la mise en relation, à un tarif fixe et connu d'avance : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou ${PRICING.passTrimestre.label} à ${PRICING.passTrimestre.price} payé ${PRICING.passTrimestre.unit} (${PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie une fois, sans reconduction. Le Pass ponctuel est déduit automatiquement du service choisi, il ne se choisit pas : visite ou promenade relèvent du ${PRICING.passCourt.label}, toute garde dès une nuit du ${PRICING.passSejour.label}. Votre deuxième ${PRICING.passSejour.label} est automatiquement à −${PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (${centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}), sans code ni démarche. Vous n'êtes débité que lorsqu'un pet sitter a accepté votre garde.`,
       },
       {
         h: "Ce qui fait varier le tarif de la garde",

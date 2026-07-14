@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getStripe } from "@/lib/stripe";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
 import { deposerDemande } from "./actions";
 import { CONSTRAINT_KEYS } from "@/domains/marketplace/constraints";
@@ -110,6 +116,17 @@ export default async function Demande({
                 </label>
               ))}
             </div>
+            <p className="mt-3 text-sm text-muted">
+              Le Pass de mise en relation dépend du service : visite à domicile
+              ou promenade, {PRICING.passCourt.label} (
+              {PRICING.passCourt.price}) ; garde dès une nuit — chez vous ou
+              chez le pet sitter —, {PRICING.passSejour.label} (
+              {PRICING.passSejour.price}). Il est déduit automatiquement, et
+              débité uniquement à l&apos;acceptation. Votre deuxième{" "}
+              {PRICING.passSejour.label} est automatiquement à −
+              {PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (
+              {centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}).
+            </p>
           </fieldset>
           <fieldset className="mt-5">
             <legend className="kicker mb-2">Animal</legend>
@@ -147,10 +164,9 @@ export default async function Demande({
         <section className="rounded-[20px] border border-line bg-surface p-6">
           <h2 className="font-display text-lg font-bold text-ink">Vos dates</h2>
           <p className="mt-1 text-sm text-muted">
-            Deux nuits ou plus : votre demande relève du Pass Séjour (39 €).
-            Visite, promenade ou une seule nuit : Pass Court (14,90 €). C&apos;est
-            calculé automatiquement à partir de vos dates — et débité uniquement
-            à l&apos;acceptation.
+            Du premier au dernier jour de votre besoin. Les dates n&apos;ont
+            aucun effet sur le prix de la mise en relation : le Pass dépend du
+            service choisi, pas de la durée.
           </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">

@@ -54,8 +54,9 @@ export default async function PassTroisMois() {
           L&apos;achat du {PRICING.passTrimestre.label} n&apos;est pas encore
           ouvert : aucun moyen de paiement ne vous est demandé et aucun débit
           n&apos;est possible aujourd&apos;hui. En attendant, déposez vos
-          demandes de garde normalement — le Pass ponctuel est déduit des dates,
-          et la récurrence est déjà disponible dans le formulaire de dépôt.
+          demandes de garde normalement — le Pass ponctuel est déduit du
+          service choisi, et la récurrence est déjà disponible dans le
+          formulaire de dépôt.
         </p>
         <Link
           href="/demande"

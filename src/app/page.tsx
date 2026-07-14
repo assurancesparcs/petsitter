@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { BRAND, BASELINE, BASE_URL } from "@/lib/brand";
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 import { BlocTransparence } from "@/components/BlocTransparence";
 import { DeuxFacons } from "@/components/DeuxFacons";
 import { FaitsVerifiables } from "@/components/FaitsVerifiables";
@@ -343,8 +348,12 @@ export default function Home() {
         </div>
 
         <p className="mt-4 text-sm text-muted">
-          Débité uniquement à l&apos;acceptation d&apos;un pet sitter. Chaque
-          Pass se paie une fois, aucune reconduction tacite —{" "}
+          Débité uniquement à l&apos;acceptation d&apos;un pet sitter. Le Pass
+          ponctuel est déduit automatiquement du service choisi, et votre
+          deuxième {PRICING.passSejour.label} est automatiquement à −
+          {PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (
+          {centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}). Chaque Pass se paie une
+          fois, aucune reconduction tacite —{" "}
           <Link
             href="/notre-modele"
             className="text-primary underline underline-offset-2 hover:text-primary-dark"

@@ -11,7 +11,12 @@
  *    le tarif de la garde est fixé librement par le pet sitter, touché à 100 %.
  *  - Vocabulaire de mise en relation (aucune possession, aucun téléphone).
  */
-import { PRICING } from "@/lib/pricing";
+import {
+  centsLabel,
+  PASS_SEJOUR_DEUXIEME_CENTS,
+  PASS_SEJOUR_DEUXIEME_REDUCTION_PCT,
+  PRICING,
+} from "@/lib/pricing";
 import { BRAND } from "@/lib/brand";
 import { SERVICES, serviceLabel, type ServiceKey } from "@/domains/marketplace/catalog";
 
@@ -47,11 +52,15 @@ export type ServicePage = {
 // dur, aucune moyenne inventée. `pass` = le Pass déduit pour ce service.
 function feeAnswer(service: string, pass: "court" | "sejour"): string {
   const p = pass === "court" ? PRICING.passCourt : PRICING.passSejour;
+  const deuxiemeSejour =
+    pass === "sejour"
+      ? ` Votre deuxième ${PRICING.passSejour.label} est automatiquement à −${PASS_SEJOUR_DEUXIEME_REDUCTION_PCT} % (${centsLabel(PASS_SEJOUR_DEUXIEME_CENTS)}), sans code ni démarche.`
+      : "";
   return (
     `Le tarif de ${service} est fixé librement par chaque pet sitter, qui le perçoit à 100 % : ` +
     `il n'y a pas de prix imposé ni de moyenne affichée. Sur ${BRAND}, la plateforme facture ` +
     `uniquement la mise en relation — ${p.label} à ${p.price} (${p.detail.toLowerCase()}) — ` +
-    `sans jamais prélever de commission sur la garde. Pour un besoin régulier, le ${PRICING.passTrimestre.label} ` +
+    `sans jamais prélever de commission sur la garde.${deuxiemeSejour} Pour un besoin régulier, le ${PRICING.passTrimestre.label} ` +
     `à ${PRICING.passTrimestre.price}, payé ${PRICING.passTrimestre.unit}, couvre des mises en relation illimitées ` +
     `pendant 3 mois — sans aucune reconduction.`
   );
