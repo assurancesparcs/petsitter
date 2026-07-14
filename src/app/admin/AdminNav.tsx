@@ -19,6 +19,7 @@ const LINKS: NavLink[] = [
   { href: "/admin/moderation", label: "Modération" },
   { href: "/admin/litiges", label: "Litiges & Plan B" },
   { href: "/admin/remboursements", label: "Remboursements" },
+  { href: "/admin/demo", label: "Démonstration" },
 ];
 
 function isActive(pathname: string, link: NavLink): boolean {
