@@ -4,6 +4,7 @@ import Image from "next/image";
 import { BRAND, BASELINE, BASE_URL } from "@/lib/brand";
 import { PRICING } from "@/lib/pricing";
 import { BlocTransparence } from "@/components/BlocTransparence";
+import { DeuxFacons } from "@/components/DeuxFacons";
 import { FaitsVerifiables } from "@/components/FaitsVerifiables";
 
 export const metadata: Metadata = {
@@ -16,14 +17,16 @@ const PREUVES = [
   "Aucune reconduction tacite",
 ];
 
+// Tronc commun aux deux chemins (la section « Deux façons de trouver »
+// présente les deux portes d'entrée ; ici, ce qui se passe ensuite).
 const STEPS = [
   {
-    t: "Décrivez votre besoin",
-    d: "Dates, animal, service. Votre carte est simplement enregistrée : aucun débit aujourd'hui — même pour une garde dans plusieurs mois.",
+    t: "Votre demande est déposée",
+    d: "Directement, ou depuis la fiche d'un pet sitter repéré. Dates, animal, service — votre carte est simplement enregistrée : aucun débit aujourd'hui, même pour une garde dans plusieurs mois.",
   },
   {
-    t: "Un pet sitter accepte",
-    d: "Les pet sitters disponibles près de chez vous candidatent avec leur tarif. Vous choisissez. C'est seulement là que le paiement a lieu.",
+    t: "Vous choisissez votre pet sitter",
+    d: "Tarif ferme, message, profil vérifié : vous comparez les candidatures et validez celle qui vous convient. C'est seulement là que le paiement a lieu.",
   },
   {
     t: "Vous vous organisez en direct",
@@ -192,16 +195,20 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== Deux façons de trouver — recherche OU demande diffusée ===== */}
+      <DeuxFacons />
+
       {/* ===== En bref / Faits vérifiables (GEO/AEO) ===== */}
-      <section className="mt-8">
+      <section className="mt-16">
         <FaitsVerifiables />
       </section>
 
-      {/* ===== Comment ça marche ===== */}
+      {/* ===== Comment ça marche (tronc commun aux deux chemins) ===== */}
       <section className="mt-16">
         <p className="kicker">Comment ça marche</p>
         <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
-          Trois étapes, aucun débit avant l&apos;acceptation
+          D&apos;un chemin ou de l&apos;autre, aucun débit avant
+          l&apos;acceptation
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {STEPS.map((s, i) => (
