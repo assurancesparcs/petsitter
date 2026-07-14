@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const PREUVES = [
   "Identité vérifiée",
   "0 € tant qu'aucun pet sitter n'accepte",
-  "Résiliation en 3 clics",
+  "Aucune reconduction tacite",
 ];
 
 const STEPS = [
@@ -55,7 +55,7 @@ const ENGAGEMENTS = [
   "0 € débité tant qu'aucun pet sitter n'a accepté",
   "Identité vérifiée pour chaque pet sitter qui candidate",
   "Contrat de garde type fourni, entre vous et le pet sitter",
-  "Résiliation en 3 clics, rappel avant chaque prélèvement",
+  "Aucune reconduction tacite : chaque Pass se paie une fois",
   "Aucun avis inventé, aucun compteur gonflé",
 ];
 
@@ -336,8 +336,8 @@ export default function Home() {
         </div>
 
         <p className="mt-4 text-sm text-muted">
-          Débité uniquement à l&apos;acceptation d&apos;un pet sitter. Sans
-          engagement, résiliation en 3 clics —{" "}
+          Débité uniquement à l&apos;acceptation d&apos;un pet sitter. Chaque
+          Pass se paie une fois, aucune reconduction tacite —{" "}
           <Link
             href="/notre-modele"
             className="text-primary underline underline-offset-2 hover:text-primary-dark"

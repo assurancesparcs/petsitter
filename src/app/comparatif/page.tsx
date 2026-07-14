@@ -68,7 +68,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: `Combien coûte ${BRAND} au propriétaire ?`,
-    a: `${BRAND} facture uniquement la mise en relation : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou l'${PRICING.abonnement.label.toLowerCase()} à ${PRICING.abonnement.price} (${PRICING.abonnement.unit}). Le tarif de la garde, lui, revient en entier au pet sitter.`,
+    a: `${BRAND} facture uniquement la mise en relation : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou ${PRICING.passTrimestre.label} à ${PRICING.passTrimestre.price} payé ${PRICING.passTrimestre.unit} (${PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie une fois, sans reconduction. Le tarif de la garde, lui, revient en entier au pet sitter.`,
   },
   {
     q: "Quand suis-je débité ?",

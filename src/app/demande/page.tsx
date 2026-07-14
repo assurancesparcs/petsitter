@@ -252,8 +252,9 @@ export default async function Demande({
               <span className="mt-1 block text-sm text-muted">
                 Optionnel. Cochez seulement si votre besoin est régulier
                 (promenade quotidienne, visites…). La récurrence organise vos
-                demandes ; elle ne déclenche aucun prélèvement. L&apos;abonnement
-                (19 €/mois, sans engagement, résiliable en 3 clics) reste
+                demandes ; elle ne déclenche aucun prélèvement. Pour un besoin
+                régulier, le Pass 3 mois (payé une fois, mises en relation
+                illimitées pendant 3 mois, aucune reconduction) reste
                 facultatif.
               </span>
             </span>

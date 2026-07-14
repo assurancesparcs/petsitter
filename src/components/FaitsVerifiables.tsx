@@ -19,8 +19,9 @@ const FAITS: { terme: string; detail: string }[] = [
     detail: "La carte est simplement enregistrée : 0 € avant l'acceptation.",
   },
   {
-    terme: "Frais de mise en relation fixe et affiché",
-    detail: "Le seul revenu de la plateforme, forfaitaire et connu à l'avance.",
+    terme: "Frais de mise en relation fixes, payés une fois",
+    detail:
+      "Le seul revenu de la plateforme, forfaitaire et connu à l'avance — aucune reconduction tacite.",
   },
   {
     terme: "Avis vérifiés, aucun faux avis",

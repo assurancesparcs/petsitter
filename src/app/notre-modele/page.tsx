@@ -69,11 +69,13 @@ export default function NotreModele() {
           </p>
         </div>
         <div className="rounded-[20px] border border-primary bg-surface p-6">
-          <p className="font-mono text-4xl font-bold text-primary-dark">39 €</p>
+          <p className="font-mono text-4xl font-bold text-primary-dark">
+            {PRICING.passSejour.price}
+          </p>
           <p className="mt-4 font-semibold text-ink">La mise en relation</p>
           <p className="mt-2 text-sm text-body">
-            Notre seul revenu : un Pass ou l&apos;abonnement, prélevé au client,
-            uniquement si un pet sitter accepte.
+            Notre seul revenu : un Pass (ponctuel ou 3 mois), payé une fois par
+            le client, uniquement si un pet sitter accepte.
           </p>
         </div>
         <div className="rounded-[20px] border border-line bg-surface p-6">
@@ -157,12 +159,17 @@ export default function NotreModele() {
           ))}
         </div>
         <p className="mt-4 text-sm text-muted">
-          Sans engagement. Pas de reconduction piégeuse : rappel avant chaque
-          prélèvement, pause possible, résiliation en 3 clics depuis la page{" "}
+          Aucune reconduction tacite : chaque Pass se paie une fois, y compris
+          le {PRICING.passTrimestre.label}, qui s&apos;arrête tout seul à son
+          échéance — le prolonger serait un nouvel achat, explicite. Il
+          n&apos;y a donc rien à résilier ; la page{" "}
           <Link href="/resilier" className="font-semibold text-primary underline">
             Résilier
-          </Link>
-          .
+          </Link>{" "}
+          reste publiée comme preuve de cet engagement. Et par honnêteté : le{" "}
+          {PRICING.passTrimestre.label} n&apos;est intéressant qu&apos;à partir
+          de deux mises en relation sur ses 3 mois — pour un besoin ponctuel,
+          un Pass ponctuel vous coûte moins cher.
         </p>
       </section>
 

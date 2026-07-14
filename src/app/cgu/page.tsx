@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 // ⚠️ GABARIT (P1) — CGU/CGV complètes rédigées en P3 (avec juriste) :
 // intermédiaire de mise en relation (jamais partie au contrat de garde),
-// rétractation L221-18 + exécution immédiate, résiliation 3 clics,
+// rétractation L221-18 + exécution immédiate, Pass prépayés sans reconduction,
 // critères de classement (L111-7/P2B), politique d'avis (D111-16+),
 // motifs de suspension avec procédure contradictoire, médiateur.
 export default function Cgu() {

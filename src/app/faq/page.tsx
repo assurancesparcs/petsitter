@@ -6,7 +6,7 @@ import { PRICING } from "@/lib/pricing";
 export const metadata: Metadata = {
   title: "Questions fréquentes (FAQ)",
   description:
-    "Comment ça marche, paiement, sécurité, avis, annulation et remboursement, résiliation, support écrit : les réponses claires aux questions les plus courantes sur AlloPetsitter.",
+    "Comment ça marche, paiement, sécurité, avis, annulation et remboursement, reconduction (il n'y en a aucune), support écrit : les réponses claires aux questions les plus courantes sur AlloPetsitter.",
   alternates: { canonical: `${BASE_URL}/faq` },
 };
 
@@ -77,10 +77,12 @@ const CATEGORIES: Categorie[] = [
             {PRICING.passCourt.label} à {PRICING.passCourt.price} (
             {PRICING.passCourt.detail.toLowerCase()}),{" "}
             {PRICING.passSejour.label} à {PRICING.passSejour.price} (
-            {PRICING.passSejour.detail.toLowerCase()}), ou l&apos;
-            {PRICING.abonnement.label.toLowerCase()} à{" "}
-            {PRICING.abonnement.price} {PRICING.abonnement.unit}. Le Pass est
-            déduit automatiquement de la durée de la garde, il ne se choisit pas.
+            {PRICING.passSejour.detail.toLowerCase()}), ou{" "}
+            {PRICING.passTrimestre.label} à {PRICING.passTrimestre.price} payé{" "}
+            {PRICING.passTrimestre.unit} (
+            {PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie
+            une fois. Le Pass ponctuel est déduit automatiquement de la durée de
+            la garde, il ne se choisit pas.
           </>
         ),
       },
@@ -89,9 +91,9 @@ const CATEGORIES: Categorie[] = [
         a: (
           <>
             Le tarif de garde fixé par le pet sitter lui revient à 100 %, sans
-            aucune commission. Le prix de la mise en relation (Pass ou
-            abonnement) est notre seul revenu et ne réduit pas ce que touche le
-            pet sitter. Voir{" "}
+            aucune commission. Le prix de la mise en relation (le Pass) est
+            notre seul revenu et ne réduit pas ce que touche le pet sitter.
+            Voir{" "}
             <Link
               href="/notre-modele"
               className="font-semibold text-primary underline"
@@ -210,22 +212,25 @@ const CATEGORIES: Categorie[] = [
   },
   {
     kicker: "06",
-    titre: "Résiliation & support",
+    titre: "Reconduction & support",
     items: [
       {
-        q: "Comment résilier mon abonnement ?",
+        q: "Y a-t-il un abonnement à résilier ?",
         a: (
           <>
-            En 3 clics, depuis la page{" "}
+            Non — {BRAND} ne propose aucun abonnement. Nos trois Pass, y compris
+            le {PRICING.passTrimestre.label}, sont des achats uniques : payés
+            une fois, aucune reconduction ni tacite ni automatique, aucun
+            prélèvement récurrent. Il n&apos;y a donc rien à résilier — un Pass
+            arrivé à échéance s&apos;arrête tout seul. La page{" "}
             <Link
               href="/resilier"
               className="font-semibold text-primary underline"
             >
               Résilier
-            </Link>
-            . L&apos;abonnement est sans engagement, avec un rappel avant chaque
-            prélèvement : la résiliation n&apos;est jamais plus longue que
-            l&apos;inscription.
+            </Link>{" "}
+            reste publiée comme preuve : si un produit récurrent existait un
+            jour, sa résiliation en 3 clics s&apos;y exercerait.
           </>
         ),
       },
@@ -278,9 +283,10 @@ export default function FAQ() {
             Vos questions, nos réponses claires.
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-muted">
-            Le fonctionnement, le paiement, la sécurité, les avis, la résiliation
-            et le support — sans détour. Si une réponse manque, écrivez-nous : on
-            corrige ou on s&apos;explique.
+            Le fonctionnement, le paiement, la sécurité, les avis, la
+            reconduction (il n&apos;y en a aucune) et le support — sans détour.
+            Si une réponse manque, écrivez-nous : on corrige ou on
+            s&apos;explique.
           </p>
         </header>
 

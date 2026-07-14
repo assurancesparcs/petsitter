@@ -140,7 +140,7 @@ export const GUIDES: Guide[] = [
       },
       {
         h: "Ce que facture AlloPetsitter",
-        p: `La plateforme facture uniquement la mise en relation, à un tarif fixe et connu d'avance : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou l'${PRICING.abonnement.label.toLowerCase()} à ${PRICING.abonnement.price} (${PRICING.abonnement.unit}). Le Pass est déduit automatiquement de la durée de la garde, il ne se choisit pas. Vous n'êtes débité que lorsqu'un pet sitter a accepté votre garde.`,
+        p: `La plateforme facture uniquement la mise en relation, à un tarif fixe et connu d'avance : ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou ${PRICING.passTrimestre.label} à ${PRICING.passTrimestre.price} payé ${PRICING.passTrimestre.unit} (${PRICING.passTrimestre.detail.toLowerCase()}). Chaque Pass se paie une fois, sans reconduction. Le Pass ponctuel est déduit automatiquement de la durée de la garde, il ne se choisit pas. Vous n'êtes débité que lorsqu'un pet sitter a accepté votre garde.`,
       },
       {
         h: "Ce qui fait varier le tarif de la garde",

@@ -51,8 +51,9 @@ function feeAnswer(service: string, pass: "court" | "sejour"): string {
     `Le tarif de ${service} est fixé librement par chaque pet sitter, qui le perçoit à 100 % : ` +
     `il n'y a pas de prix imposé ni de moyenne affichée. Sur ${BRAND}, la plateforme facture ` +
     `uniquement la mise en relation — ${p.label} à ${p.price} (${p.detail.toLowerCase()}) — ` +
-    `sans jamais prélever de commission sur la garde. Vous pouvez aussi choisir l'${PRICING.abonnement.label.toLowerCase()} ` +
-    `à ${PRICING.abonnement.price} (${PRICING.abonnement.unit}) pour des mises en relation illimitées.`
+    `sans jamais prélever de commission sur la garde. Pour un besoin régulier, le ${PRICING.passTrimestre.label} ` +
+    `à ${PRICING.passTrimestre.price}, payé ${PRICING.passTrimestre.unit}, couvre des mises en relation illimitées ` +
+    `pendant 3 mois — sans aucune reconduction.`
   );
 }
 
@@ -242,7 +243,7 @@ export const SERVICE_PAGES: Record<ServiceSlug, ServicePage> = {
       },
       {
         q: "Peut-on prévoir des promenades régulières ?",
-        a: "Oui. Vous pouvez organiser des sorties ponctuelles ou régulières avec le pet sitter, en direct. Pour des besoins récurrents, l'abonnement à " + PRICING.abonnement.price + " par mois donne droit à des mises en relation illimitées, sans engagement et résiliable en 3 clics.",
+        a: "Oui. Vous pouvez organiser des sorties ponctuelles ou régulières avec le pet sitter, en direct. Pour des besoins récurrents, le " + PRICING.passTrimestre.label + " à " + PRICING.passTrimestre.price + ", payé " + PRICING.passTrimestre.unit + ", donne droit à des mises en relation illimitées pendant 3 mois — aucune reconduction, rien à résilier.",
       },
       {
         q: "Quand suis-je débité pour une promenade ?",

@@ -59,7 +59,7 @@ export async function deposerDemande(formData: FormData) {
 
   const deadline = new Date(Date.now() + RESPONSE_WINDOW_H * 3600 * 1000);
 
-  // Récurrence — OPTION décochée par défaut. Le produit réel de l'abonnement :
+  // Récurrence — OPTION décochée par défaut. Le produit réel du Pass 3 mois :
   // la garde qui se répète. Weekdays dédupliqués et bornés à 0-6, timeSlot
   // trituré/capé. Si la case est cochée sans aucun jour valide → erreur douce.
   const recurring = formData.get("recurring") === "on";

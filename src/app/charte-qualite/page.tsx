@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND, BASE_URL } from "@/lib/brand";
+import { PRICING } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Notre charte de qualité — engagements publics et opposables",
@@ -21,11 +22,11 @@ const ENGAGEMENTS = [
   },
   {
     t: "Prix affichés, aucun frais caché.",
-    d: "39 € · 14,90 € · 19 €/mois. Rien d'autre.",
+    d: `${PRICING.passCourt.price} · ${PRICING.passSejour.price} · ${PRICING.passTrimestre.price}. Rien d'autre.`,
   },
   {
-    t: "Résiliation en 3 clics, jamais plus longue que l'achat.",
-    d: "Rappel J-3 avant chaque prélèvement.",
+    t: "Aucune reconduction tacite, jamais.",
+    d: "Nos Pass se paient une fois. Aucun prélèvement récurrent, rien à résilier.",
   },
   {
     t: "Zéro faux avis, zéro score gonflé.",
@@ -55,11 +56,11 @@ export default function CharteQualite() {
         </h1>
         <p className="mt-4 text-lg text-body">
           Si nous les violons, vous êtes en droit de nous le rappeler — et de
-          nous quitter en{" "}
+          partir librement :{" "}
           <Link href="/resilier" className="font-semibold text-primary underline">
-            3 clics
+            il n&apos;y a rien à résilier
           </Link>
-          .
+          , nos Pass se paient une fois.
         </p>
       </header>
 

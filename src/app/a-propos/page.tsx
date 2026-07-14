@@ -23,7 +23,7 @@ const CONVICTIONS = [
   {
     n: "03",
     t: "Zéro dark pattern",
-    d: "Pas de fausse urgence, pas de case pré-cochée, pas de compteur gonflé, pas de faux avis. La résiliation est aussi simple que l'inscription, en 3 clics.",
+    d: "Pas de fausse urgence, pas de case pré-cochée, pas de compteur gonflé, pas de faux avis. Et aucune reconduction tacite : nos Pass se paient une fois, il n'y a rien à résilier.",
   },
 ];
 

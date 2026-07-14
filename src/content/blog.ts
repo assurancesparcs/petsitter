@@ -40,7 +40,7 @@ export const ARTICLES: Article[] = [
       },
       {
         h: "Alors, comment gagnons-nous notre vie ?",
-        p: "Notre seul revenu est la mise en relation, payée par le propriétaire, et uniquement lorsqu'un pet sitter a accepté la garde. Trois formules existent : un Pass ponctuel selon la durée de la garde, ou un abonnement mensuel sans engagement pour qui fait garder souvent. Côté pet sitter, l'inscription et la présence sur la plateforme sont gratuites.",
+        p: "Notre seul revenu est la mise en relation, payée par le propriétaire, et uniquement lorsqu'un pet sitter a accepté la garde. Trois formules existent, toutes payées une fois : deux Pass ponctuels selon la durée de la garde, et un Pass 3 mois à mises en relation illimitées pour qui fait garder souvent — sans aucune reconduction, ni tacite ni automatique. Côté pet sitter, l'inscription et la présence sur la plateforme sont gratuites.",
       },
       {
         ul: [

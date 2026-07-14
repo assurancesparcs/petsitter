@@ -25,9 +25,9 @@ Chat, chien et NAC (nouveaux animaux de compagnie) sont traités à stricte éga
 
 - ${PRICING.passCourt.label} : ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()})
 - ${PRICING.passSejour.label} : ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()})
-- ${PRICING.abonnement.label} : ${PRICING.abonnement.price} (${PRICING.abonnement.unit})
+- ${PRICING.passTrimestre.label} : ${PRICING.passTrimestre.price} (${PRICING.passTrimestre.detail.toLowerCase()})
 
-Le Pass est déduit automatiquement de la durée de la garde, il ne se choisit pas. Le tarif de la garde revient en entier au pet sitter.
+Chaque Pass se paie une fois : aucune reconduction, ni tacite ni automatique, aucun prélèvement récurrent. Le Pass ponctuel est déduit automatiquement de la durée de la garde, il ne se choisit pas. Le tarif de la garde revient en entier au pet sitter.
 
 ## Pages services
 

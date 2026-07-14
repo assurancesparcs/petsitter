@@ -111,10 +111,10 @@ export default async function Compte() {
                 Messages
               </Link>
               <Link
-                href="/compte/abonnement"
+                href="/compte/pass-3-mois"
                 className="block rounded-[14px] border border-line px-4 py-3 text-center text-sm font-semibold text-body transition-colors hover:border-primary hover:text-primary"
               >
-                Mon abonnement
+                Pass 3 mois
               </Link>
               {lienNotifications}
             </div>

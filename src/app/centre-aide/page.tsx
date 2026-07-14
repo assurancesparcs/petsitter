@@ -42,7 +42,7 @@ const RUBRIQUES: Rubrique[] = [
           <>
             Non. L&apos;inscription et la présence sur la plateforme sont
             gratuites, à vie. Côté pet sitter, {BRAND} ne prélève aucune
-            commission et ne facture aucun abonnement.
+            commission et ne facture rien, jamais.
           </>
         ),
       },
@@ -101,8 +101,8 @@ const RUBRIQUES: Rubrique[] = [
             100 % du tarif que vous fixez. {BRAND} ne prend aucune commission sur
             la garde. Le propriétaire règle séparément la mise en relation (
             {PRICING.passCourt.price}, {PRICING.passSejour.price} ou{" "}
-            {PRICING.abonnement.price} {PRICING.abonnement.unit}), ce qui ne
-            réduit jamais votre rémunération.
+            {PRICING.passTrimestre.price}, payés {PRICING.passTrimestre.unit}),
+            ce qui ne réduit jamais votre rémunération.
           </>
         ),
       },

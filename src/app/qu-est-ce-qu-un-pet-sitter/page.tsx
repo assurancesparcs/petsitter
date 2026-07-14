@@ -57,7 +57,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Combien coûte un pet sitter ?",
-    a: `Le tarif de la garde est fixé librement par chaque pet sitter, qui le perçoit à 100 % : il n'y a pas de prix imposé. Sur ${BRAND}, la plateforme facture uniquement la mise en relation — ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou l'${PRICING.abonnement.label.toLowerCase()} à ${PRICING.abonnement.price} (${PRICING.abonnement.unit}) — sans jamais prélever de commission sur la garde.`,
+    a: `Le tarif de la garde est fixé librement par chaque pet sitter, qui le perçoit à 100 % : il n'y a pas de prix imposé. Sur ${BRAND}, la plateforme facture uniquement la mise en relation — ${PRICING.passCourt.label} à ${PRICING.passCourt.price} (${PRICING.passCourt.detail.toLowerCase()}), ${PRICING.passSejour.label} à ${PRICING.passSejour.price} (${PRICING.passSejour.detail.toLowerCase()}), ou ${PRICING.passTrimestre.label} à ${PRICING.passTrimestre.price} payé ${PRICING.passTrimestre.unit} (${PRICING.passTrimestre.detail.toLowerCase()}) — sans jamais prélever de commission sur la garde.`,
   },
   {
     q: "Quelle différence entre un pet sitter et une pension ?",

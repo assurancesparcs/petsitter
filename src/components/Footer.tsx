@@ -85,7 +85,7 @@ export function Footer() {
           </p>
           <p>
             <Link href="/resilier" className="text-body hover:text-primary">
-              Résilier son abonnement
+              Résilier (rien à résilier)
             </Link>
           </p>
         </div>
