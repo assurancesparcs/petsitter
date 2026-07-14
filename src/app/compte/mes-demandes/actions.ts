@@ -28,8 +28,7 @@ export async function choisirCandidature(formData: FormData) {
   if (!session?.user?.id) redirect("/connexion");
   if (session.user.role !== "OWNER") redirect("/compte");
   const db = getPrisma();
-  const stripe = getStripe();
-  if (!db || !stripe) redirect("/compte/mes-demandes?erreur=indisponible");
+  if (!db) redirect("/compte/mes-demandes?erreur=indisponible");
 
   const requestId = String(formData.get("requestId") ?? "");
   const applicationId = String(formData.get("applicationId") ?? "");
@@ -54,6 +53,95 @@ export async function choisirCandidature(formData: FormData) {
   if (request.status === "OPEN" && request.responseDeadline <= new Date()) {
     redirect("/compte/mes-demandes?erreur=expiree");
   }
+
+  // ── Demande COUVERTE par le Pass 3 mois (Payment 0 €, pass_trimestre) ──
+  // Rien à débiter : la mise en relation est déjà réglée par le Pass, et la
+  // renonciation L221-18 a été recueillie et horodatée À L'ACHAT du Pass
+  // (PassPurchase.withdrawalWaiverAt) — les gardes empreinte/renonciation du
+  // parcours payant NE s'appliquent PAS ici. AUCUN appel Stripe, pas de
+  // verrou n°2 : sans débit à verrouiller, le verrou n°1 (une seule requête
+  // gagne la transition OPEN/PAYMENT_REQUIRED → ACCEPTED) suffit à garantir
+  // un déblocage unique, même en double-clic.
+  if (payment && payment.packLabel === "pass_trimestre") {
+    const verrou = await db.careRequest.updateMany({
+      where: {
+        id: request.id,
+        ownerId: session.user.id,
+        status: { in: ["OPEN", "PAYMENT_REQUIRED"] },
+      },
+      data: { status: "ACCEPTED" },
+    });
+    if (verrou.count !== 1) redirect("/compte/mes-demandes?erreur=fermee");
+
+    // Transition directe vers UNLOCKED, atomique : Mission + événements
+    // "accepted" et "unlocked" (PAS d'événement "captured" — rien n'a été
+    // débité, la couverture est tracée dans les payloads).
+    await db.$transaction([
+      db.careRequest.updateMany({
+        where: { id: request.id, status: "ACCEPTED" },
+        data: { status: "UNLOCKED" },
+      }),
+      db.mission.upsert({
+        where: { careRequestId: request.id },
+        create: { careRequestId: request.id, confirmedSitterId: application.sitterProfileId },
+        update: {},
+      }),
+      db.requestEvent.create({
+        data: {
+          careRequestId: request.id,
+          type: "accepted",
+          payload: {
+            applicationId: application.id,
+            sitterProfileId: application.sitterProfileId,
+            couvertParPass3Mois: true,
+          },
+        },
+      }),
+      db.requestEvent.create({
+        data: {
+          careRequestId: request.id,
+          type: "unlocked",
+          payload: {
+            sitterProfileId: application.sitterProfileId,
+            couvertParPass3Mois: true,
+          },
+        },
+      }),
+    ]);
+
+    // Effets de bord BEST-EFFORT, identiques au parcours payant (owner +
+    // pet sitter confirmé), isolés : un échec ici ne casse pas le déblocage.
+    try {
+      await notify(db, {
+        userId: session.user.id,
+        type: "unlocked",
+        title: "Mise en relation débloquée",
+        body: "Couverte par votre Pass 3 mois — aucun débit. Vous pouvez maintenant échanger avec votre pet sitter et organiser la garde.",
+        careRequestId: request.id,
+      });
+      const sitter = await db.sitterProfile.findUnique({
+        where: { id: application.sitterProfileId },
+        select: { userId: true },
+      });
+      if (sitter?.userId) {
+        await notify(db, {
+          userId: sitter.userId,
+          type: "accepted",
+          title: "Votre candidature a été retenue",
+          body: "Un propriétaire vous a choisi pour une garde. Retrouvez la conversation dans vos messages.",
+          careRequestId: request.id,
+        });
+      }
+    } catch (err) {
+      console.error(`[choisirCandidature] effets de bord (couvert) ignorés (${(err as Error)?.name ?? "Error"})`);
+    }
+    redirect("/compte/mes-demandes?ok=debloquee");
+  }
+
+  // ── Parcours payant (inchangé) : Stripe requis à partir d'ici ──
+  const stripe = getStripe();
+  if (!stripe) redirect("/compte/mes-demandes?erreur=indisponible");
+
   // Empreinte carte posée + renonciation L221-18 horodatée : sinon pas de débit.
   if (!payment || !payment.stripeSetupIntentId) {
     redirect(`/demande/paiement/${request.id}`);
@@ -373,6 +461,11 @@ export async function demanderRemboursement(formData: FormData) {
     requestId,
     "owner_requested_after_sitter_cancel",
   );
+  // Demande couverte par le Pass 3 mois : clôturée, rien n'avait été débité —
+  // on ne parle pas de « remboursement » (audit F3).
+  if (res === "covered_closed") {
+    redirect("/compte/mes-demandes?ok=cloturee_couverte");
+  }
   // `already`/`no_payment` : la demande a été résolue autrement entre-temps
   // (ex. un remplaçant confirmé en parallèle) → aucun remboursement engagé, on
   // ne prétend pas le contraire.

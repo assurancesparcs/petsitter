@@ -198,13 +198,18 @@ export async function annulerGardeSitter(formData: FormData) {
   }
 
   // Aucun remplaçant possible → remboursement proactif immédiat (idempotent).
-  await rembourserMiseEnRelation(db, cr.id, "sitter_cancel_no_backup");
+  // Demande couverte par un Pass 3 mois : clôture SANS « remboursement »
+  // (rien n'avait été débité) — la notification au sitter le dit tel quel.
+  const resultat = await rembourserMiseEnRelation(db, cr.id, "sitter_cancel_no_backup");
   try {
     await notify(db, {
       userId,
       type: "plan_b",
       title: "Annulation enregistrée",
-      body: "Aucun autre candidat n'était disponible : le propriétaire est remboursé de la mise en relation.",
+      body:
+        resultat === "covered_closed"
+          ? "Aucun autre candidat n'était disponible : la demande est clôturée pour le propriétaire (aucun débit n'avait eu lieu)."
+          : "Aucun autre candidat n'était disponible : le propriétaire est remboursé de la mise en relation.",
       careRequestId: cr.id,
     });
   } catch (err) {

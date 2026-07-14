@@ -24,6 +24,7 @@ import { centsLabel } from "@/lib/pricing";
  */
 export type RefundResult =
   | "refunded" // le verrou a gagné : base remboursée + owner notifié
+  | "covered_closed" // demande COUVERTE par le Pass 3 mois : clôturée, rien n'avait été débité
   | "already" // déjà remboursé (idempotent, aucun double débit inverse)
   | "no_payment"; // aucun paiement capturé à rembourser
 
@@ -37,12 +38,23 @@ export async function rembourserMiseEnRelation(
     select: {
       ownerId: true,
       payment: {
-        select: { id: true, status: true, amountCents: true, stripePaymentIntentId: true },
+        select: {
+          id: true,
+          status: true,
+          amountCents: true,
+          stripePaymentIntentId: true,
+          packLabel: true,
+        },
       },
     },
   });
   if (!request?.payment) return "no_payment";
   const payment = request.payment;
+  // Demande COUVERTE par le Pass 3 mois : rien n'a jamais été débité pour
+  // cette mise en relation (Payment 0 €). Les transitions d'état sont les
+  // mêmes (clôture + traçabilité), mais on ne parle JAMAIS de « remboursement »
+  // au propriétaire — il n'y a rien à rembourser (audit F3).
+  const couverte = payment.packLabel === "pass_trimestre" || payment.amountCents === 0;
 
   // Verrou d'idempotence + transition atomique. Le VERROU est la DEMANDE qui
   // quitte REPLACEMENT_IN_PROGRESS (un seul gagnant), PAS le paiement : si une
@@ -64,14 +76,33 @@ export async function rembourserMiseEnRelation(
     await tx.requestEvent.create({
       data: {
         careRequestId,
-        type: "refunded",
-        payload: { reason, amountCents: payment.amountCents },
+        // Une demande couverte n'est PAS « remboursée » : elle est clôturée
+        // (rien n'avait été débité) — l'événement le dit tel quel.
+        type: couverte ? "covered_closed" : "refunded",
+        payload: {
+          reason,
+          amountCents: payment.amountCents,
+          ...(couverte ? { couvertParPass3Mois: true } : {}),
+        },
       },
     });
     return true;
   });
 
   if (!gagne) return "already";
+
+  if (couverte) {
+    // Rien n'a été débité : pas de remboursement Stripe, et une notification
+    // honnête (« clôturée, rien à rembourser ») — jamais « remboursement de 0 € ».
+    await notify(db, {
+      userId: request.ownerId,
+      type: "refund",
+      title: "Demande clôturée après l'annulation du pet sitter",
+      body: "Votre pet sitter a dû annuler. Cette demande était couverte par votre Pass 3 mois : rien n'avait été débité pour cette mise en relation, il n'y a donc rien à rembourser. Votre Pass reste actif.",
+      careRequestId,
+    });
+    return "covered_closed";
+  }
 
   // Remboursement Stripe BEST-EFFORT : uniquement si une clé est configurée ET
   // si un vrai PaymentIntent (pi_…) a été capturé. En mode dormant, ou sans PI

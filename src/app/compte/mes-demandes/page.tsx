@@ -53,6 +53,8 @@ const TONE_CLASS: Record<string, string> = {
 const MESSAGES_OK: Record<string, string> = {
   creee:
     "Demande déposée — 0 € débité. Les pet sitters compatibles peuvent maintenant candidater ; leurs propositions apparaîtront ici.",
+  creee_couverte:
+    "Demande déposée — couverte par votre Pass 3 mois : aucun Pass à régler pour cette demande, aucune carte à enregistrer. Les pet sitters compatibles peuvent maintenant candidater.",
   carte:
     "Carte enregistrée — 0 € débité. Vous ne serez prélevé que lorsque vous choisirez votre pet sitter.",
   debloquee:
@@ -65,6 +67,8 @@ const MESSAGES_OK: Record<string, string> = {
     "Remplaçant confirmé. Ses coordonnées sont affichées ci-dessous — aucun nouveau paiement.",
   rembourse:
     "Remboursement de la mise en relation en cours. Vous n'avez aucune démarche à faire.",
+  cloturee_couverte:
+    "Demande clôturée. Elle était couverte par votre Pass 3 mois : rien n'avait été débité, il n'y a donc rien à rembourser — et votre Pass reste actif.",
 };
 
 const MESSAGES_ERREUR: Record<string, string> = {
@@ -180,17 +184,21 @@ export default async function MesDemandes({
             ? STATUS_LABEL.EXPIRED
             : STATUS_LABEL[d.status] ?? { label: "Clôturée", tone: "closed" as const };
 
+          // Demande COUVERTE par le Pass 3 mois : rien à régler, rien à
+          // enregistrer — choisir un pet sitter débloque sans débit.
+          const couverte = d.payment?.packLabel === "pass_trimestre";
           const carteEnregistree = d.payment?.status === "SETUP_COMPLETED";
           const renonciationOk =
             !!d.payment?.withdrawalWaiverAt && !!d.payment?.immediateExecutionRequestedAt;
           // Choisir = payer : possible si la demande est ouverte (ou à refaire
           // après échec de débit) ET que l'empreinte + la renonciation sont là.
+          // Couverte : possible dès qu'elle est ouverte (aucun débit, la
+          // renonciation a été recueillie à l'achat du Pass).
           const peutChoisir =
             (ouverte || d.status === "PAYMENT_REQUIRED") &&
-            !!stripe &&
-            carteEnregistree &&
-            renonciationOk;
+            (couverte || (!!stripe && carteEnregistree && renonciationOk));
           const doitEnregistrerCarte =
+            !couverte &&
             (ouverte || d.status === "PAYMENT_REQUIRED") &&
             !!stripe &&
             (!carteEnregistree || !renonciationOk);
@@ -221,10 +229,17 @@ export default async function MesDemandes({
                   {serviceLabel(d.service)} · {speciesLabel(d.species)}
                   {d.animalCount > 1 ? ` ×${d.animalCount}` : ""}
                 </h2>
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-bold ${TONE_CLASS[st.tone]}`}
-                >
-                  {st.label}
+                <span className="flex flex-wrap items-center gap-2">
+                  {couverte && (
+                    <span className="rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-bold text-forest-text">
+                      Couverte par votre Pass 3 mois
+                    </span>
+                  )}
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-bold ${TONE_CLASS[st.tone]}`}
+                  >
+                    {st.label}
+                  </span>
                 </span>
               </div>
               <p className="mt-1 font-mono text-sm text-body">
@@ -316,9 +331,19 @@ export default async function MesDemandes({
                         Reçu — le détail, sans surprise
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-surface">
-                        Vous avez réglé{" "}
-                        <strong className="font-mono">{centsLabel(d.payment.amountCents)}</strong>{" "}
-                        à {BRAND} pour la mise en relation ·{" "}
+                        {couverte ? (
+                          <>
+                            Mise en relation{" "}
+                            <strong>couverte par votre Pass 3 mois</strong> —
+                            0&nbsp;€ débité pour cette demande ·{" "}
+                          </>
+                        ) : (
+                          <>
+                            Vous avez réglé{" "}
+                            <strong className="font-mono">{centsLabel(d.payment.amountCents)}</strong>{" "}
+                            à {BRAND} pour la mise en relation ·{" "}
+                          </>
+                        )}
                         Le tarif de la garde (
                         <strong className="font-mono">{centsLabel(confirmee.priceCents)}</strong>{" "}
                         — proposé par {confirmee.sitterProfile.user.firstName ?? "votre pet sitter"})
@@ -496,21 +521,29 @@ export default async function MesDemandes({
                     className="flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-line bg-surface px-4 py-3"
                   >
                     <input type="hidden" name="requestId" value={d.id} />
-                    <p className="text-sm text-body">
-                      Vous préférez être remboursé ? La mise en relation
-                      {d.payment ? (
-                        <>
-                          {" "}(
-                          <strong className="font-mono">
-                            {centsLabel(d.payment.amountCents)}
-                          </strong>
-                          )
-                        </>
-                      ) : null}{" "}
-                      vous est rendue, sans démarche.
-                    </p>
+                    {couverte ? (
+                      <p className="text-sm text-body">
+                        Vous préférez arrêter là ? La demande est clôturée —
+                        elle était couverte par votre Pass 3 mois, rien
+                        n&apos;avait été débité pour elle.
+                      </p>
+                    ) : (
+                      <p className="text-sm text-body">
+                        Vous préférez être remboursé ? La mise en relation
+                        {d.payment ? (
+                          <>
+                            {" "}(
+                            <strong className="font-mono">
+                              {centsLabel(d.payment.amountCents)}
+                            </strong>
+                            )
+                          </>
+                        ) : null}{" "}
+                        vous est rendue, sans démarche.
+                      </p>
+                    )}
                     <button className="rounded-[12px] border border-line px-4 py-2 text-sm font-bold text-body hover:border-primary hover:text-primary">
-                      Me faire rembourser (0 arnaque)
+                      {couverte ? "Clôturer cette demande" : "Me faire rembourser (0 arnaque)"}
                     </button>
                   </form>
                 </div>
@@ -523,7 +556,13 @@ export default async function MesDemandes({
                     <p className="font-display font-bold text-ink">
                       Garde annulée par le pet sitter
                     </p>
-                    {d.payment?.status === "REFUNDED" ? (
+                    {couverte ? (
+                      <p className="mt-1 text-sm text-body">
+                        Le pet sitter a dû annuler. Cette demande était couverte
+                        par votre Pass 3 mois : rien n&apos;avait été débité
+                        pour elle, il n&apos;y a donc rien à rembourser.
+                      </p>
+                    ) : d.payment?.status === "REFUNDED" ? (
                       <p className="mt-1 text-sm text-body">
                         Le pet sitter a dû annuler et aucun remplaçant n&apos;a été
                         retenu. La mise en relation
@@ -597,15 +636,25 @@ export default async function MesDemandes({
                               {displayName(
                                 a.sitterProfile.user.firstName,
                                 a.sitterProfile.user.lastName,
-                              )}{" "}
-                              — régler {centsLabel(d.payment.amountCents)}
+                              )}
+                              {couverte
+                                ? " — couvert par votre Pass"
+                                : ` — régler ${centsLabel(d.payment.amountCents)}`}
                             </button>
                           </form>
                         )}
                       </div>
                     </div>
                   ))}
-                  {peutChoisir && d.payment && (
+                  {peutChoisir && d.payment && couverte && (
+                    <p className="rounded-[12px] bg-forest-tint px-4 py-3 text-sm text-forest-text">
+                      Cette demande est couverte par votre Pass 3 mois : choisir
+                      votre pet sitter débloque la mise en relation immédiatement,{" "}
+                      <strong>sans aucun débit</strong> — la garde se règle en
+                      direct avec le pet sitter, à 100 % pour lui.
+                    </p>
+                  )}
+                  {peutChoisir && d.payment && !couverte && (
                     <p className="rounded-[12px] bg-primary-tint px-4 py-3 text-sm text-primary-deep">
                       Choisir, c&apos;est payer : votre carte est débitée de{" "}
                       <strong className="font-mono">{centsLabel(d.payment.amountCents)}</strong>{" "}
@@ -613,7 +662,7 @@ export default async function MesDemandes({
                       règle en direct avec le pet sitter, à 100 % pour lui.
                     </p>
                   )}
-                  {!stripe && (
+                  {!stripe && !couverte && (
                     <p className="rounded-[12px] bg-primary-tint px-4 py-3 text-sm text-primary-deep">
                       <strong>Bientôt :</strong> choisissez votre pet sitter et
                       réglez la mise en relation — c&apos;est à ce moment-là

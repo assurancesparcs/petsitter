@@ -49,6 +49,7 @@ model User {
   reviewsWritten Review[]       @relation("reviewAuthor")
   subscriptions  Subscription[]
   notifications  Notification[]
+  passPurchases  PassPurchase[]
 }
 
 // ─── Auth.js (adaptateur Prisma) ───
@@ -405,6 +406,31 @@ model Payment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Achat UNIQUE du Pass 3 mois (59 €, aucune reconduction — décisions n° 13/14) :
+// ouvre une fenêtre de 3 mois pendant laquelle les mises en relation du
+// propriétaire sont couvertes (aucun Pass ponctuel facturé). La renonciation au
+// droit de rétractation (L221-18, exécution immédiate) est recueillie À L'ACHAT.
+model PassPurchase {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  amountCents           Int
+  stripePaymentIntentId String? @unique
+  status                String  @default("pending") // pending / captured / failed / refunded
+  purchasedAt           DateTime  @default(now())
+  capturedAt            DateTime?
+  expiresAt             DateTime // fin de la fenêtre de couverture (achat + 3 mois)
+
+  immediateExecutionRequestedAt DateTime?
+  withdrawalWaiverAt            DateTime?
+
+  // ⚠️ En base (migration 0011, index partiel non représentable ici) :
+  // UNIQUE("userId") WHERE status = 'pending' — un seul achat en cours par
+  // utilisateur, ferme la course du double-achat parallèle (audit F2).
+  @@index([userId, status, expiresAt])
 }
 
 model SubscriptionPlan {

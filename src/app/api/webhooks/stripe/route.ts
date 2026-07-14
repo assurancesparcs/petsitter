@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { capturePassPurchase } from "@/domains/payments/pass";
 
 /**
  * Webhook Stripe — filet de sécurité de la machine à états paiement :
@@ -61,6 +62,35 @@ export async function POST(req: Request) {
 
       case "payment_intent.succeeded": {
         const pi = event.data.object;
+
+        // Achat du Pass 3 mois (metadata.passPurchaseId) — RATTRAPAGE : la
+        // transition de premier plan se fait au retour de paiement ; ici on
+        // capture si elle n'a pas encore eu lieu, via le MÊME verrou
+        // (updateMany conditionnel, idempotent — un événement rejoué ou
+        // arrivant après le retour ne change rien). LIAISON VÉRIFIÉE (audit
+        // F4) : l'événement ne capture la ligne QUE si le PaymentIntent est
+        // bien CELUI enregistré sur cette ligne ET du bon montant — un
+        // metadata pointant ailleurs (code futur, erreur d'intégration) ne
+        // devient jamais une capture gratuite.
+        if (pi.metadata?.passPurchaseId) {
+          const ligne = await db.passPurchase.findUnique({
+            where: { id: pi.metadata.passPurchaseId },
+            select: { stripePaymentIntentId: true, amountCents: true },
+          });
+          if (
+            ligne &&
+            ligne.stripePaymentIntentId === pi.id &&
+            ligne.amountCents === pi.amount
+          ) {
+            await capturePassPurchase(db, pi.metadata.passPurchaseId);
+          } else {
+            console.error(
+              "[webhook] payment_intent.succeeded pass : liaison PI/ligne invalide — capture refusée.",
+            );
+          }
+          break;
+        }
+
         const paymentId = pi.metadata?.paymentId;
         if (!paymentId) break; // PaymentIntent étranger à ce parcours.
 

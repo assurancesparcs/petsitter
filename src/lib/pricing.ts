@@ -81,5 +81,7 @@ export function sejourAmountFor(ownerPriorChargedSejours: number): {
 
 /** Libellé d'un Pass depuis sa clé stockée en base (Payment.packLabel). */
 export function passLabelFromKey(key: string): string {
-  return key === "pass_sejour" ? PRICING.passSejour.label : PRICING.passCourt.label;
+  if (key === "pass_sejour") return PRICING.passSejour.label;
+  if (key === "pass_trimestre") return PRICING.passTrimestre.label;
+  return PRICING.passCourt.label;
 }

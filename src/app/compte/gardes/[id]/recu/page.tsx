@@ -60,6 +60,9 @@ export default async function Recu({
   // Un reçu ne reflète qu'un débit réel (ou remboursé) — jamais une empreinte.
   const payment = demande.payment;
   if (!payment || !hasReceipt(payment.status)) redirect("/compte/gardes");
+  // Demande COUVERTE par le Pass 3 mois : aucun débit propre à cette demande —
+  // pas de reçu individuel (le règlement, c'est l'achat du Pass lui-même).
+  if (payment.packLabel === "pass_trimestre") redirect("/compte/gardes");
 
   const pay = paymentStatusView(payment.status);
 

@@ -38,16 +38,24 @@ export default async function Remboursements() {
     );
   }
 
+  // Les demandes COUVERTES par un Pass 3 mois (0 €, pass_trimestre) basculent
+  // aussi en REFUNDED à la clôture Plan B, mais ce ne sont PAS des
+  // remboursements (rien n'avait été débité) : exclues du tableau et des KPI.
+  const whereRembourse = {
+    status: "REFUNDED",
+    packLabel: { not: "pass_trimestre" },
+  } as const;
+
   const [totals, refunds, inflight] = await Promise.all([
     // KPI : nombre + montant total remboursé (agrégés en base).
     db.payment.aggregate({
-      where: { status: "REFUNDED" },
+      where: whereRembourse,
       _count: true,
       _sum: { amountCents: true },
     }),
     // Remboursements émis — LE seul cas : annulation du sitter après confirmation.
     db.payment.findMany({
-      where: { status: "REFUNDED" },
+      where: whereRembourse,
       orderBy: { updatedAt: "desc" },
       take: 100,
       include: {

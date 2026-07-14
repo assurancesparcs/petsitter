@@ -6,6 +6,11 @@ import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { passFromService, sejourAmountFor } from "@/lib/pricing";
 import { ensureStripeCustomer } from "@/domains/payments/payments";
+import {
+  findActivePass,
+  PASS_COVERAGE_CUSTOMER,
+  PASS_TRIMESTRE_PACK_KEY,
+} from "@/domains/payments/pass";
 import { findByPostalCode } from "@/domains/geo/communes";
 import { SERVICES, SPECIES } from "@/domains/marketplace/catalog";
 import { CONSTRAINT_KEYS } from "@/domains/marketplace/constraints";
@@ -86,9 +91,18 @@ export async function deposerDemande(formData: FormData) {
   // débit). Historique lu en base sur l'ownerId de SESSION (IDOR-safe) —
   // déterministe et idempotent : même historique ⇒ même montant.
   const pass = passFromService(service as ServiceType);
+
+  // Pass 3 mois ACTIF (captured + non échu, lu sur l'userId de SESSION) : la
+  // demande est COUVERTE — Payment 0 € / pass_trimestre / CAPTURED créé dans la
+  // MÊME transaction, et AUCUN passage par l'écran d'empreinte carte. La
+  // renonciation L221-18 a déjà été recueillie et horodatée À L'ACHAT du Pass
+  // (PassPurchase.withdrawalWaiverAt) — on ne la redemande pas au dépôt.
+  // Sans Pass actif : comportement strictement inchangé.
+  const passActif = await findActivePass(db, session.user.id);
+
   let amountCents = pass.cents;
   let deuxiemeSejour = false;
-  if (pass.key === "pass_sejour") {
+  if (!passActif && pass.key === "pass_sejour") {
     const priorChargedSejours = await db.payment.count({
       where: {
         packLabel: "pass_sejour",
@@ -100,9 +114,22 @@ export async function deposerDemande(formData: FormData) {
       sejourAmountFor(priorChargedSejours));
   }
 
+  // Demande couverte : le Payment 0 € porte le client Stripe s'il existe déjà
+  // (lisibilité côté Dashboard), sinon la sentinelle — AUCUN appel Stripe ici.
+  const ownerCustomerId = passActif
+    ? (
+        await db.user.findUnique({
+          where: { id: session.user.id },
+          select: { stripeCustomerId: true },
+        })
+      )?.stripeCustomerId ?? PASS_COVERAGE_CUSTOMER
+    : null;
+
   // CareRequest + RecurringRequest créés dans la MÊME transaction : la
   // récurrence est liée à la demande du propriétaire authentifié (IDOR-safe),
   // ou rien n'est écrit. Sans option cochée : comportement strictement inchangé.
+  // Demande couverte par le Pass 3 mois : le Payment COUVERT (0 €, CAPTURED)
+  // naît dans la même transaction — la demande et sa couverture, ou rien.
   const request = await db.$transaction(async (tx) => {
     const cr = await tx.careRequest.create({
       data: {
@@ -124,7 +151,17 @@ export async function deposerDemande(formData: FormData) {
             type: "created",
             // amountCents + deuxiemeSejour tracés pour l'audit : le montant
             // figé au dépôt doit rester explicable des années plus tard.
-            payload: { constraints, pass: pass.key, amountCents, deuxiemeSejour, recurring },
+            // Couverture Pass 3 mois tracée de la même façon (0 € facturé).
+            payload: passActif
+              ? {
+                  constraints,
+                  pass: PASS_TRIMESTRE_PACK_KEY,
+                  amountCents: 0,
+                  couvertParPass3Mois: true,
+                  passPurchaseId: passActif.id,
+                  recurring,
+                }
+              : { constraints, pass: pass.key, amountCents, deuxiemeSejour, recurring },
           },
         },
       },
@@ -139,8 +176,29 @@ export async function deposerDemande(formData: FormData) {
         },
       });
     }
+    if (passActif && ownerCustomerId) {
+      // COUVERT : toujours 0 centime (money safety — rien ne sera jamais débité
+      // sur cette ligne), packLabel pass_trimestre (jamais compté dans
+      // l'historique des Pass Séjour, filtré sur packLabel "pass_sejour"),
+      // statut CAPTURED d'emblée : la mise en relation est déjà réglée par le Pass.
+      await tx.payment.create({
+        data: {
+          careRequestId: cr.id,
+          stripeCustomerId: ownerCustomerId,
+          amountCents: 0,
+          packLabel: PASS_TRIMESTRE_PACK_KEY,
+          status: "CAPTURED",
+        },
+      });
+    }
     return cr;
   });
+
+  // Couverte : pas d'écran d'empreinte carte (la renonciation L221-18 a été
+  // recueillie à l'achat du Pass) — retour direct à la liste des demandes.
+  if (passActif) {
+    redirect(`/compte/mes-demandes?ok=creee_couverte&id=${request.id}`);
+  }
 
   // Stripe configuré → empreinte carte (0 € débité) : ligne Payment SETUP_PENDING
   // puis redirection vers l'écran d'empreinte. Sinon, comportement inchangé.

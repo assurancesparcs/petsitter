@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { getPrisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { findActivePass } from "@/domains/payments/pass";
 import {
   centsLabel,
   PASS_SEJOUR_DEUXIEME_CENTS,
@@ -55,6 +57,14 @@ export default async function Demande({
   const species = one(sp.species) ?? SPECIES[0].key;
   const cp = one(sp.cp) ?? "";
 
+  // Pass 3 mois actif : la demande sera COUVERTE (calculé CÔTÉ SERVEUR sur
+  // l'userId de session — la même vérification est refaite au dépôt).
+  const db = getPrisma();
+  const passActif =
+    db && session.user.role === "OWNER"
+      ? await findActivePass(db, session.user.id)
+      : null;
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
       <p className="kicker">Nouvelle demande</p>
@@ -71,7 +81,12 @@ export default async function Demande({
       <div className="mt-5 flex items-center gap-4 rounded-[16px] bg-ink px-5 py-4">
         <span className="font-mono text-2xl font-bold text-surface">0 €</span>
         <span className="text-sm text-surface/80">
-          {getStripe() ? (
+          {passActif ? (
+            <>
+              débité aujourd&apos;hui — et aucune empreinte carte à enregistrer :
+              cette demande sera couverte par votre Pass 3 mois.
+            </>
+          ) : getStripe() ? (
             <>
               débité aujourd&apos;hui : une simple empreinte carte à l&apos;étape
               suivante. Vous ne serez prélevé que lorsque vous choisirez votre
@@ -85,6 +100,21 @@ export default async function Demande({
           )}
         </span>
       </div>
+
+      {/* Couverture Pass 3 mois — note honnête, calculée serveur */}
+      {passActif && (
+        <p className="mt-4 rounded-[12px] border border-forest-border bg-forest-tint px-4 py-3 text-sm font-semibold text-forest-text">
+          Couvert par votre Pass 3 mois — aucun Pass ne sera facturé pour cette
+          demande. Couverture active jusqu&apos;au{" "}
+          {passActif.expiresAt.toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            timeZone: "Europe/Paris",
+          })}
+          .
+        </p>
+      )}
 
       {erreur && (
         <p className="mt-4 rounded-[12px] border border-primary-border bg-primary-tint px-4 py-3 text-sm font-semibold text-primary-deep">

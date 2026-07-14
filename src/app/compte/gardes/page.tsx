@@ -58,12 +58,19 @@ type GardeRow = {
   communeCode: string;
   animalCount: number;
   status: CareRequestStatus;
-  payment: { amountCents: number; status: import("@prisma/client").PaymentStatus } | null;
+  payment: {
+    amountCents: number;
+    packLabel: string;
+    status: import("@prisma/client").PaymentStatus;
+  } | null;
 };
 
 function Carte({ d }: { d: GardeRow }) {
   const st = STATUS_LABEL[d.status] ?? { label: "Clôturée", tone: "closed" as const };
   const pay = d.payment ? paymentStatusView(d.payment.status) : null;
+  // Demande couverte par le Pass 3 mois : rien n'a été débité pour ELLE —
+  // ligne honnête dédiée, et pas de reçu individuel (rien à recevoir).
+  const couverte = d.payment?.packLabel === "pass_trimestre";
 
   return (
     <div className="rounded-[20px] border border-line bg-surface p-6">
@@ -80,7 +87,15 @@ function Carte({ d }: { d: GardeRow }) {
         {dateFr(d.startDate)} → {dateFr(d.endDate)} · {d.communeName ?? d.communeCode}
       </p>
 
-      {d.payment && pay && (
+      {d.payment && couverte && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-line-2 pt-4">
+          <span className="rounded-full border border-forest-border bg-forest-tint px-3 py-1 text-xs font-bold text-forest-text">
+            Couverte par le Pass 3 mois
+          </span>
+          <span className="text-sm text-muted">0 € débité pour cette demande</span>
+        </div>
+      )}
+      {d.payment && pay && !couverte && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line-2 pt-4">
           <div className="flex flex-wrap items-center gap-3">
             <span className={`rounded-full px-3 py-1 text-xs font-bold ${TONE_CLASS[pay.tone]}`}>
@@ -125,7 +140,7 @@ export default async function MesGardes() {
           communeCode: true,
           animalCount: true,
           status: true,
-          payment: { select: { amountCents: true, status: true } },
+          payment: { select: { amountCents: true, packLabel: true, status: true } },
         },
       })
     : [];
