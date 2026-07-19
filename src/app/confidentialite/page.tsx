@@ -43,18 +43,23 @@ export default function Confidentialite() {
         </h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-body">
           <li>
-            <strong className="text-ink">Liste d&apos;attente pet sitter</strong>{" "}
-            : e-mail et code postal. Finalité unique : vous prévenir de
-            l&apos;ouverture des inscriptions dans votre zone.{" "}
+            <strong className="text-ink">
+              Listes d&apos;attente (propriétaires et pet sitters)
+            </strong>{" "}
+            : e-mail et code postal — et, pour les propriétaires, les espèces
+            d&apos;animaux concernées si vous choisissez de les préciser.
+            Finalité unique, identique pour les deux listes : vous prévenir de
+            l&apos;ouverture du service (propriétaires) ou des inscriptions
+            (pet sitters) dans votre zone.{" "}
             <strong className="text-ink">
               Base légale : votre consentement
             </strong>{" "}
             (soumission volontaire du formulaire), retirable à tout moment par
             simple demande. Ces données ne sont ni vendues ni transmises.{" "}
             <strong className="text-ink">
-              Durée de conservation : 6 mois maximum. Une inscription non
-              convertie en compte est supprimée automatiquement au-delà de ce
-              délai (purge quotidienne).
+              Durée de conservation : 6 mois maximum, pour les deux listes. Une
+              inscription non convertie en compte est supprimée automatiquement
+              au-delà de ce délai (purge quotidienne).
             </strong>
           </li>
           <li>

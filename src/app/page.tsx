@@ -11,10 +11,36 @@ import {
 import { BlocTransparence } from "@/components/BlocTransparence";
 import { DeuxFacons } from "@/components/DeuxFacons";
 import { FaitsVerifiables } from "@/components/FaitsVerifiables";
+import { PrelaunchLanding } from "@/components/PrelaunchLanding";
+import { flags } from "@/lib/flags";
 
-export const metadata: Metadata = {
-  alternates: { canonical: BASE_URL },
-};
+// Pré-lancement : titre/description dédiés (la page reste indexable — c'est la
+// porte d'entrée). Flag à false (ouverture) → métadonnées marketplace du layout.
+export const metadata: Metadata = flags.prelaunch_live
+  ? {
+      title: "Ouverture en janvier 2027 — devenez pet sitter fondateur",
+      description:
+        `${BRAND} ouvre en janvier 2027 : plateforme française de garde d'animaux ` +
+        "(chat, chien, NAC) sans commission — le pet sitter fixe son tarif et garde " +
+        "100 % de la garde. Pet sitters : rejoignez les fondateurs. Propriétaires : " +
+        "soyez prévenus à l'ouverture de votre zone.",
+      alternates: { canonical: BASE_URL },
+    }
+  : {
+      alternates: { canonical: BASE_URL },
+    };
+
+/**
+ * Home flag-gatée (voir src/lib/flags.ts → prelaunch_live) :
+ *  - true  → landing de pré-lancement (fondateurs + waitlist propriétaires) ;
+ *  - false → la home marketplace ci-dessous (<MarketplaceHome />), conservée
+ *            strictement à l'identique — à restaurer d'un seul flip du flag
+ *            à l'ouverture, en janvier 2027.
+ */
+export default function Home() {
+  if (flags.prelaunch_live) return <PrelaunchLanding />;
+  return <MarketplaceHome />;
+}
 
 const PREUVES = [
   "Identité vérifiée",
@@ -67,7 +93,9 @@ const ENGAGEMENTS = [
   "Aucun avis inventé, aucun compteur gonflé",
 ];
 
-export default function Home() {
+// ⚠️ Home marketplace — NE PAS MODIFIER pendant le pré-lancement : ce JSX est
+// la home restaurée telle quelle quand prelaunch_live passe à false.
+function MarketplaceHome() {
   const prix = Object.values(PRICING);
 
   return (

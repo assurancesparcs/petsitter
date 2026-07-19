@@ -28,7 +28,7 @@ import { remove } from "@/lib/storage";
 export const ADDRESS_RETENTION_DAYS = 30;
 /** Fichiers d'identité orphelins (soumission abandonnée) : effacés au-delà de N jours. */
 export const IDENTITY_FILE_ORPHAN_DAYS = 90;
-/** Liste d'attente non convertie : supprimée au-delà de N jours. */
+/** Listes d'attente (sitters ET propriétaires) non converties : supprimées au-delà de N jours. */
 export const WAITLIST_RETENTION_DAYS = 180;
 /** Droit à l'effacement : délai de grâce après le soft-delete avant pseudonymisation. */
 export const SOFT_DELETE_GRACE_DAYS = 30;
@@ -54,6 +54,7 @@ export interface RgpdPurgeSummary {
   missionAddressesPurged: number;
   identityFilesPurged: number;
   waitlistDeleted: number;
+  ownerWaitlistDeleted: number;
   usersAnonymized: number;
   /** Noms des étapes en échec (aucune donnée personnelle) — vide = tout OK. */
   errors: string[];
@@ -93,6 +94,9 @@ export async function runRgpdPurge(db: PrismaClient): Promise<RgpdPurgeSummary> 
     purgeIdentityFileOrphans(db, now),
   );
   const waitlistDeleted = await step("waitlist", () => purgeWaitlist(db, now));
+  const ownerWaitlistDeleted = await step("owner_waitlist", () =>
+    purgeOwnerWaitlist(db, now),
+  );
   const usersAnonymized = await step("users_anonymize", () =>
     anonymizeSoftDeletedUsers(db, now),
   );
@@ -101,6 +105,7 @@ export async function runRgpdPurge(db: PrismaClient): Promise<RgpdPurgeSummary> 
     missionAddressesPurged,
     identityFilesPurged,
     waitlistDeleted,
+    ownerWaitlistDeleted,
     usersAnonymized,
     errors,
   };
@@ -166,13 +171,26 @@ async function purgeIdentityFileOrphans(db: PrismaClient, now: Date): Promise<nu
 }
 
 /**
- * Liste d'attente : finalité unique (être prévenu de l'ouverture). Suppression
- * des lignes non converties au-delà de WAITLIST_RETENTION_DAYS. Données
- * autonomes (aucune relation) → suppression franche autorisée.
+ * Liste d'attente pet sitters : finalité unique (être prévenu de l'ouverture).
+ * Suppression des lignes non converties au-delà de WAITLIST_RETENTION_DAYS.
+ * Données autonomes (aucune relation) → suppression franche autorisée.
  */
 async function purgeWaitlist(db: PrismaClient, now: Date): Promise<number> {
   const cutoff = daysAgo(now, WAITLIST_RETENTION_DAYS);
   const res = await db.sitterWaitlist.deleteMany({
+    where: { convertedAt: null, createdAt: { lt: cutoff } },
+  });
+  return res.count;
+}
+
+/**
+ * Liste d'attente propriétaires (pré-lancement) : même finalité unique, même
+ * règle que les sitters — suppression des lignes non converties au-delà de
+ * WAITLIST_RETENTION_DAYS. Données autonomes → suppression franche autorisée.
+ */
+async function purgeOwnerWaitlist(db: PrismaClient, now: Date): Promise<number> {
+  const cutoff = daysAgo(now, WAITLIST_RETENTION_DAYS);
+  const res = await db.ownerWaitlist.deleteMany({
     where: { convertedAt: null, createdAt: { lt: cutoff } },
   });
   return res.count;

@@ -11,4 +11,15 @@ export const flags = {
    * (scripts/lint-lexique.mjs) le vérifie en CI.
    */
   insurance_live: false,
+
+  /**
+   * Landing de pré-lancement (ouverture commerciale : janvier 2027).
+   * true  → la home (/) affiche <PrelaunchLanding /> : appel aux pet sitters
+   *         fondateurs + liste d'attente propriétaires. Toutes les autres pages
+   *         (recherche, services, blog…) restent accessibles telles quelles.
+   * false → la home marketplace actuelle est restaurée EXACTEMENT à
+   *         l'identique (son JSX est conservé intact dans src/app/page.tsx).
+   * À passer à false à l'ouverture, en janvier 2027 — un seul commit suffit.
+   */
+  prelaunch_live: true,
 } as const;

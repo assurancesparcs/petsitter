@@ -625,6 +625,21 @@ model SitterWaitlist {
   // RGPD : finalité unique (être prévenu de l'ouverture), purge si non converti à N mois.
 }
 
+// Waitlist PROPRIÉTAIRES (pré-lancement) : être prévenu à l'ouverture de sa
+// zone. Sert aussi à mesurer la demande latente par zone (priorisation des
+// ouvertures). RGPD : finalité unique, purge si non converti (même délai que
+// la waitlist sitter — cron RGPD).
+model OwnerWaitlist {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  postalCode  String
+  species     Species[]
+  createdAt   DateTime  @default(now())
+  convertedAt DateTime?
+
+  @@index([postalCode])
+}
+
 // KPIs §11 — événements produit dès la V1
 model AnalyticsEvent {
   id        String   @id @default(cuid())
